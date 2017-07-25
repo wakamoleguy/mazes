@@ -1,27 +1,36 @@
 (function () {
   'use strict';
 
-  function MazeComponent(root) {
+  function MazeComponent(root, store) {
 
     this.root = root;
+    this.store = store;
   }
 
   MazeComponent.prototype = {
 
     render(state, prevState) {
 
-      const numTiles = state.dimension * state.dimension;
+      this.root.innerHTML = '';
 
-      for (let i = 0; i < numTiles; i++) {
+      const dimension = state.dimension;
 
-        let tileButton = document.createElement('div');
-        tileButton.type = 'button';
-        tileButton.className = 'tile';
-        tileButton.dataset.type = 'floor';
+      for (let i = 0; i < dimension; i++) {
+        for (let j = 0; j < dimension; j++) {
 
-        // TODO: tileButton.addEventListener('click', function () {
+          let tile = app.TileComponent(
+            state.maze[i][j],
+            prevState && prevState.maze[i][j]
+          );
 
-        this.root.appendChild(tileButton);
+          ((row, column) => {
+            tile.addEventListener('click', () => {
+              this.store.dispatch({ action: 'TOGGLE_TILE', row, column });
+            });
+          })(i, j);
+
+          this.root.appendChild(tile);
+        }
       }
     }
   };

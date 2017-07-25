@@ -8,7 +8,7 @@
 
     /* Create your component tree */
     const root = document.getElementById('maze');
-    const mazeComponent = new app.MazeComponent(root);
+    const mazeComponent = new app.MazeComponent(root, store);
 
     store.subscribe((state, prevState) => {
       return mazeComponent.render(state, prevState);
