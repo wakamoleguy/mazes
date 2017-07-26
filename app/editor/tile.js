@@ -2,15 +2,23 @@
   'use strict';
 
 
-  function TileComponent(type, prevType) {
+  function TileComponent(type, prevNode) {
 
-    const tileButton = document.createElement('div');
-    tileButton.type = 'button';
-    tileButton.className = 'tile';
+    const newType = type === 0 ? 'floor' : 'wall';
 
-    tileButton.dataset.type = type === 0 ? 'floor' : 'wall';
+    if (prevNode && prevNode.dataset.type === newType) {
 
-    return tileButton;
+      return prevNode;
+    } else {
+
+      const tileButton = document.createElement('div');
+      tileButton.type = 'button';
+      tileButton.className = 'tile';
+
+      tileButton.dataset.type = type === 0 ? 'floor' : 'wall';
+
+      return tileButton;
+    }
   };
 
   app.TileComponent = TileComponent;

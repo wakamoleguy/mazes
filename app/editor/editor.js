@@ -3,18 +3,28 @@
 
   function Editor(name) {
 
-    // FIXME: This shouldn't need to be public.
-    const store = this.store = new app.Store();
+    const store = new app.Store();
 
     /* Create your component tree */
-    const root = document.getElementById('maze');
-    const mazeComponent = new app.MazeComponent(root, store);
+    const root = document.getElementById('editor');
 
-    store.subscribe((state, prevState) => {
-      return mazeComponent.render(state, prevState);
-    });
+    const mazeComponent = new app.MazeComponent(store);
 
-    mazeComponent.render(store.state);
+    const update = (state, prevState) => {
+
+      const newChild = mazeComponent.render(state, this.child);
+
+      if (this.child && newChild !== this.child) {
+        root.removeChild(this.child);
+      }
+      if (newChild) {
+        root.appendChild(newChild);
+        this.child = newChild;
+      }
+    };
+
+    store.subscribe(update);
+    update(store.state);
   }
 
   const editor = new Editor('editor-app');
