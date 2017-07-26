@@ -1,7 +1,6 @@
 (function () {
   'use strict';
 
-
   function TileComponent(type, prevNode) {
 
     const newType = type === 0 ? 'floor' : 'wall';

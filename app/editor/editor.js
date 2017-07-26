@@ -8,11 +8,9 @@
     /* Create your component tree */
     const root = document.getElementById('editor');
 
-    const mazeComponent = new app.MazeComponent(store);
-
     const update = (state, prevState) => {
 
-      const newChild = mazeComponent.render(state, this.child);
+      const newChild = app.MazeComponent(state, this.child, store);
 
       if (this.child && newChild !== this.child) {
         root.removeChild(this.child);
