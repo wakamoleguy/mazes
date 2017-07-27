@@ -53,7 +53,7 @@ document.addEventListener('keyup', (e) => {
 
 function init() {
   scene = new THREE.Scene();
-  scene.fog = new THREE.Fog(0xffffff, 1, 5000);
+  scene.fog = new THREE.Fog(0xffffff, 1, 250);
 
   hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
 	hemiLight.color.setHSL( 0.6, 1, 0.6 );
@@ -71,7 +71,7 @@ function init() {
   camera = new THREE.PerspectiveCamera(
     75, // fov
     600 / 400, // aspect ratio
-    1, // near clip
+    0.25, // near clip
     10000); // far clip
   camera.position.z = 150;
 
@@ -126,13 +126,24 @@ function init() {
   groundMat.color.setHSL(0.095, 1, 0.75);
   const ground = new THREE.Mesh(groundGeo, groundMat);
   ground.rotation.x = -Math.PI/2;
-  ground.position.y = -33;
+  ground.position.y = -5;
   scene.add(ground);
 
   renderer = new THREE.WebGLRenderer();
   renderer.setSize(1200, 800);
 
   document.getElementById('runner').appendChild(renderer.domElement);
+}
+
+function wallTypeAtCoordinates(z, x) {
+  const row = Math.floor(z / 10);
+  const col = Math.floor(x / 10);
+
+  if (maze[row] === undefined || maze[row][col] === undefined) {
+    return 0;
+  } else {
+    return maze[row][col];
+  }
 }
 
 function animate(step) {
@@ -145,19 +156,41 @@ function animate(step) {
 
   camera.rotation.y += rotate * (Math.PI / 1000 * d);
 
-  const movement = forward * (5 / 1000 * d);
+  const speed = (25 / 1000 * d);
 
-  const newZ = camera.position.z - Math.cos(camera.rotation.y) * forward;
-  const newX = camera.position.x - Math.sin(camera.rotation.y) * forward;
+  const forwardZComponent = -Math.cos(camera.rotation.y) * forward;
+  const forwardXComponent = -Math.sin(camera.rotation.y) * forward;
 
-  const newRow = maze[Math.floor(newZ / 10)];
-  const newColumn = newRow && newRow[Math.floor(newX / 10)];
+  const deltaZ = forwardZComponent * speed;
+  const deltaX = forwardXComponent * speed;
 
-  const newTile = newColumn? newColumn: 0;
+  const newZ = camera.position.z + deltaZ;
+  const newX = camera.position.x + deltaX;
 
-  if (newTile === 0) {
-    camera.position.z = newZ;
-    camera.position.x = newX;
+  const tileZStep = wallTypeAtCoordinates(
+    camera.position.z + (forwardZComponent / Math.abs(forwardZComponent)),
+    camera.position.x);
+  const tileXStep = wallTypeAtCoordinates(
+    camera.position.z,
+    camera.position.x + (forwardXComponent / Math.abs(forwardXComponent)));
+  const tileForwardOne = wallTypeAtCoordinates(
+    camera.position.z + forwardZComponent,
+    camera.position.x + forwardXComponent);
+  const tileForwardStep = wallTypeAtCoordinates(newZ, newX);
+
+  if (tileForwardOne === 1 || tileForwardStep === 1) {
+    if (tileZStep === 0 && tileXStep !== 0) {
+      camera.position.z = newZ;
+    } else if (tileXStep === 0 && tileZStep !== 0) {
+      camera.position.x = newX;
+    }
+  } else if (tileForwardOne === 0 && tileForwardStep === 0) {
+    if (tileZStep === 0) {
+      camera.position.z = newZ;
+    }
+    if (tileForwardStep === 0 && tileXStep === 0) {
+      camera.position.x = newX;
+    }
   }
 
   renderer.render(scene, camera);
