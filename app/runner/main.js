@@ -4,13 +4,17 @@ const maze = [
   [1, 1, 1, 1, 1, 1, 1, 1, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 1],
   [1, 0, 0, 0, 1, 0, 1, 0, 1],
-  [0, 0, 0, 0, 0, 0, 1, 0, 1],
+  [1, 0, 0, 0, 0, 0, 1, 0, 1],
   [1, 1, 1, 1, 1, 1, 0, 0, 1],
   [0, 0, 0, 0, 1, 0, 0, 1, 1],
   [1, 1, 0, 1, 1, 0, 1, 0, 1],
   [1, 0, 0, 0, 0, 0, 0, 0, 1],
   [1, 1, 1, 1, 1, 1, 1, 1, 1],
 ];
+
+const startingPosition = { z: 3, x: 1 };
+const startingDirection = 'east';
+const destination = { z: 5, x: -1 };
 
 let rotate = 0;
 let forward = 0;
@@ -66,14 +70,27 @@ function init() {
 	dirLight.position.set( -1, 1.75, 1 );
 	dirLight.position.multiplyScalar( 50 );
 	scene.add( dirLight );
-	dirLight.castShadow = false;
 
   camera = new THREE.PerspectiveCamera(
     75, // fov
     600 / 400, // aspect ratio
     0.25, // near clip
     10000); // far clip
-  camera.position.z = 150;
+
+  // Position the camera based on the starting position
+  camera.position.x = startingPosition.x * 10 + 5;
+  camera.position.z = startingPosition.z * 10 + 5;
+  switch (startingDirection) {
+    case 'west':
+    camera.rotation.y -= Math.PI / 2;
+    case 'south':
+    camera.rotation.y -= Math.PI / 2;
+    case 'east':
+    camera.rotation.y -= Math.PI / 2;
+    case 'north':
+    default:
+    break;
+  }
 
 
   // SKYDOME
@@ -140,7 +157,12 @@ function wallTypeAtCoordinates(z, x) {
   const col = Math.floor(x / 10);
 
   if (maze[row] === undefined || maze[row][col] === undefined) {
-    return 0;
+
+    if (destination.z === row && destination.x === col) {
+      return -1;
+    } else {
+      return 0;
+    }
   } else {
     return maze[row][col];
   }
@@ -151,6 +173,11 @@ function animate(step) {
   if (last === null) last = step;
   const d = step - last;
   last = step;
+
+  if (wallTypeAtCoordinates(camera.position.z, camera.position.x) === -1) {
+    alert('YOU WIN!');
+    return;
+  }
 
   requestAnimationFrame(animate);
 
@@ -179,16 +206,16 @@ function animate(step) {
   const tileForwardStep = wallTypeAtCoordinates(newZ, newX);
 
   if (tileForwardOne === 1 || tileForwardStep === 1) {
-    if (tileZStep === 0 && tileXStep !== 0) {
+    if (tileZStep !== 1 && tileXStep === 1) {
       camera.position.z = newZ;
-    } else if (tileXStep === 0 && tileZStep !== 0) {
+    } else if (tileXStep !== 1 && tileZStep === 1) {
       camera.position.x = newX;
     }
-  } else if (tileForwardOne === 0 && tileForwardStep === 0) {
-    if (tileZStep === 0) {
+  } else if (tileForwardOne !== 1 && tileForwardStep !== 1) {
+    if (tileZStep !== 1) {
       camera.position.z = newZ;
     }
-    if (tileForwardStep === 0 && tileXStep === 0) {
+    if (tileForwardStep !== 1 && tileXStep !== 1) {
       camera.position.x = newX;
     }
   }
