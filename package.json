@@ -1,0 +1,22 @@
+{
+  "name": "mazes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wakamoleguy/mazes.git"
+  },
+  "author": "Will Mitchell <wakamoleguy@gmail.com>",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/wakamoleguy/mazes/issues"
+  },
+  "homepage": "https://github.com/wakamoleguy/mazes#readme",
+  "dependencies": {
+    "express": "^4.15.4"
+  }
+}
