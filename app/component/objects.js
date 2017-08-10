@@ -39,6 +39,19 @@ const skydome = (() => {
         }));
 })();
 
+const ground = (() => {
+    const groundGeo = new THREE.PlaneBufferGeometry(10000, 10000);
+    const groundMat = new THREE.MeshPhongMaterial({
+      color: 0xffffff
+    });
+    groundMat.color.setHSL(0.095, 1, 0.75);
+    const ground = new THREE.Mesh(groundGeo, groundMat);
+    ground.rotation.x = -Math.PI/2;
+    ground.position.y = -5;
+
+    return ground;
+})();
+
 function scene() {
     const s = new THREE.Scene();
 
@@ -46,6 +59,7 @@ function scene() {
     s.add(lights.hemi());
     s.add(lights.dir());
     s.add(skydome);
+    s.add(ground);
 
     return s;
 }
