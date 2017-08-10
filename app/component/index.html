@@ -9,23 +9,26 @@
     <link rel="stylesheet" href="maze_runner.css">
   </head>
   <body>
-      <script src="maze_runner.js"></script>
 
       If nothing appeared below, then your browser does not support Custom Elements yet.
       <maze-runner
       data-name="Ruby"
-      data-img="https://s3-us-west-2.amazonaws.com/s.cdpn.io/4621/ruby.png"
-      data-url="http://example.com/1">
-      </maze-runner>
-      <maze-runner
-      data-name="JavaScript"
-      data-img="https://s3-us-west-2.amazonaws.com/s.cdpn.io/4621/javascript.png"
-      data-url="http://example.com/2">
-      </maze-runner>
-      <maze-runner
-      data-name="Python"
-      data-img="https://s3-us-west-2.amazonaws.com/s.cdpn.io/4621/python.png"
-      data-url="http://example.com/3">
+      data-map="[
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1],
+        [1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1],
+        [1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1],
+        [1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1],
+        [1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1],
+        [1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1],
+        [1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1],
+        [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+      ]"
+      data-starting-z=9
+      data-starting-x=9
+      data-starting-direction="west">
       </maze-runner>
 
     <ul id="maze-list"></ul>
@@ -33,6 +36,29 @@
     <!-- Templates -->
 
     <!-- JavaScript -->
+    <script type="module" src="maze_runner.js"></script>
+    <script type="module" src="three.min.js"></script>
 
+    <!-- Shaders -->
+    <script type="x-shader/x-vertex" id="vertexShader">
+		varying vec3 vWorldPosition;
+        void main() {
+			vec4 worldPosition = modelMatrix * vec4( position, 1.0 );
+			vWorldPosition = worldPosition.xyz;
+			gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+		}
+	</script>
+
+	<script type="x-shader/x-fragment" id="fragmentShader">
+		uniform vec3 topColor;
+		uniform vec3 bottomColor;
+		uniform float offset;
+		uniform float exponent;
+		varying vec3 vWorldPosition;
+		void main() {
+			float h = normalize( vWorldPosition + offset ).y;
+			gl_FragColor = vec4( mix( bottomColor, topColor, max( pow( max( h , 0.0), exponent ), 0.0 ) ), 1.0 );
+		}
+	</script>
   </body>
 </html>

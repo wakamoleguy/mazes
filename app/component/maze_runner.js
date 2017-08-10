@@ -1,48 +1,66 @@
+import './three.min.js';
+import { scene, camera } from './objects.js';
+
+document.addEventListener('keydown', (e) => {
+  console.log('document', e.key);
+}, false)
 
 class MazeRunner extends HTMLElement {
 
     static get observedAttributes() {
         return [
-            'data-name',
-            'data-img',
-            'data-url'
+            'data-name'
         ];
     }
 
     constructor() {
         super();
 
+        console.log('map', JSON.parse(this.getAttribute('data-map')));
+        console.log('dir', this.getAttribute('data-starting-z'));
+        console.log('dir', this.getAttribute('data-starting-x'));
+        console.log('dir', this.getAttribute('data-starting-direction'));
+
         const shadow = this.attachShadow({ mode: 'open' });
 
-        const img = document.createElement('img');
-        img.alt = this.getAttribute('data-name');
-        img.src = this.getAttribute('data-img');
-        img.width = 150;
-        img.height = 150;
-        img.className = 'product-img';
+        const shadowStyles = document.createElement('style');
+        shadowStyles.innerText = `
+        .my-canvas {
+            opacity: 0.5;
+            cursor: pointer;
+        }
 
-        shadow.appendChild(img);
+        .my-canvas:focus {
+            opacity: 1;
+        }
+        `;
+        shadow.appendChild(shadowStyles);
 
-        img.addEventListener('click', () => {
-            window.location = this.getAttribute('data-url');
-        });
+        const title = document.createElement('h1');
+        title.innerText = this.getAttribute('data-name');
+        shadow.appendChild(title);
 
-        const link = document.createElement('a');
-        link.innerText = this.getAttribute('data-name');
-        link.href = this.getAttribute('data-url');
-        link.className = 'product-name';
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(600, 400);
+        shadow.appendChild(renderer.domElement);
 
-        shadow.appendChild(link);
+        renderer.render(scene(), camera());
+
+        renderer.domElement.tabIndex = 0;
+        renderer.domElement.className = 'my-canvas';
+        renderer.domElement.addEventListener('keydown', (e) => {
+            console.log('canvas', e.key);
+        }, false);
+
+        // img.addEventListener('click', () => {
+        //     window.location = this.getAttribute('data-url');
+        // });
     }
 
     attributeChangedCallback(attr, oldValue, newValue) {
+        console.log(attr, oldValue, newValue);
         if (attr === 'data-name') {
-            this.shadowRoot.querySelector('a').innerText = newValue;
-            this.shadowRoot.querySelector('img').alt = newValue;
-        } else if (attr === 'data-img') {
-            this.shadowRoot.querySelector('img').src = newValue;
-        } else if (attr === 'data-url') {
-            this.shadowRoot.querySelector('a').href = newValue;
+            this.shadowRoot.querySelector('h1').innerText = newValue;
         }
     }
 }

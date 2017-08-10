@@ -58,26 +58,6 @@ document.addEventListener('keyup', (e) => {
 }, false);
 
 function init() {
-  scene = new THREE.Scene();
-  scene.fog = new THREE.Fog(0xffffff, 1, 250);
-
-  hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
-	hemiLight.color.setHSL( 0.6, 1, 0.6 );
-	hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
-	hemiLight.position.set( 0, 500, 0 );
-	scene.add( hemiLight );
-
-	dirLight = new THREE.DirectionalLight( 0xffffff, 1 );
-	dirLight.color.setHSL( 0.1, 1, 0.95 );
-	dirLight.position.set( -1, 1.75, 1 );
-	dirLight.position.multiplyScalar( 50 );
-	scene.add( dirLight );
-
-  camera = new THREE.PerspectiveCamera(
-    75, // fov
-    600 / 400, // aspect ratio
-    0.25, // near clip
-    10000); // far clip
 
   // Position the camera based on the starting position
   camera.position.x = startingPosition.x * 10 + 5;

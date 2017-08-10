@@ -8,19 +8,3 @@ maze-runner {
   font-family: Helvetica, arial, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
-
-maze-runner::slotted(.product-img) {
-  cursor: pointer;
-  background: #FFF;
-  margin: 0.5em;
-}
-
-maze-runner::slotted(.product-name) {
-  display: block;
-  text-align: center;
-  text-decoration: none;
-  color: #08C;
-  border-top: 1px solid #EEE;
-  font-weight: bold;
-  padding: 0.75em 0;
-}
