@@ -11,7 +11,7 @@
   <body>
 
       If nothing appeared below, then your browser does not support Custom Elements yet.
-      <maze-runner
+      <maze-runner id="first-maze"
       data-name="Ruby"
       data-map="[
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -32,6 +32,43 @@
       data-destination-x=1
       data-starting-direction="west">
       </maze-runner>
+
+      <maze-runner id="second-maze"
+      data-name="Ruby"
+      data-map="[
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1],
+        [1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1],
+        [1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1],
+        [1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1],
+        [1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1],
+        [1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1],
+        [1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1],
+        [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+      ]"
+      data-starting-z=9
+      data-starting-x=9
+      data-destination-z=11
+      data-destination-x=1
+      data-starting-direction="west">
+      </maze-runner>
+
+      <script>
+      document.getElementById('first-maze').addEventListener('play', () => {
+          console.log('first maze played');
+      });
+      document.getElementById('first-maze').addEventListener('win', () => {
+          console.log('first maze won');
+      });
+      document.getElementById('second-maze').addEventListener('play', () => {
+          console.log('second maze played');
+      });
+      document.getElementById('second-maze').addEventListener('win', () => {
+          console.log('second maze won');
+      });
+      </script>
 
     <ul id="maze-list"></ul>
 

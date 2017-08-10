@@ -1,39 +1,33 @@
 import './three.min.js';
 import { scene, camera } from './objects.js';
 
-class MazeRunner extends HTMLElement {
-
-    static get observedAttributes() {
-        return [
-            'data-name'
-        ];
+function MazeRunnerStyle() {
+    const el = document.createElement('style');
+    el.innerText = `
+    canvas {
+        opacity: 0.5;
+        cursor: pointer;
     }
+
+    canvas:focus {
+        opacity: 1;
+    }
+    `;
+
+    return el;
+}
+
+class MazeRunner extends HTMLElement {
 
     constructor() {
         super();
-
-        console.log('map', JSON.parse(this.getAttribute('data-map')));
-        console.log('dir', this.getAttribute('data-starting-z'));
-        console.log('dir', this.getAttribute('data-starting-x'));
-        console.log('dir', this.getAttribute('data-starting-direction'));
 
         this.camera = camera();
         this.scene = scene();
 
         const shadow = this.attachShadow({ mode: 'open' });
 
-        const shadowStyles = document.createElement('style');
-        shadowStyles.innerText = `
-        .my-canvas {
-            opacity: 0.5;
-            cursor: pointer;
-        }
-
-        .my-canvas:focus {
-            opacity: 1;
-        }
-        `;
-        shadow.appendChild(shadowStyles);
+        shadow.appendChild(MazeRunnerStyle());
 
         const title = document.createElement('h1');
         title.innerText = this.getAttribute('data-name');
@@ -41,46 +35,24 @@ class MazeRunner extends HTMLElement {
 
         this.renderer = new THREE.WebGLRenderer();
         this.renderer.setSize(600, 400);
+        this.renderer.domElement.tabIndex = 0;
         shadow.appendChild(this.renderer.domElement);
 
-        this.renderer.domElement.tabIndex = 0;
-        this.renderer.domElement.className = 'my-canvas';
-        this.renderer.domElement.addEventListener('keydown', (e) => {
-            switch (e.key) {
-              case 'w':
-                this.forward = 1;
-                break;
-              case 's':
-                this.forward = -1;
-                break;
-              case 'a':
-                this.rotate = 1;
-                break;
-              case 'd':
-                this.rotate = -1;
-                break;
-              default:
-            }
-          }, false)
+        const playButton = document.createElement('button');
+        playButton.type = 'button';
+        playButton.innerText = 'Play!'
 
-        this.renderer.domElement.addEventListener('keyup', (e) => {
-            switch (e.key) {
-              case 'w':
-              case 's':
-                this.forward = 0;
-                break;
-              case 'a':
-              case 'd':
-                this.rotate = 0;
-                break;
-              default:
-            }
-          }, false);
+        playButton.addEventListener('click', this.play.bind(this));
+        shadow.appendChild(playButton);
 
     }
 
-    connectedCallback() {
-        console.log('connected');
+    play() {
+
+        this.renderer.domElement.focus();
+
+        this.dispatchEvent(new Event('play'));
+
         // Put the camera in the starting position.
         // Position the camera based on the starting position
         this.camera.position.x = parseInt(this.getAttribute('data-starting-x'), 10) * 10 + 5;
@@ -119,6 +91,38 @@ class MazeRunner extends HTMLElement {
         }
 
         // Start the timer and animation
+        this.renderer.domElement.addEventListener('keydown', (e) => {
+            switch (e.key) {
+              case 'w':
+                this.forward = 1;
+                break;
+              case 's':
+                this.forward = -1;
+                break;
+              case 'a':
+                this.rotate = 1;
+                break;
+              case 'd':
+                this.rotate = -1;
+                break;
+              default:
+            }
+          }, false)
+
+        this.renderer.domElement.addEventListener('keyup', (e) => {
+            switch (e.key) {
+              case 'w':
+              case 's':
+                this.forward = 0;
+                break;
+              case 'a':
+              case 'd':
+                this.rotate = 0;
+                break;
+              default:
+            }
+          }, false);
+
         this.continue = true;
         this.rotate = 0;
         this.forward = 0;
@@ -128,13 +132,6 @@ class MazeRunner extends HTMLElement {
     disconnectedCallback() {
         // Stop the timer and animation
         this.continue = false;
-    }
-
-    attributeChangedCallback(attr, oldValue, newValue) {
-        console.log(attr, oldValue, newValue);
-        if (attr === 'data-name') {
-            this.shadowRoot.querySelector('h1').innerText = newValue;
-        }
     }
 
     wallTypeAtCoordinates(z, x) {
@@ -168,7 +165,7 @@ class MazeRunner extends HTMLElement {
         this.continue = step;
 
         if (this.wallTypeAtCoordinates(this.camera.position.z, this.camera.position.x) === -1) {
-            alert('YOU WIN!');
+            this.dispatchEvent(new Event('win'));
             return;
         }
 

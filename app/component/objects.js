@@ -19,7 +19,7 @@ const lights = {
     }
 };
 
-const skydome = (() => {
+const skydome = () => {
     const vertexShader = document.getElementById( 'vertexShader' ).textContent;
     const fragmentShader = document.getElementById( 'fragmentShader' ).textContent;
     const uniforms = {
@@ -37,9 +37,9 @@ const skydome = (() => {
             uniforms,
             side: THREE.BackSide
         }));
-})();
+};
 
-const ground = (() => {
+const ground = () => {
     const groundGeo = new THREE.PlaneBufferGeometry(10000, 10000);
     const groundMat = new THREE.MeshPhongMaterial({
       color: 0xffffff
@@ -50,7 +50,7 @@ const ground = (() => {
     ground.position.y = -5;
 
     return ground;
-})();
+};
 
 function scene() {
     const s = new THREE.Scene();
@@ -58,8 +58,8 @@ function scene() {
     s.fog = new THREE.Fog(0xffffff, 1, 250);
     s.add(lights.hemi());
     s.add(lights.dir());
-    s.add(skydome);
-    s.add(ground);
+    s.add(skydome());
+    s.add(ground());
 
     return s;
 }
