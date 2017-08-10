@@ -12,6 +12,11 @@ function MazeRunnerStyle() {
     canvas:focus {
         opacity: 1;
     }
+
+    time.done {
+        color: green;
+        font-weight: bold;
+    }
     `;
 
     return el;
@@ -45,11 +50,16 @@ class MazeRunner extends HTMLElement {
         playButton.addEventListener('click', this.play.bind(this));
         shadow.appendChild(playButton);
 
+        this.timer = document.createElement('time');
+        this.timer.innerText = "0:00";
+        shadow.appendChild(this.timer);
     }
 
     play() {
 
         this.renderer.domElement.focus();
+
+        this.shadowRoot.removeChild(this.shadowRoot.querySelector('button'));
 
         this.dispatchEvent(new Event('play'));
 
@@ -107,7 +117,7 @@ class MazeRunner extends HTMLElement {
                 break;
               default:
             }
-          }, false)
+        }, false);
 
         this.renderer.domElement.addEventListener('keyup', (e) => {
             switch (e.key) {
@@ -121,17 +131,17 @@ class MazeRunner extends HTMLElement {
                 break;
               default:
             }
-          }, false);
+        }, false);
 
-        this.continue = true;
+        this.start = 0;
         this.rotate = 0;
         this.forward = 0;
-        this.animate(0);
+        requestAnimationFrame(this.animate.bind(this));
     }
 
     disconnectedCallback() {
         // Stop the timer and animation
-        this.continue = false;
+        this.start = null;
     }
 
     wallTypeAtCoordinates(z, x) {
@@ -154,17 +164,23 @@ class MazeRunner extends HTMLElement {
     }
 
     animate(step) {
-
-        if (this.continue === false) {
+        if (this.start === null) {
             return;
-        } else if (this.continue === true) {
-            this.continue = step;
+        } else if (this.start === 0) {
+            this.step = this.start = step;
         }
 
-        const d = step - this.continue;
-        this.continue = step;
+        const d = step - this.step;
+        this.step = step;
+
+        const elapsed = Math.floor((this.step - this.start) / 1000);
+        const seconds = elapsed % 60 < 10 ? "0" + elapsed % 60 : elapsed % 60;
+        this.timer.innerText = `${Math.floor(elapsed / 60)}:${seconds}`
+
+        this.shadowRoot.querySelector('time');
 
         if (this.wallTypeAtCoordinates(this.camera.position.z, this.camera.position.x) === -1) {
+            this.timer.className = 'done';
             this.dispatchEvent(new Event('win'));
             return;
         }
