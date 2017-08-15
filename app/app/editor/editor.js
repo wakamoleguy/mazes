@@ -22,7 +22,6 @@
     };
 
     store.subscribe(update);
-    update(store.state);
   }
 
   const editor = new Editor('editor-app');

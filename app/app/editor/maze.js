@@ -7,7 +7,7 @@
       prevNode:
       createNode();
 
-    const dimension = state.dimension;
+    const dimension = state.size;
 
     if (dimension !== node.dataset.size) {
       node.dataset.size = dimension;
@@ -19,7 +19,7 @@
         let prevTile = node.children[i * dimension + j];
 
         let tile = app.TileComponent(
-          state.maze[i][j],
+          state.map[i][j],
           prevTile
         );
 

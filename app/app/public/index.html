@@ -35,7 +35,7 @@
                 // TODO - Don't set HTML straight from database
                 node.querySelector('.name').innerHTML = maze.name;
                 // TODO - Use something better than _id
-                node.querySelector('.read').href = maze._id + '/';
+                node.querySelector('.read').href = maze._id + '/edit/';
                 node.querySelector('.details').innerHTML = JSON.stringify(maze);
 
                 list.appendChild(node);

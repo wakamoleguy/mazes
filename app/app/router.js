@@ -6,9 +6,7 @@ module.exports = function (app) {
         res.redirect(307, '/maze/');
     })
 
-    app.get('/maze/:maze/', (req, res) => {
-        res.sendFile('editor.html', { root: __dirname + '/private' });
-    });
+    app.use('/maze/:maze/edit', express.static(__dirname + '/editor'));
 
     app.use('/maze/', express.static(__dirname + '/public'));
 };

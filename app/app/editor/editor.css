@@ -5,9 +5,9 @@
   height: 50em;
 }
 
-#maze[data-size="9"] .tile {
+#maze[data-size="11"] .tile {
   flex-grow: 1;
-  flex-basis: 11%;
+  flex-basis: 9%;
 }
 
 #maze[data-size="15"] .tile {
