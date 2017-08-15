@@ -95,38 +95,7 @@ function init() {
 
   // My stuff
 
-  geometry = new THREE.BoxGeometry(1, 1, 1);
-  material = new THREE.MeshBasicMaterial({
-    color: 0xff0000,
-    wireframe: true
-  });
-  scene.add(new THREE.Mesh(geometry, material));
 
-  for (let i = 0; i < maze.length; i++) {
-    for (let j = 0; j < maze[i].length; j++) {
-      if (maze[i][j] === 1) {
-        geometry = new THREE.BoxGeometry(10, 50, 10);
-        material = new THREE.MeshPhongMaterial({
-          color: 0xff0000 + (i * 5120) + (j * 20)
-        });
-        mesh = new THREE.Mesh(geometry, material);
-        mesh.position.x = j * 10 + 5;
-        mesh.position.z = i * 10 + 5;
-        mesh.position.y = 20;
-        scene.add(mesh);
-      }
-    }
-  }
-
-  const groundGeo = new THREE.PlaneBufferGeometry(10000, 10000);
-  const groundMat = new THREE.MeshPhongMaterial({
-    color: 0xffffff
-  });
-  groundMat.color.setHSL(0.095, 1, 0.75);
-  const ground = new THREE.Mesh(groundGeo, groundMat);
-  ground.rotation.x = -Math.PI/2;
-  ground.position.y = -5;
-  scene.add(ground);
 
   renderer = new THREE.WebGLRenderer();
   renderer.setSize(1200, 800);
