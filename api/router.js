@@ -3,6 +3,10 @@ const maze = require('./controllers/maze');
 
 module.exports = function (app) {
 
+    app.get('/', (req, res) => {
+        res.send('<a href="/widget/">Widgets</a> <a href="/maze/">Mazes</a>');
+    });
+
     app.get('/widget/', widget.browse);
     app.get('/widget/:id', widget.read);
     app.put('/widget/:id', widget.edit);

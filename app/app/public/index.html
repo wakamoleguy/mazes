@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"></meta>
+    <meta name="description" content="A simple maze editor"></meta>
+    <meta name="viewport" content="width=device-width"></meta>
+    <title>Maze Editor</title>
+  </head>
+  <body>
+
+    <h1>Maze Editor</h1>
+
+    <ul id="maze-list">
+    </ul>
+
+    <template id="maze-list-item">
+        <h2 class="name"></h2>
+        <a class="read">Read</a>
+        <div class="details"></div>
+    </template>
+
+    <script>
+        const template = document.getElementById('maze-list-item');
+        const list = document.getElementById('maze-list');
+
+        const xhr = new XMLHttpRequest();
+        xhr.addEventListener('load', function () {
+
+            // TODO - handle errors
+            const mazes = JSON.parse(this.responseText);
+
+            mazes.forEach((maze) => {
+                const node = document.importNode(template.content, true);
+
+                // TODO - Don't set HTML straight from database
+                node.querySelector('.name').innerHTML = maze.name;
+                // TODO - Use something better than _id
+                node.querySelector('.read').href = maze._id + '/';
+                node.querySelector('.details').innerHTML = JSON.stringify(maze);
+
+                list.appendChild(node);
+            });
+        });
+
+        xhr.open("GET", "http://localhost:3000/maze/");
+        xhr.send();
+    </script>
+
+  </body>
+</html>
