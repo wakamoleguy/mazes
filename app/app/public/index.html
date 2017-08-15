@@ -15,8 +15,9 @@
 
     <template id="maze-list-item">
         <h2 class="name"></h2>
-        <a class="read">Read</a>
-        <div class="details"></div>
+        <a class="edit">Edit</a>
+        <a class="run">Run</a>
+        <div class="details" style="display: none;"></div>
     </template>
 
     <script>
@@ -35,7 +36,8 @@
                 // TODO - Don't set HTML straight from database
                 node.querySelector('.name').innerHTML = maze.name;
                 // TODO - Use something better than _id
-                node.querySelector('.read').href = maze._id + '/edit/';
+                node.querySelector('.edit').href = maze._id + '/edit/';
+                node.querySelector('.run').href = maze._id + '/run/';
                 node.querySelector('.details').innerHTML = JSON.stringify(maze);
 
                 list.appendChild(node);
