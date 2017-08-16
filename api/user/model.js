@@ -6,4 +6,4 @@ const User = mongoose.model('User', {
   _id: String
 });
 
-module.exports = User;
+exports.User = User;

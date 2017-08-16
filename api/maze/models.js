@@ -4,11 +4,6 @@ const Schema = mongoose.Schema;
 
 const schemas = {
 
-    widget: {
-        name: String,
-        value: Number
-    },
-
     maze: {
         name: String,
         size: Number,
@@ -26,7 +21,6 @@ const schemas = {
 };
 
 const classes = {
-    Widget: mongoose.model('Widget', schemas.widget),
     Maze: mongoose.model('Maze', schemas.maze)
 };
 

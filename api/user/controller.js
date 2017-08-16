@@ -12,7 +12,7 @@ exports.browse = function (req, res) {
   // The rest of the request is ignored. We just do users
 
   // Execute
-  model.
+  model.User.
     findById(req.session.user).
     findOne((err, user) => {
 
@@ -38,7 +38,7 @@ exports.add = function (req, res) {
   // TODO - validate email format
 
   // Execute
-  const user = new model({
+  const user = new model.User({
     display,
     email,
     _id: email
@@ -57,14 +57,14 @@ exports.add = function (req, res) {
 
 exports.delete = function (req, res) {
 
-  model.
+  model.User.
     findById(req.params.id).
     remove((err) => {
 
       if (err) {
         console.error(err);
       } else {
-        res.send(204);
+        res.sendStatus(204);
       }
     });
 }

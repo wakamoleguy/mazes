@@ -1,5 +1,6 @@
-const widget = require('./controllers/widget');
-const maze = require('./controllers/maze');
+const auth = require('./auth/controller');
+const maze = require('./maze/controller');
+const user = require('./user/controller');
 
 module.exports = function (app) {
 
@@ -7,18 +8,11 @@ module.exports = function (app) {
         res.send('<a href="widget/">Widgets</a> <a href="maze/">Mazes</a>');
     });
 
-    app.post('/auth/', require('./auth/controller').login);
+    app.post('/auth/', auth.login);
 
-    app.get('/user/', require('./user/controller').browse);
-    app.put('/user/:id', require('./user/controller').add);
-    app.delete('/user/:id', require('./user/controller').delete);
-
-    app.get('/widget/', widget.browse);
-    app.get('/widget/:id', widget.read);
-    app.put('/widget/:id', widget.edit);
-    app.post('/widget/', widget.add);
-    app.delete('/widget/:id', widget.delete);
-
+    app.get('/user/', user.browse);
+    app.put('/user/:id', user.add);
+    app.delete('/user/:id', user.delete);
 
     app.get('/maze/', maze.browse);
     app.get('/maze/:id', maze.read);

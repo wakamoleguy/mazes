@@ -1,4 +1,4 @@
-const models = require('../models/models');
+const models = require('./models');
 
 exports.browse = function (req, res) {
 
@@ -75,7 +75,7 @@ exports.delete = function (req, res) {
             if (err) {
                 console.error(err);
             } else {
-                res.send(204);
+                res.sendStatus(204);
             }
         });
 };
