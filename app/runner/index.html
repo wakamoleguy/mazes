@@ -12,7 +12,7 @@
 
     <h1>Maze Runner</h1>
 
-    <a href="/maze">Back to List</a>
+    <a href="../../">Back to List</a>
 
     <section id="maze"></section>
 
@@ -73,7 +73,7 @@
       document.getElementById('maze').appendChild(runner);
     });
 
-    xhr.open("GET", `http://localhost:3000/maze/${mazeId}/`);
+    xhr.open("GET", `http://localhost:3000/api/maze/${mazeId}/`);
     xhr.send();
 
   </script>

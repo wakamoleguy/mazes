@@ -3,7 +3,7 @@ const express = require('express');
 module.exports = function (app) {
 
     app.get('/', (req, res) => {
-        res.redirect(307, '/maze/');
+        res.redirect(307, 'maze/');
     })
 
     app.use('/maze/:maze/edit', express.static(__dirname + '/editor'));

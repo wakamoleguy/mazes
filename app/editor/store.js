@@ -24,7 +24,7 @@
      this.dispatch('LOADED');
     });
 
-    xhr.open("GET", `http://localhost:3000/maze/${mazeId}/`);
+    xhr.open("GET", `http://localhost:3000/api/maze/${mazeId}/`);
     xhr.send();
 
     this.subscribers = [];
@@ -43,7 +43,7 @@
         };
 
         const xhr = new XMLHttpRequest();
-        xhr.open('PUT', `http://localhost:3000/maze/${mazeId}/`);
+        xhr.open('PUT', `http://localhost:3000/api/maze/${mazeId}/`);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify(newState));
 
