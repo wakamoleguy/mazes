@@ -7,6 +7,12 @@ module.exports = function (app) {
         res.send('<a href="widget/">Widgets</a> <a href="maze/">Mazes</a>');
     });
 
+    app.post('/auth/', require('./auth/controller').login);
+
+    // FIXME - No Get!
+    app.get('/auth/', require('./auth/controller').login);
+    app.get('/user/', require('./user/controller').browse);
+
     app.get('/widget/', widget.browse);
     app.get('/widget/:id', widget.read);
     app.put('/widget/:id', widget.edit);
