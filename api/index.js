@@ -1,6 +1,5 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const session = require('express-session');
 const mongoose = require('mongoose');
 
 const router = require('./router');
@@ -10,7 +9,6 @@ mongoose.connect(
 );
 
 const app = express();
-app.use(session({ secret: 'fixme secret', cookie: { maxAge: 60000 }}));
 app.use(bodyParser.json({ type: '*/*' }));
 router(app);
 

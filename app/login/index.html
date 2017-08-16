@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"></meta>
+    <meta name="description" content="A simple maze editor"></meta>
+    <meta name="viewport" content="width=device-width"></meta>
+    <title>Maze Editor</title>
+  </head>
+  <body>
+
+    <h1>Login</h1>
+
+    <p>Authentication is required.</p>
+
+    <form id="login" method="POST" action="http://localhost:3000/api/auth/">
+      <label>Email:
+        <input type="email" placeholder="will@example.com" />
+      </label>
+    </form>
+
+    <script>
+      const form = document.getElementById('login');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const xhr = new XMLHttpRequest();
+        xhr.addEventListener('load', () => {
+          window.location.pathname = "/app/maze";
+        });
+        xhr.open(form.method, form.action);
+        xhr.withCredentials = true;
+        xhr.send(JSON.stringify({ user: form.querySelector('[type="email"]').value}));
+      });
+    </script>
+
+  </body>
+</html>
