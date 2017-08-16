@@ -9,8 +9,6 @@ module.exports = function (app) {
 
     app.post('/auth/', require('./auth/controller').login);
 
-    // FIXME - No Get!
-    app.get('/auth/', require('./auth/controller').login);
     app.get('/user/', require('./user/controller').browse);
     app.put('/user/:id', require('./user/controller').add);
     app.delete('/user/:id', require('./user/controller').delete);

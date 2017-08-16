@@ -1,19 +1,16 @@
 exports.login = function (req, res) {
-  console.log('logging in?', req.session);
+
   if (req.session.user) {
-    console.log('Already in a session for', req.session.user);
-    res.sendStatus(400);
+
+    res.sendStatus(403);
+
   } else if (req.body.user) {
-    console.log('Setting user', req.body.user);
+
     req.session.user = req.body.user;
     res.sendStatus(200);
-  } else if (req.query.user) {
-    console.log('Setting user', req.query.user);
-    req.session.user = req.query.user;
-    res.sendStatus(200);
+
   } else {
-    console.log('Unspecified error');
+
     res.sendStatus(400);
   }
-
 };
