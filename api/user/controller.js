@@ -5,13 +5,66 @@ exports.browse = function (req, res) {
   // Authenticate
   if (!req.session.user) {
     res.sendStatus(401);
-  } else {
-    res.send(req.session.user);
+    return;
   }
 
   // Validate
+  // The rest of the request is ignored. We just do users
 
   // Execute
+  model.
+    findById(req.session.user).
+    findOne((err, user) => {
+
+      if (err) {
+        console.error(err);
+        res.sendStatus(500);
+      } else {
+        res.send([user]);
+      }
+    });
 
   // View
+  // Uh, we sent the request up there already. :-(
 };
+
+exports.add = function (req, res) {
+
+  // Authenticate
+
+  // Validate
+  const email = req.params.id;
+  const display = req.body.display || email;
+  // TODO - validate email format
+
+  // Execute
+  const user = new model({
+    display,
+    email,
+    _id: email
+  });
+
+  user.save((err, u) => {
+    if (err) {
+      console.error(err);
+      res.sendStatus(500);
+    } else {
+      res.status(201).send(u);
+    }
+  });
+
+}
+
+exports.delete = function (req, res) {
+
+  model.
+    findById(req.params.id).
+    remove((err) => {
+
+      if (err) {
+        console.error(err);
+      } else {
+        res.send(204);
+      }
+    });
+}

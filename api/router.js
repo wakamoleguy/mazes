@@ -12,6 +12,8 @@ module.exports = function (app) {
     // FIXME - No Get!
     app.get('/auth/', require('./auth/controller').login);
     app.get('/user/', require('./user/controller').browse);
+    app.put('/user/:id', require('./user/controller').add);
+    app.delete('/user/:id', require('./user/controller').delete);
 
     app.get('/widget/', widget.browse);
     app.get('/widget/:id', widget.read);
