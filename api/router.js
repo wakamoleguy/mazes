@@ -5,10 +5,20 @@ const user = require('./user/controller');
 module.exports = function (app) {
 
     app.get('/', (req, res) => {
-        res.send('<a href="widget/">Widgets</a> <a href="maze/">Mazes</a>');
+        res.send('Hello');
     });
 
     app.post('/auth/', auth.login);
+
+
+    app.use((req, res, next) => {
+      if (!req.session.user) {
+        res.sendStatus(403);
+      } else {
+        next();
+      }
+    });
+
 
     app.get('/user/', user.browse);
     app.put('/user/:id', user.add);

@@ -7,6 +7,10 @@ const schemas = {
     maze: {
         name: String,
         size: Number,
+        creator: {
+          type: String,
+          ref: 'User'
+        },
         start: {
             x: Number,
             z: Number,

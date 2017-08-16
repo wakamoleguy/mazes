@@ -2,8 +2,15 @@ const models = require('./models');
 
 exports.browse = function (req, res) {
 
+    // Validate
+    const user = req.session.user;
+    // TODO - what if there isn't one? This shouldn't happen.
+
     models.Maze.
-        find({}).
+        find({
+            // Authorize
+            creator: user
+        }).
         find((err, mazes) => {
 
             if (err) {
@@ -30,19 +37,32 @@ exports.read = function (req, res) {
 
 exports.edit = function (req, res) {
 
+    const user = req.session.user;
+
     models.Maze.
-        findByIdAndUpdate(req.params.id, {
-            name: req.body.name,
-            size: req.body.size,
-            start: req.body.start,
-            destination: req.body.destination,
-            map: req.body.map
+        findOne({
+            _id: req.params.id,
+            creator: user
         }, (err, maze) => {
 
             if (err) {
                 console.error(err);
             } else {
-                res.send('OK');
+
+                maze.name = req.body.name;
+                maze.size = req.body.size;
+                maze.start = req.body.start;
+                maze.destination = req.body.destination;
+                maze.map = req.body.map;
+
+                maze.save((err, updatedMaze) => {
+                    if (err) {
+                        console.error(err);
+                        res.sendStatus(500);
+                    } else {
+                        res.send(updatedMaze);
+                    }
+                });
             }
         });
 };
@@ -54,7 +74,8 @@ exports.add = function (req, res) {
         size: req.body.size,
         start: req.body.start,
         destination: req.body.destination,
-        map: req.body.map
+        map: req.body.map,
+        creator: req.session.user
     });
 
     maze.save((err, w) => {
@@ -69,7 +90,10 @@ exports.add = function (req, res) {
 exports.delete = function (req, res) {
 
     models.Maze.
-        findById(req.params.id).
+        findOne({
+            _id: req.params.id,
+            creator: req.session.user
+        }).
         remove((err) => {
 
             if (err) {
