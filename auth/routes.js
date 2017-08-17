@@ -10,10 +10,11 @@ router.post('/auth/', passwordless.requestToken(
     // Turn the email address into a user ID
     function (user, delivery, callback, req) {
         callback(null, user);
-    },
-    { originField: 'origin' }
+    }, {
+        originField: 'origin'
+    }
 ), function (req, res) {
-    res.sendStatus(200);
+    res.redirect(302, '/login/pending/');
 });
 
 router.get('/auth/', passwordless.acceptToken({
