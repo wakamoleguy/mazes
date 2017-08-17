@@ -10,43 +10,14 @@
 
     <h1>Maze Editor</h1>
 
-    <ul id="maze-list">
-    </ul>
+    <section id="user-info">
+    </section>
 
-    <template id="maze-list-item">
-        <h2 class="name"></h2>
-        <a class="edit">Edit</a>
-        <a class="run">Run</a>
-        <div class="details" style="display: none;"></div>
-    </template>
+    <section id="maze-list">
+    </section>
 
-    <script>
-        const template = document.getElementById('maze-list-item');
-        const list = document.getElementById('maze-list');
-
-        const xhr = new XMLHttpRequest();
-        xhr.addEventListener('load', function () {
-
-            // TODO - handle errors
-            const mazes = JSON.parse(this.responseText);
-
-            mazes.forEach((maze) => {
-                const node = document.importNode(template.content, true);
-
-                // TODO - Don't set HTML straight from database
-                node.querySelector('.name').innerHTML = maze.name;
-                // TODO - Use something better than _id
-                node.querySelector('.edit').href = maze._id + '/edit/';
-                node.querySelector('.run').href = maze._id + '/run/';
-                node.querySelector('.details').innerHTML = JSON.stringify(maze);
-
-                list.appendChild(node);
-            });
-        });
-
-        xhr.open("GET", "http://localhost:3000/api/maze/");
-        xhr.send();
-    </script>
+    <script type="module" src="store.js"></script>
+    <script type="module" src="main.js"></script>
 
   </body>
 </html>
