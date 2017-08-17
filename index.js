@@ -7,7 +7,7 @@ const api = require('./api');
 const app = require('./app');
 
 const combinedApp = express();
-combinedApp.use(session({ secret: 'fixme secret', cookie: { maxAge: 60000 }}));
+combinedApp.use(session({ secret: 'fixme secret', cookie: { maxAge: 5 * 60 * 1000 }}));
 combinedApp.use(passwordless.sessionSupport());
 
 combinedApp.use('/api', api);

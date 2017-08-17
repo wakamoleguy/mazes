@@ -3,7 +3,7 @@ const models = require('./models');
 exports.browse = function (req, res) {
 
     // Validate
-    const user = req.session.user;
+    const user = req.user;
     // TODO - what if there isn't one? This shouldn't happen.
 
     models.Maze.
@@ -37,7 +37,7 @@ exports.read = function (req, res) {
 
 exports.edit = function (req, res) {
 
-    const user = req.session.user;
+    const user = req.user;
 
     models.Maze.
         findOne({
@@ -75,7 +75,7 @@ exports.add = function (req, res) {
         start: req.body.start,
         destination: req.body.destination,
         map: req.body.map,
-        creator: req.session.user
+        creator: req.user
     });
 
     maze.save((err, w) => {
@@ -92,7 +92,7 @@ exports.delete = function (req, res) {
     models.Maze.
         findOne({
             _id: req.params.id,
-            creator: req.session.user
+            creator: req.user
         }).
         remove((err) => {
 

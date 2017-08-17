@@ -3,7 +3,7 @@ const model = require('./model');
 exports.browse = function (req, res) {
 
   // Authenticate
-  if (!req.session.user) {
+  if (!req.user) {
     res.sendStatus(401);
     return;
   }
@@ -13,7 +13,7 @@ exports.browse = function (req, res) {
 
   // Execute
   model.User.
-    findById(req.session.user).
+    findById(req.user).
     findOne((err, user) => {
 
       if (err) {
