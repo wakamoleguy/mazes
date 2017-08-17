@@ -19,10 +19,7 @@ module.exports = function (app) {
         res.send('sent');
     });
 
-    app.get('/auth/', passwordless.acceptToken(), function (req, res) {
-        // TODO - do a success redirect to avoid leaking tokens through Referrer
-        res.send('validated');
-    });
+    app.get('/auth/', passwordless.acceptToken(), auth.accepted);
 
 
     app.use(passwordless.restricted());
