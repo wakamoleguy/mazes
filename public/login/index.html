@@ -5,19 +5,33 @@
     <meta name="description" content="A simple maze editor"></meta>
     <meta name="viewport" content="width=device-width"></meta>
     <title>Maze Editor</title>
+
+    <link rel="stylesheet" href="../css/main.css">
   </head>
   <body>
 
-    <h1>Login</h1>
+      <header>
 
-    <p>Authentication is required.</p>
+          <h1>Login</h1>
+      </header>
 
-    <form id="login" method="POST" action="http://localhost:3000/auth/">
-      <label>Email:
-        <input type="email" name="user" placeholder="will@example.com" />
-        <input type="hidden" name="origin" value=""/>
-      </label>
-    </form>
+      <main>
+          <section>
+
+            <form id="login" method="POST" action="http://localhost:3000/auth/">
+                <h3>Authentication is required.</h3>
+                <label>Email:
+                    <input type="email" name="user"
+                        placeholder="will@example.com" />
+                    <input type="hidden" name="origin" value=""/>
+                    <button>Go</button>
+                </label>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+    </footer>
 
     <script>
       const originMatch = window.location.search.match(/[?&]origin=([^&]*)/);
