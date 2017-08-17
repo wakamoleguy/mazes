@@ -5,13 +5,6 @@ module.exports = function (app) {
 
   app.use('/login/', express.static(__dirname + '/login'));
 
-  app.use((req, res, next) => {
-      passwordless.restricted({
-          failureRedirect: req.baseUrl + '/login/',
-          originField: 'origin'
-      })(req, res, next);
-  });
-
   app.get('/', (req, res) => {
     res.redirect(307, 'maze/');
   });

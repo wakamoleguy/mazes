@@ -12,28 +12,17 @@
 
     <p>Authentication is required.</p>
 
-    <form id="login" method="POST" action="http://localhost:3000/api/auth/">
+    <form id="login" method="POST" action="http://localhost:3000/auth/">
       <label>Email:
-        <input type="email" placeholder="will@example.com" />
+        <input type="email" name="user" placeholder="will@example.com" />
+        <input type="hidden" name="origin" value=""/>
       </label>
     </form>
 
     <script>
-      const form = document.getElementById('login');
       const originMatch = window.location.search.match(/[?&]origin=([^&]*)/);
       const origin = originMatch && decodeURIComponent(originMatch[1]);
-
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        const xhr = new XMLHttpRequest();
-        xhr.open(form.method, form.action);
-        xhr.withCredentials = true;
-        xhr.send(JSON.stringify({
-            user: form.querySelector('[type="email"]').value,
-            origin
-        }));
-      });
+      document.querySelector('[name=origin]').value = origin;
     </script>
 
   </body>
