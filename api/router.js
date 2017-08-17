@@ -28,7 +28,7 @@ module.exports = function (app) {
     app.use(passwordless.restricted());
 
     app.get('/user/', user.browse);
-    app.put('/user/:id', user.add);
+    app.post('/user/', user.add);
     app.delete('/user/:id', user.delete);
 
     app.get('/maze/', maze.browse);

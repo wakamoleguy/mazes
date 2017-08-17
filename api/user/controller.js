@@ -33,7 +33,7 @@ exports.add = function (req, res) {
   // Authenticate
 
   // Validate
-  const email = req.params.id;
+  const email = req.user;
   const display = req.body.display || email;
   // TODO - validate email format
 

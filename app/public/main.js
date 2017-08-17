@@ -38,19 +38,69 @@ function App() {
 
     // Fetch initial data
     // TODO - Move this out of the constructor?
-    this.fetchUser().then((user) => {
+    const userPromise = this.fetchUser().then((user) => {
+
+        if (user) {
+
+            return user;
+        } else {
+
+            return fetch('/api/user/', {
+                credentials: 'include',
+                method: 'POST'
+            }).then((response) => {
+
+                const mazes = [0, 1, 2].map((n) => {
+
+                    const request = new Request('/api/maze', {
+                        credentials: 'include',
+                        method: 'POST',
+                        body: JSON.stringify({
+                            name: `Maze ${n}`,
+                            size: 11,
+                            start: { z: 9, x: 9, direction: 'west' },
+                            destination: { z: 11, x: 1 },
+                            map: [
+                                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+                                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+                                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+                                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+                                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+                                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+                                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+                                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+                                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+                                [1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+                            ]
+                        })
+                    });
+
+                    return fetch(request);
+                });
+
+                return Promise.all(mazes);
+            }).then(() => this.fetchUser());
+        }
+    }).then((user) => {
+
         store.dispatch({
             type: 'USER',
             user
         });
+    });
 
-        return this.fetchMazes(user);
-    }).then((mazes) => {
-        store.dispatch({
-            type: 'MAZES',
-            mazes
+    const mazePromise = userPromise.
+        then(() => this.fetchMazes()).
+        then((mazes) => {
+
+            store.dispatch({
+                type: 'MAZES',
+                mazes
+            });
         });
-    }, (err) => {
+
+    mazePromise.then(() => {}, (err) => {
         console.error('error fetching user or mazes');
     });
 }
