@@ -20,17 +20,19 @@
 
     <script>
       const form = document.getElementById('login');
+      const originMatch = window.location.search.match(/[?&]origin=([^&]*)/);
+      const origin = originMatch && decodeURIComponent(originMatch[1]);
 
       form.addEventListener('submit', (e) => {
         e.preventDefault();
 
         const xhr = new XMLHttpRequest();
-        xhr.addEventListener('load', () => {
-          window.location.pathname = "/app/maze";
-        });
         xhr.open(form.method, form.action);
         xhr.withCredentials = true;
-        xhr.send(JSON.stringify({ user: form.querySelector('[type="email"]').value}));
+        xhr.send(JSON.stringify({
+            user: form.querySelector('[type="email"]').value,
+            origin
+        }));
       });
     </script>
 

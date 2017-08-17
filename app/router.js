@@ -7,7 +7,8 @@ module.exports = function (app) {
 
   app.use((req, res, next) => {
       passwordless.restricted({
-          failureRedirect: req.baseUrl + '/login/'
+          failureRedirect: req.baseUrl + '/login/',
+          originField: 'origin'
       })(req, res, next);
   });
 
