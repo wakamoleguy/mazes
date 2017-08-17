@@ -50,10 +50,6 @@ exports.edit = function (req, res) {
             } else {
 
                 maze.name = req.body.name;
-                maze.size = req.body.size;
-                maze.start = req.body.start;
-                maze.destination = req.body.destination;
-                maze.map = req.body.map;
 
                 maze.save((err, updatedMaze) => {
                     if (err) {
@@ -72,18 +68,45 @@ exports.add = function (req, res) {
     const maze = new models.Maze({
         name: req.body.name,
         size: req.body.size,
-        start: req.body.start,
-        destination: req.body.destination,
-        map: req.body.map,
         creator: req.user
     });
 
-    maze.save((err, w) => {
+    maze.save((err, savedMaze) => {
         if (err) {
             console.error(err);
-        } else {
-            res.send(201, w);
+            res.sendStatus(500);
+            return;
         }
+
+        const firstDraft = new models.Revision({
+            maze: savedMaze._id,
+            start: { z: 1, x: 1, destination: 'east' },
+            destination: { z: 11, x: 1 },
+            version: 0,
+            map: [
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+                [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+                [1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+            ]
+        });
+
+        firstDraft.save((err, savedDraft) => {
+            if (err) {
+                console.error(err);
+            } else {
+                savedMaze.revisions = [savedDraft._id];
+                savedMaze.save();
+                res.sendStatus(201);
+            }
+        });
     });
 };
 
@@ -102,4 +125,53 @@ exports.delete = function (req, res) {
                 res.sendStatus(204);
             }
         });
+};
+
+exports.revision = {
+
+    read(req, res) {
+
+        models.Revision.
+            findOne({
+                maze: req.params.maze,
+                version: req.params.id
+            }).
+            populate('maze').
+            findOne((err, revision) => {
+
+                if (err) {
+                    console.error(err);
+                } else {
+                    res.send(revision);
+                }
+            });
+    },
+
+    add(req, res) {
+
+        models.Maze.
+            findById(req.params.maze, (err, maze) => {
+                if (err) {
+                    console.error(err);
+                }
+
+                const revision = new models.Revision({
+                    maze: maze._id,
+                    start: req.body.start,
+                    destination: req.body.destination,
+                    map: req.body.map,
+                    version: req.params.id
+                });
+
+                revision.save((err, savedRevision) => {
+                    maze.revisions.push(savedRevision._id);
+                    maze.save();
+                    res.sendStatus(201);
+                });
+            });
+    },
+
+    delete(req, res) {
+
+    }
 };

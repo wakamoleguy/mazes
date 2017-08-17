@@ -19,7 +19,10 @@ router.post('/auth/', passwordless.requestToken(
 
 router.get('/auth/', passwordless.acceptToken({
     enableOriginRedirect: true
-}));
+}), (req, res) => {
+    // We land here if there wasn't an origin redirect.
+    res.sendStatus(200);
+});
 
 /*
  * Other routes that are restricted

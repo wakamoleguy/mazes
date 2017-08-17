@@ -19,5 +19,8 @@ module.exports = function (app) {
     app.post('/maze/', maze.add);
     app.delete('/maze/:id', maze.delete);
 
+    app.get('/maze/:maze/revision/:id', maze.revision.read);
+    app.put('/maze/:maze/revision/:id', maze.revision.add);
+
 
 }

@@ -59,6 +59,8 @@
       // TODO - handle errors
       const maze = JSON.parse(xhr.responseText);
 
+      throw new Error('I changed revisions. Have to update this parsing now');
+
       const runner = document.createElement('maze-runner');
       runner.dataset.name = maze.name;
       runner.dataset.map = JSON.stringify(maze.map);
