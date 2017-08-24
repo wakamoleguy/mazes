@@ -1,8 +1,8 @@
 maze-runner {
-  margin: 0.5em;
-  border-radius: 3px;
-  background: #FFF;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.25);
-  font-family: Helvetica, arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
+    margin: 0.5em;
+    border-radius: 3px;
+    background: #FFF;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+    font-family: Helvetica, arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
 }

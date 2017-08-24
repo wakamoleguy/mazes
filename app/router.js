@@ -3,14 +3,14 @@ const passwordless = require('passwordless');
 
 module.exports = function (app) {
 
-  app.use('/login/', express.static(__dirname + '/login'));
+    app.use('/login/', express.static(__dirname + '/login'));
 
-  app.get('/', (req, res) => {
-    res.redirect(307, 'maze/');
-  });
+    app.get('/', (req, res) => {
+        res.redirect(307, 'maze/');
+    });
 
-  app.use('/maze/:maze/edit', express.static(__dirname + '/editor'));
-  app.use('/maze/:maze/run', express.static(__dirname + '/runner'));
+    app.use('/maze/:maze/edit', express.static(__dirname + '/editor'));
+    app.use('/maze/:maze/run', express.static(__dirname + '/runner'));
 
-  app.use('/maze/', express.static(__dirname + '/public'));
+    app.use('/maze/', express.static(__dirname + '/public'));
 };

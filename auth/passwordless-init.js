@@ -22,20 +22,20 @@ passwordless.init(
         'mongodb://localhost:27017/passwordless-simple-mail'
     ));
 
-passwordless.addDelivery((token, uid, recipient, callback) => {
+    passwordless.addDelivery((token, uid, recipient, callback) => {
 
-    const returnUrl = 'http://localhost:3000/auth/';
+        const returnUrl = 'http://localhost:3000/auth/';
 
-    smtpServer.send({
-        text: 'Hello! Access your account here: ' +
+        smtpServer.send({
+            text: 'Hello! Access your account here: ' +
             `${returnUrl}?token=${token}&uid=${encodeURIComponent(uid)}`,
-        from: 'mailtest@wakamoleguy.com',
-        to: recipient,
-        subject: 'Token for Mazes Login'
-    }, (err, message) => {
-        if (err) {
-            console.error(err);
-        }
-        callback(err);
+            from: 'mailtest@wakamoleguy.com',
+            to: recipient,
+            subject: 'Token for Mazes Login'
+        }, (err, message) => {
+            if (err) {
+                console.error(err);
+            }
+            callback(err);
+        });
     });
-});

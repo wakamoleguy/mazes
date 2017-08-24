@@ -7,32 +7,32 @@ exports.browse = function (req, res) {
     // TODO - what if there isn't one? This shouldn't happen.
 
     models.Maze.
-        find({
-            // Authorize
-            creator: user
-        }).
-        find((err, mazes) => {
+    find({
+        // Authorize
+        creator: user
+    }).
+    find((err, mazes) => {
 
-            if (err) {
-                console.error(err);
-            } else {
-                res.send(mazes);
-            }
-        });
+        if (err) {
+            console.error(err);
+        } else {
+            res.send(mazes);
+        }
+    });
 };
 
 exports.read = function (req, res) {
 
     models.Maze.
-        findById(req.params.id).
-        findOne((err, maze) => {
+    findById(req.params.id).
+    findOne((err, maze) => {
 
-            if (err) {
-                console.error(err);
-            } else {
-                res.send(maze);
-            }
-        });
+        if (err) {
+            console.error(err);
+        } else {
+            res.send(maze);
+        }
+    });
 };
 
 exports.edit = function (req, res) {
@@ -40,27 +40,27 @@ exports.edit = function (req, res) {
     const user = req.user;
 
     models.Maze.
-        findOne({
-            _id: req.params.id,
-            creator: user
-        }, (err, maze) => {
+    findOne({
+        _id: req.params.id,
+        creator: user
+    }, (err, maze) => {
 
-            if (err) {
-                console.error(err);
-            } else {
+        if (err) {
+            console.error(err);
+        } else {
 
-                maze.name = req.body.name;
+            maze.name = req.body.name;
 
-                maze.save((err, updatedMaze) => {
-                    if (err) {
-                        console.error(err);
-                        res.sendStatus(500);
-                    } else {
-                        res.send(updatedMaze);
-                    }
-                });
-            }
-        });
+            maze.save((err, updatedMaze) => {
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(500);
+                } else {
+                    res.send(updatedMaze);
+                }
+            });
+        }
+    });
 };
 
 exports.add = function (req, res) {
@@ -113,18 +113,18 @@ exports.add = function (req, res) {
 exports.delete = function (req, res) {
 
     models.Maze.
-        findOne({
-            _id: req.params.id,
-            creator: req.user
-        }).
-        remove((err) => {
+    findOne({
+        _id: req.params.id,
+        creator: req.user
+    }).
+    remove((err) => {
 
-            if (err) {
-                console.error(err);
-            } else {
-                res.sendStatus(204);
-            }
-        });
+        if (err) {
+            console.error(err);
+        } else {
+            res.sendStatus(204);
+        }
+    });
 };
 
 exports.revision = {
@@ -132,43 +132,43 @@ exports.revision = {
     read(req, res) {
 
         models.Revision.
-            findOne({
-                maze: req.params.maze,
-                version: req.params.id
-            }).
-            populate('maze').
-            findOne((err, revision) => {
+        findOne({
+            maze: req.params.maze,
+            version: req.params.id
+        }).
+        populate('maze').
+        findOne((err, revision) => {
 
-                if (err) {
-                    console.error(err);
-                } else {
-                    res.send(revision);
-                }
-            });
+            if (err) {
+                console.error(err);
+            } else {
+                res.send(revision);
+            }
+        });
     },
 
     add(req, res) {
 
         models.Maze.
-            findById(req.params.maze, (err, maze) => {
-                if (err) {
-                    console.error(err);
-                }
+        findById(req.params.maze, (err, maze) => {
+            if (err) {
+                console.error(err);
+            }
 
-                const revision = new models.Revision({
-                    maze: maze._id,
-                    start: req.body.start,
-                    destination: req.body.destination,
-                    map: req.body.map,
-                    version: req.params.id
-                });
-
-                revision.save((err, savedRevision) => {
-                    maze.revisions.push(savedRevision._id);
-                    maze.save();
-                    res.sendStatus(201);
-                });
+            const revision = new models.Revision({
+                maze: maze._id,
+                start: req.body.start,
+                destination: req.body.destination,
+                map: req.body.map,
+                version: req.params.id
             });
+
+            revision.save((err, savedRevision) => {
+                maze.revisions.push(savedRevision._id);
+                maze.save();
+                res.sendStatus(201);
+            });
+        });
     },
 
     delete(req, res) {

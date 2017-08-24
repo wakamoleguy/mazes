@@ -1,35 +1,35 @@
 #maze {
-  display: flex;
-  flex-wrap: wrap;
-  width: 50em;
-  height: 50em;
+    display: flex;
+    flex-wrap: wrap;
+    width: 50em;
+    height: 50em;
 }
 
 #maze[data-size="11"] .tile {
-  flex-grow: 1;
-  flex-basis: 9%;
+    flex-grow: 1;
+    flex-basis: 9%;
 }
 
 #maze[data-size="15"] .tile {
-  flex-grow: 1;
-  flex-basis: 6.5%;
+    flex-grow: 1;
+    flex-basis: 6.5%;
 }
 
 #maze[data-size="25"] .tile {
-  flex-grow: 1;
-  flex-basis: 4%;
+    flex-grow: 1;
+    flex-basis: 4%;
 }
 
 .tile {
-  box-sizing: border-box;
-  border: 1px solid black;
-  cursor: pointer;
+    box-sizing: border-box;
+    border: 1px solid black;
+    cursor: pointer;
 }
 
 .tile[data-type=floor] {
-  background: white;
+    background: white;
 }
 
 .tile[data-type=wall] {
-  background: black;
+    background: black;
 }

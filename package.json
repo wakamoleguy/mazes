@@ -1,29 +1,29 @@
 {
-  "name": "mazes",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/wakamoleguy/mazes.git"
-  },
-  "author": "Will Mitchell <wakamoleguy@gmail.com>",
-  "license": "UNLICENSED",
-  "bugs": {
-    "url": "https://github.com/wakamoleguy/mazes/issues"
-  },
-  "homepage": "https://github.com/wakamoleguy/mazes#readme",
-  "dependencies": {
-    "body-parser": "^1.17.2",
-    "cors": "^2.8.4",
-    "emailjs": "^1.0.11",
-    "express": "^4.15.4",
-    "express-session": "^1.15.5",
-    "mongoose": "^4.11.7",
-    "passwordless": "^1.1.2",
-    "passwordless-mongostore": "^0.1.4"
-  }
+    "name": "mazes",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/wakamoleguy/mazes.git"
+    },
+    "author": "Will Mitchell <wakamoleguy@gmail.com>",
+    "license": "UNLICENSED",
+    "bugs": {
+        "url": "https://github.com/wakamoleguy/mazes/issues"
+    },
+    "homepage": "https://github.com/wakamoleguy/mazes#readme",
+    "dependencies": {
+        "body-parser": "^1.17.2",
+        "cors": "^2.8.4",
+        "emailjs": "^1.0.11",
+        "express": "^4.15.4",
+        "express-session": "^1.15.5",
+        "mongoose": "^4.11.7",
+        "passwordless": "^1.1.2",
+        "passwordless-mongostore": "^0.1.4"
+    }
 }

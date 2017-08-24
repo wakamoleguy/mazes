@@ -91,14 +91,14 @@ function App() {
     });
 
     const mazePromise = userPromise.
-        then(() => this.fetchMazes()).
-        then((mazes) => {
+    then(() => this.fetchMazes()).
+    then((mazes) => {
 
-            store.dispatch({
-                type: 'MAZES',
-                mazes
-            });
+        store.dispatch({
+            type: 'MAZES',
+            mazes
         });
+    });
 
     mazePromise.then(() => {}, (err) => {
         console.error('error fetching user or mazes');

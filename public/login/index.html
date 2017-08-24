@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8"></meta>
     <meta name="description" content="A simple maze editor"></meta>
     <meta name="viewport" content="width=device-width"></meta>
     <title>Maze Editor</title>
 
     <link rel="stylesheet" href="../css/main.css">
-  </head>
-  <body>
+</head>
+<body>
 
-      <header>
+    <header>
 
-          <h1>Login</h1>
-      </header>
+        <h1>Login</h1>
+    </header>
 
-      <main>
-          <section>
-          <h2>Authentication is required.</h2>
+    <main>
+        <section>
+            <h2>Authentication is required.</h2>
 
             <form id="login" method="POST" action="http://localhost:3000/auth/">
                 <label>Email:
                     <input type="email" name="user"
-                        placeholder="will@example.com" />
+                    placeholder="will@example.com" />
                     <input type="hidden" name="origin" value=""/>
                     <button>Go</button>
                 </label>
@@ -34,10 +34,10 @@
     </footer>
 
     <script>
-      const originMatch = window.location.search.match(/[?&]origin=([^&]*)/);
-      const origin = originMatch && decodeURIComponent(originMatch[1]);
-      document.querySelector('[name=origin]').value = origin;
+    const originMatch = window.location.search.match(/[?&]origin=([^&]*)/);
+    const origin = originMatch && decodeURIComponent(originMatch[1]);
+    document.querySelector('[name=origin]').value = origin;
     </script>
 
-  </body>
+</body>
 </html>

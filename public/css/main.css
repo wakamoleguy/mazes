@@ -1,15 +1,15 @@
 /**
- *
- * FONTS
- *
- **/
+*
+* FONTS
+*
+**/
 @import url(https://fonts.googleapis.com/css?family=Roboto:100,100italic,200,300,400,400italic|Roboto+Slab:100,200,300,400,700|Raleway:100,200,300,600);
 
 /**
- *
- * Colors
- *
- **/
+*
+* Colors
+*
+**/
 .c1 {
     color: #208090; /* blue = rgb(32, 128, 144) */
     color: #90BBC0; /* light-blue = rgb(144, 187, 192) */
@@ -33,10 +33,10 @@
 }
 
 /**
- *
- * Components
- *
- **/
+*
+* Components
+*
+**/
 
 /* Links */
 a {
@@ -153,10 +153,10 @@ img {
 }
 
 /**
- *
- * Structure
- *
- **/
+*
+* Structure
+*
+**/
 
 html {
     font-size: 100%;
@@ -247,10 +247,10 @@ main > aside > p {
 }
 
 /**
- *
- * Custom (unlikely to have side effects)
- *
- **/
+*
+* Custom (unlikely to have side effects)
+*
+**/
 
 body > header > a[href="/"],
 body > header > a[href="/"]:hover,

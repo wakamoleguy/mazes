@@ -69,15 +69,15 @@ class MazeRunner extends HTMLElement {
         this.camera.position.z = parseInt(this.getAttribute('data-starting-z'), 10) * 10 + 5;
 
         switch (this.getAttribute('data-starting-direction')) {
-          case 'west':
-          this.camera.rotation.y -= Math.PI / 2;
-          case 'south':
-          this.camera.rotation.y -= Math.PI / 2;
-          case 'east':
-          this.camera.rotation.y -= Math.PI / 2;
-          case 'north':
-          default:
-          break;
+            case 'west':
+            this.camera.rotation.y -= Math.PI / 2;
+            case 'south':
+            this.camera.rotation.y -= Math.PI / 2;
+            case 'east':
+            this.camera.rotation.y -= Math.PI / 2;
+            case 'north':
+            default:
+            break;
         }
 
         // Render the maze
@@ -103,33 +103,33 @@ class MazeRunner extends HTMLElement {
         // Start the timer and animation
         this.renderer.domElement.addEventListener('keydown', (e) => {
             switch (e.key) {
-              case 'w':
+                case 'w':
                 this.forward = 1;
                 break;
-              case 's':
+                case 's':
                 this.forward = -1;
                 break;
-              case 'a':
+                case 'a':
                 this.rotate = 1;
                 break;
-              case 'd':
+                case 'd':
                 this.rotate = -1;
                 break;
-              default:
+                default:
             }
         }, false);
 
         this.renderer.domElement.addEventListener('keyup', (e) => {
             switch (e.key) {
-              case 'w':
-              case 's':
+                case 'w':
+                case 's':
                 this.forward = 0;
                 break;
-              case 'a':
-              case 'd':
+                case 'a':
+                case 'd':
                 this.rotate = 0;
                 break;
-              default:
+                default:
             }
         }, false);
 
@@ -145,22 +145,22 @@ class MazeRunner extends HTMLElement {
     }
 
     wallTypeAtCoordinates(z, x) {
-      const row = Math.floor(z / 10);
-      const col = Math.floor(x / 10);
+        const row = Math.floor(z / 10);
+        const col = Math.floor(x / 10);
 
-      const maze = JSON.parse(this.getAttribute('data-map'));
+        const maze = JSON.parse(this.getAttribute('data-map'));
 
-      if (maze[row] === undefined || maze[row][col] === undefined) {
+        if (maze[row] === undefined || maze[row][col] === undefined) {
 
-        if (parseInt(this.getAttribute('data-destination-z'), 10) === row
+            if (parseInt(this.getAttribute('data-destination-z'), 10) === row
             && parseInt(this.getAttribute('data-destination-x'), 10) === col) {
-          return -1;
+                return -1;
+            } else {
+                return 0;
+            }
         } else {
-          return 0;
+            return maze[row][col];
         }
-      } else {
-        return maze[row][col];
-      }
     }
 
     animate(step) {
@@ -203,31 +203,31 @@ class MazeRunner extends HTMLElement {
         const tileZStep = this.wallTypeAtCoordinates(
             this.camera.position.z + (forwardZComponent / Math.abs(forwardZComponent)),
             this.camera.position.x);
-        const tileXStep = this.wallTypeAtCoordinates(
-            this.camera.position.z,
-            this.camera.position.x + (forwardXComponent / Math.abs(forwardXComponent)));
-        const tileForwardOne = this.wallTypeAtCoordinates(
-            this.camera.position.z + forwardZComponent,
-            this.camera.position.x + forwardXComponent);
-        const tileForwardStep = this.wallTypeAtCoordinates(newZ, newX);
+            const tileXStep = this.wallTypeAtCoordinates(
+                this.camera.position.z,
+                this.camera.position.x + (forwardXComponent / Math.abs(forwardXComponent)));
+                const tileForwardOne = this.wallTypeAtCoordinates(
+                    this.camera.position.z + forwardZComponent,
+                    this.camera.position.x + forwardXComponent);
+                    const tileForwardStep = this.wallTypeAtCoordinates(newZ, newX);
 
-        if (tileForwardOne === 1 || tileForwardStep === 1) {
-            if (tileZStep !== 1 && tileXStep === 1) {
-                this.camera.position.z = newZ;
-            } else if (tileXStep !== 1 && tileZStep === 1) {
-                this.camera.position.x = newX;
-            }
-        } else if (tileForwardOne !== 1 && tileForwardStep !== 1) {
-            if (tileZStep !== 1) {
-                this.camera.position.z = newZ;
-            }
-            if (tileForwardStep !== 1 && tileXStep !== 1) {
-                this.camera.position.x = newX;
-            }
-        }
+                    if (tileForwardOne === 1 || tileForwardStep === 1) {
+                        if (tileZStep !== 1 && tileXStep === 1) {
+                            this.camera.position.z = newZ;
+                        } else if (tileXStep !== 1 && tileZStep === 1) {
+                            this.camera.position.x = newX;
+                        }
+                    } else if (tileForwardOne !== 1 && tileForwardStep !== 1) {
+                        if (tileZStep !== 1) {
+                            this.camera.position.z = newZ;
+                        }
+                        if (tileForwardStep !== 1 && tileXStep !== 1) {
+                            this.camera.position.x = newX;
+                        }
+                    }
 
-        this.renderer.render(this.scene, this.camera);
-    }
-}
+                    this.renderer.render(this.scene, this.camera);
+                }
+            }
 
-customElements.define('maze-runner', MazeRunner);
+            customElements.define('maze-runner', MazeRunner);
