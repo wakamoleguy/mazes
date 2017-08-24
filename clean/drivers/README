@@ -1,0 +1,2 @@
+This is the backend side of the 'interfaces and drivers' circle in the clean
+architecture. It includes such low level adapters as DB, Email, and Auth.

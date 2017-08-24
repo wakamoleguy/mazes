@@ -1,0 +1,4 @@
+This is the front-end side of the 'interface adapters' circle of the clean
+architecture. This includes the API and App, which both interface with the
+model through use cases, auth (maybe? it's another touch point), and the static
+website (because where else should it go?).
