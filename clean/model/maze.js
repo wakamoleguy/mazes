@@ -24,8 +24,20 @@ module.exports = class Maze {
         this.creator = creator;
         this.name = name;
 
-        const firstDraft = new Revision(size);
-        this.revisions = [firstDraft];
+        this.revisions = [];
+        this.revisions.push(new Revision(this));
+
+    }
+
+    draft() {
+
+        const latestRevision = this.revisions[this.revisions.length - 1];
+
+        const newRevision = latestRevision.clone();
+
+        this.revisions.push(newRevision);
+
+        return this;
     }
 
     static get MIN_SIZE() { return 3; };
