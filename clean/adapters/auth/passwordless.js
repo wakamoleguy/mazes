@@ -27,7 +27,7 @@ passwordless.init(
 passwordless.addDelivery((token, uid, recipient, callback) => {
 
     // FIXME - Inject this from above.
-    const returnUrl = 'http://localhost:3000/auth/';
+    const returnUrl = 'http://localhost:3000/app/login/accept/';
 
     smtpServer.send({
         text: 'Hello! Access your account here: ' +
