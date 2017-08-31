@@ -51,7 +51,7 @@ describe('App', () => {
                 request(app).
                 get('/foo/').
                 expect(302).
-                expect('Location', '/login/?origin=%2Ffoo%2F').
+                expect('Location', 'login/?origin=%2Ffoo%2F').
                 end(jasmine.finish(done));
             });
 
@@ -60,7 +60,7 @@ describe('App', () => {
                 request(app).
                 get('/foo/bar/baz/').
                 expect(302).
-                expect('Location', '/login/?origin=%2Ffoo%2Fbar%2Fbaz%2F').
+                expect('Location', 'login/?origin=%2Ffoo%2Fbar%2Fbaz%2F').
                 end(jasmine.finish(done));
             });
 
@@ -73,7 +73,7 @@ describe('App', () => {
                 send({ user: ned }).
                 set('Content-Type', 'application/json').
                 expect(302).
-                expect('Location', '/login/pending/').
+                expect('Location', 'login/pending/').
                 expect((res) => {
 
                     expect(authDriver.store.length()).toBe(1);
@@ -106,57 +106,83 @@ describe('App', () => {
                 end(jasmine.finish(done));
             });
 
+            it('should redirect to somewhere if no origin', (done) => {
+
+                const token = '123';
+                const msToLive = 60 * 1000;
+                const originUrl = null;
+
+                authDriver.store.storeOrUpdate(
+                    token, ned, msToLive, originUrl, () => {});
+
+                request(app).
+                get('/login/accept/' +
+                    `?token=${token}&uid=${encodeURIComponent(ned)}`).
+                expect(302).
+                end(jasmine.finish(done));
+            });
+
         });
 
         describe('when authenticated', () => {
+            const token = '123';
+            const msToLive = 60 * 1000;
 
             let agent;
 
             beforeEach((done) => {
-                authDriver.store.clear();
+                authDriver.store.clear(() => {});
+                authDriver.store.storeOrUpdate(
+                    token, ned, msToLive, null, () => {});
 
                 agent = request.agent(app);
 
                 // Authenticate an agent
-                const request = agent.
-                post('/login/request/').
-                send({ user: ned }).
-                set('Content-Type', 'application/json').
-                expect(302);
-
-                const accept = request.then(() => {
-                    agent.get()
-                })
-                // agent = request.agent(app);
-                //
-                // agent.post('/login/request/').then((err, res) => {
-                //
-                //     return agent.get('/login/accept/');
-                // }).then(jasmine.finish(done));
-
-
-                done();
+                agent.
+                get('/login/accept/' +
+                    `?token=${token}&uid=${encodeURIComponent(ned)}`).
+                expect(302).
+                end(jasmine.finish(done));
             });
 
-            it('should redirect login page to some app page', () => {
+            it('should redirect login page to some app page', (done) => {
 
-                throw new Error('Unimplemented');
+                agent.
+                get('/login/').
+                expect(302).
+                end(jasmine.finish(done));
             });
 
-            it('should make app pages accessible', () => {
+            it('should make app pages accessible', (done) => {
 
-                throw new Error('Unimplemented');
+                agent.
+                get('/foo/').
+                expect(404).
+                end(jasmine.finish(done));
             });
 
-            it('should accept and redirect any token request', () => {
+            it('should make deeper app pages accessible', (done) => {
+                agent.
+                get('/foo/bar/baz/').
+                expect(404).
+                end(jasmine.finish(done));
+            });
 
-                throw new Error('Unimplemented');
+            it('should accept and redirect any token request', (done) => {
+
+                agent.
+                get('/login/accept/').
+                expect(302).
+                end(jasmine.finish(done));
             });
         });
 
-        it('should deny GET requests to the token request URL', () => {
+        it('should deny GET requests to the token request URL', (done) => {
 
-            throw new Error('Unimplemented');
+            request(app).
+            get(`/login/request/?user=${encodeURIComponent(ned)}`).
+            expect(403).
+            end(jasmine.finish(done));
         });
     });
 });

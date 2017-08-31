@@ -11,7 +11,12 @@ module.exports = (authDriver) => {
     app.use(authDriver.support());
 
     app.get('/login/', (req, res) => {
-        res.sendStatus(200);
+
+        if (req.user) {
+            res.redirect('foo/');
+        } else {
+            res.sendStatus(200);
+        }
     });
 
     app.post('/login/request/', authDriver.requestToken(
@@ -22,20 +27,26 @@ module.exports = (authDriver) => {
             originField: 'origin'
         }
     ), function (req, res) {
-        res.redirect(302, '/login/pending/');
+        res.redirect(302, 'login/pending/');
     });
 
-    //app.get('/login/request/', (req, res) => res.sendStatus(403));
+    app.get('/login/request/', (req, res) => res.sendStatus(403));
 
     app.get('/login/accept/', authDriver.acceptToken({
-        enableOriginRedirect: true
+        enableOriginRedirect: true,
+        successRedirect: 'foo/'
     }), (req, res) => {
         // We land here if the validation failed
-        res.sendStatus(401);
+        if (req.user) {
+            // You're already logged in, so just go somewhere.
+            res.redirect('foo/');
+        } else {
+            res.sendStatus(401);
+        }
     });
 
     app.use(authDriver.restricted({
-        failureRedirect: '/login/',
+        failureRedirect: 'login/',
         originField: 'origin'
     }));
 

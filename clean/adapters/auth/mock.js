@@ -7,8 +7,6 @@ const memstore = {
 
     authenticate(token, uid, callback) {
 
-        console.log('authenticating', token, uid);
-
         const item = this.tokens[uid];
 
         if (item === undefined) {
@@ -24,8 +22,6 @@ const memstore = {
 
     storeOrUpdate(token, uid, msToLive, originUrl, callback) {
 
-        console.log('storing or updating', token, uid, msToLive, originUrl);
-
         const item = {
             token,
             uid,
@@ -39,22 +35,17 @@ const memstore = {
 
     invalidateUser(uid, callback) {
 
-        console.log('invalidating user', uid);
-
         delete this.tokens[uid];
         callback();
     },
 
     clear(callback) {
 
-        console.log('clearing');
-
         this.tokens = {};
         callback();
     },
 
     length(callback) {
-        console.log('length');
 
         const length = Object.keys(this.tokens).length;
         if (callback) {
@@ -67,7 +58,6 @@ const memstore = {
 passwordless.init(memstore);
 
 passwordless.addDelivery((token, uid, recipient, callback) => {
-    console.log('Delivering?');
     setTimeout(callback, 0);
 });
 

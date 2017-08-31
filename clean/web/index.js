@@ -3,11 +3,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 // Drivers
-// TODO - const authDriver = require('../adapters/auth/passwordless');
+const authDriver = require('../adapters/auth/passwordless');
 
 //const auth = require('./auth')(authDriver);
 //const api = require('./api');
-const app = require('./app');
+const app = require('./app')(authDriver);
 
 const combinedApp = express();
 combinedApp.use(bodyParser.json());
