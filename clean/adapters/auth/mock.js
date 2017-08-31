@@ -12,14 +12,14 @@ const memstore = {
         const item = this.tokens[uid];
 
         if (item === undefined) {
-            callback(null, false, null);
+            return callback(null, false, null);
         }
 
         if (item.token === token) {
-            callback(null, true, item.originUrl);
+            return callback(null, true, item.originUrl);
         }
 
-        callback(null, false, null);
+        return callback(null, false, null);
     },
 
     storeOrUpdate(token, uid, msToLive, originUrl, callback) {

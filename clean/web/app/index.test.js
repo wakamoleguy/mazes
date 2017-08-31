@@ -83,11 +83,26 @@ describe('App', () => {
 
             it('should reject bad tokens at the accept URL', (done) => {
 
-                const token = authDriver.store.tokens[ned];
-
                 request(app).
                 get('/login/accept/').
                 expect(401).
+                end(jasmine.finish(done));
+            });
+
+            it('should accept good tokens at the accept URL', (done) => {
+
+                const token = '123';
+                const msToLive = 60 * 1000;
+                const originUrl = '/foo/bar/origin/';
+
+                authDriver.store.storeOrUpdate(
+                    token, ned, msToLive, originUrl, () => {});
+
+                request(app).
+                get('/login/accept/' +
+                    `?token=${token}&uid=${encodeURIComponent(ned)}`).
+                expect(302).
+                expect('Location', originUrl).
                 end(jasmine.finish(done));
             });
 
@@ -98,14 +113,29 @@ describe('App', () => {
             let agent;
 
             beforeEach((done) => {
-                done();
+                authDriver.store.clear();
+
+                agent = request.agent(app);
+
                 // Authenticate an agent
+                const request = agent.
+                post('/login/request/').
+                send({ user: ned }).
+                set('Content-Type', 'application/json').
+                expect(302);
+
+                const accept = request.then(() => {
+                    agent.get()
+                })
                 // agent = request.agent(app);
                 //
                 // agent.post('/login/request/').then((err, res) => {
                 //
                 //     return agent.get('/login/accept/');
                 // }).then(jasmine.finish(done));
+
+
+                done();
             });
 
             it('should redirect login page to some app page', () => {
