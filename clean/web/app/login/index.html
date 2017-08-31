@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width"></meta>
     <title>Maze Editor</title>
 
-    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../../css/main.css">
 </head>
 <body>
 
@@ -19,13 +19,13 @@
         <section>
             <h2>Authentication is required.</h2>
 
-            <form id="login" method="POST" action="http://localhost:3000/auth/">
+            <form id="login" method="POST" action="http://localhost:3000/app/login/request/">
                 <label>Email:
                     <input type="email" name="user"
                     placeholder="will@example.com" />
-                    <input type="hidden" name="origin" value=""/>
-                    <button>Go</button>
                 </label>
+                <input type="hidden" name="origin" value=""/>
+                <button>Go</button>
             </form>
         </section>
     </main>

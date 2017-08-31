@@ -51,7 +51,7 @@ describe('App', () => {
                 request(app).
                 get('/foo/').
                 expect(302).
-                expect('Location', 'login/?origin=%2Ffoo%2F').
+                expect('Location', '/login/?origin=%2Ffoo%2F').
                 end(jasmine.finish(done));
             });
 
@@ -60,7 +60,7 @@ describe('App', () => {
                 request(app).
                 get('/foo/bar/baz/').
                 expect(302).
-                expect('Location', 'login/?origin=%2Ffoo%2Fbar%2Fbaz%2F').
+                expect('Location', '/login/?origin=%2Ffoo%2Fbar%2Fbaz%2F').
                 end(jasmine.finish(done));
             });
 
@@ -73,7 +73,7 @@ describe('App', () => {
                 send({ user: ned }).
                 set('Content-Type', 'application/json').
                 expect(302).
-                expect('Location', 'login/pending/').
+                expect('Location', '/login/pending/').
                 expect((res) => {
 
                     expect(authDriver.store.length()).toBe(1);
