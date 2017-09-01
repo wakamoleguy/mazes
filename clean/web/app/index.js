@@ -6,8 +6,16 @@ module.exports = (authDriver) => {
 
     const app = express();
 
+    // Body parsing and rendering
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
+    app.set('views', __dirname + '/views');
+    app.set('view engine', 'pug');
+
+    // Some things are public
+    app.use('/css/', express.static(__dirname + '/public/css'));
+
+    // Authentication flow
     app.use(authDriver.support());
 
     app.get('/login/', (req, res) => {
@@ -51,6 +59,7 @@ module.exports = (authDriver) => {
         }
     });
 
+    // Routes (protected by authentication flow)
     app.use(authDriver.restricted({
         failureRedirect: '/login/',
         originField: 'origin'
