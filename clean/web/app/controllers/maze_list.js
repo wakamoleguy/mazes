@@ -1,7 +1,19 @@
+const mazeRepository = require('../../../adapters/db/mongodb/maze_repository');
+const browseMazes = require('../../../usecases/browse_mazes');
+
 module.exports = (req, res) => {
 
-    res.render('maze/index', {
-        user: req.user,
-        mazes: [] // TODO - Load list of mazes 'here'
+    const user = req.user;
+
+    browseMazes(mazeRepository, user).then((mazes) => {
+
+        res.render('maze/index', {
+            user,
+            mazes
+        });
+
+    }, (err) => {
+        console.error(err);
+        res.sendStatus(500);
     });
 };

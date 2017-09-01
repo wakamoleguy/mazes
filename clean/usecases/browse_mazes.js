@@ -1,10 +1,4 @@
-module.exports = function (authService, mazeRepository, userId) {
+module.exports = function (mazeRepository, userId) {
 
-    if (!authService.isAuthenticated()) {
-        return false;
-    }
-
-    const mazes = mazeRepository.browse(userId);
-
-    return mazes;
+    return mazeRepository.browse(userId);
 };
