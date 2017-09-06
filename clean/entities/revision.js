@@ -1,3 +1,5 @@
+const uuidv4 = require('uuid/v4');
+
 class Revision {
 
     constructor(maze) {
@@ -13,6 +15,8 @@ class Revision {
         if (!Number.isInteger(maze.size)) {
             throw new Error('Maze must have an integer Size');
         }
+
+        this.id = uuidv4();
 
         const size = maze.size;
 

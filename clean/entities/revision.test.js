@@ -8,13 +8,24 @@ describe('Revision model', () => {
 
     describe('when it is created', () => {
 
-        const ned = new User(1, 'ned@stark.example.com', 'Ned Stark');
+        const ned = new User('ned@stark.example.com', 'Ned Stark');
         const size = 9;
         const name = 'Crypts of Winterfell';
+        const id = 123;
 
         const maze = new Maze(size, ned, name);
 
         const revision = new Revision(maze);
+
+        it('should create a unique ID if none provided', () => {
+
+            const firstRevision = new Revision(maze);
+            const secondRevision = new Revision(maze);
+
+            expect(firstRevision.id).not.toBe(null);
+            expect(secondRevision.id).not.toBe(null);
+            expect(secondRevision.id).not.toBe(firstRevision.id);
+        });
 
         it('should be an empty maze', () => {
 
@@ -67,7 +78,7 @@ describe('Revision model', () => {
 
     describe('when cloned', () => {
 
-        const ned = new User(1, 'ned@stark.example.com', 'Ned Stark');
+        const ned = new User('ned@stark.example.com', 'Ned Stark');
         const size = 9;
         const name = 'Crypts of Winterfell';
 
@@ -99,6 +110,16 @@ describe('Revision model', () => {
             ).toBe(true);
         });
 
+        it('should have a new id', () => {
+
+            const id = original.id;
+
+            const clone = original.clone();
+
+            expect(clone.id).not.toBe(null);
+            expect(clone.id).not.toBe(id);
+        });
+
         it('should not touch the original', () => {
             const version = original.version;
             const start = original.start;
@@ -127,7 +148,7 @@ describe('Revision model', () => {
 
     describe('isEmpty', () => {
 
-        const ned = new User(1, 'ned@stark.example.com', 'Ned Stark');
+        const ned = new User('ned@stark.example.com', 'Ned Stark');
         const size = 9;
         const name = 'Crypts of Winterfell';
         const maze = new Maze(size, ned, name);
