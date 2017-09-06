@@ -1,16 +1,18 @@
-const connect = require('./connect');
+// Instead of requiring once at the top, we require connect in each repository
+// call. This allows us to defer connecting to MongoDB until the first use,
+// cleaning up our test output.
+// const connect = require('./connect');
 
-module.exports = {
+const repository = {
 
-    browse(userId) {
+    browse(email) {
+
+        const connect = require('./connect');
 
         return connect.then((models) => new Promise((resolve, reject) => {
 
             models.User.
-            find({
-                _id: userId
-            }).
-            find((err, users) => {
+            find({ email }, (err, users) => {
                 if (err) {
                     reject(err);
                 } else {
@@ -18,5 +20,27 @@ module.exports = {
                 }
             });
         }));
+    },
+
+    add(id, email, display) {
+
+        const connect = require('./connect');
+
+        return connect.then((models) => new Promise((resolve, reject) => {
+
+            new models.User({
+                _id: id,
+                email,
+                display
+            }).save((err) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve();
+                }
+            });
+        }));
     }
-}
+};
+
+module.exports = repository;

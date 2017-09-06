@@ -26,11 +26,7 @@ const models = connect.then(() => {
             creator: {
                 type: String,
                 ref: 'User'
-            },
-            revisions: [{
-                type: Schema.Types.ObjectId,
-                ref: 'Revision'
-            }]
+            }
         },
 
         revision: {
