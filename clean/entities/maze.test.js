@@ -8,11 +8,22 @@ describe('Maze model', () => {
 
     describe('when it is created', () => {
 
-        const ned = new User(1, 'ned@stark.example.com', 'Ned Stark');
+        const ned = new User('ned@stark.example.com', 'Ned Stark');
         const size = 9;
         const name = 'Crypts of Winterfell';
+        const id = 123;
 
         const maze = new Maze(size, ned, name);
+
+        it('should create a unique ID', () => {
+
+            const firstMaze = new Maze(size, ned, name);
+            const secondMaze = new Maze(size, ned, name);
+
+            expect(firstMaze.id).not.toBe(null);
+            expect(secondMaze.id).not.toBe(null);
+            expect(secondMaze.id).not.toBe(firstMaze.id);
+        });
 
         it('should have one, empty revision', () => {
 
@@ -59,7 +70,7 @@ describe('Maze model', () => {
 
         it('should clone a new revision', () => {
 
-            const ned = new User(1, 'ned@stark.example.com', 'Ned Stark');
+            const ned = new User('ned@stark.example.com', 'Ned Stark');
             const size = 9;
             const name = 'Crypts of Winterfell';
 
@@ -78,7 +89,7 @@ describe('Maze model', () => {
 
         it('should be repeatable', () => {
 
-            const ned = new User(1, 'ned@stark.example.com', 'Ned Stark');
+            const ned = new User('ned@stark.example.com', 'Ned Stark');
             const size = 9;
             const name = 'Crypts of Winterfell';
 
@@ -98,7 +109,7 @@ describe('Maze model', () => {
         });
 
         it('should be chainable', () => {
-            const ned = new User(1, 'ned@stark.example.com', 'Ned Stark');
+            const ned = new User('ned@stark.example.com', 'Ned Stark');
             const size = 9;
             const name = 'Crypts of Winterfell';
 

@@ -1,6 +1,7 @@
+const uuidv4 = require('uuid/v4');
 const Revision = require('./revision');
 
-module.exports = class Maze {
+class Maze {
 
     constructor(size, creator, name) {
 
@@ -19,6 +20,8 @@ module.exports = class Maze {
         if (name === null || name === undefined || name === '') {
             throw new Error('Maze must have Name');
         }
+
+        this.id = uuidv4();
 
         this.size = size;
         this.creator = creator;
@@ -43,3 +46,18 @@ module.exports = class Maze {
     static get MIN_SIZE() { return 3; };
     static get MAX_SIZE() { return 15; };
 }
+
+Maze.from = (props) => {
+    const { id, size, creator, name } = props;
+
+    if (typeof id !== 'string' || id === '') {
+        throw new Error('Invalid ID');
+    }
+
+    const maze = new Maze(size, creator, name);
+    maze.id = id;
+
+    return maze;
+};
+
+module.exports = Maze;
