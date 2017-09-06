@@ -1,25 +1,36 @@
-module.exports = class User {
+const uuidv4 = require('uuid/v4');
 
-    constructor(id, email, display) {
+class User {
 
-        if (id === null || id === undefined) {
-            throw new Error('User must have Id');
-        }
+    constructor(email, display) {
 
-        if (email === null || email === undefined || email === '') {
+        if (typeof email !== 'string' || email === '') {
             throw new Error('User must have Email');
         }
 
-        if (display === null || display === undefined || display === '') {
+        if (typeof display !== 'string' || display === '') {
             throw new Error('User must have Display');
         }
 
-        if (email === id) {
-            throw new Error('User email cannot be used as ID');
-        }
-
-        this.id = id;
+        this.id = 'id:' + email;
         this.email = email;
         this.display = display;
     }
 };
+
+User.from = (props) => {
+
+    const { id, email, display } = props;
+
+    if (typeof id !== 'string' || id.indexOf('id:') !== 0 || id === email) {
+
+        throw new Error('Invalid id');
+    }
+
+    const user = new User(email, display);
+    user.id = id;
+
+    return user;
+};
+
+module.exports = User;
