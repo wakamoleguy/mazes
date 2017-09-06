@@ -50,7 +50,9 @@ module.exports = {
         return [
             session({
                 secret: 'fixme secret',
-                cookie: { maxAge: 60 * 60 * 1000 }
+                cookie: { maxAge: 60 * 60 * 1000 },
+                resave: false, // TODO - Check this option when using prod store
+                saveUninitialized: false
             }),
             passwordless.sessionSupport()
         ];

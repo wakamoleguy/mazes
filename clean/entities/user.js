@@ -1,5 +1,3 @@
-const uuidv4 = require('uuid/v4');
-
 class User {
 
     constructor(email, display) {
