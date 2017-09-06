@@ -21,6 +21,7 @@ const models = connect.then(() => {
     const schemas = {
 
         maze: {
+            _id: String,
             name: String,
             size: Number,
             creator: {
@@ -30,8 +31,9 @@ const models = connect.then(() => {
         },
 
         revision: {
+            _id: String,
             maze: {
-                type: Schema.Types.ObjectId,
+                type: String,
                 ref: 'Maze'
             },
             version: Number,

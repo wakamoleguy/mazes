@@ -1,4 +1,5 @@
-module.exports = function (mazeRepository, userId) {
+module.exports = function (mazeRepository, email) {
 
-    return mazeRepository.browse(userId);
+    // FIXME - This conversion from email to userId is not Clean kosher
+    return mazeRepository.browse(`id:${email}`);
 };
