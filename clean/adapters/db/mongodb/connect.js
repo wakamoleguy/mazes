@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 // All of the connection management should be handled internally.
 // External code only needs to form queries using models.
 
+mongoose.Promise = global.Promise;
+
 const connect = new Promise((resolve, reject) => {
 
     mongoose.connect(
