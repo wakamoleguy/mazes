@@ -1,5 +1,16 @@
 module.exports = function (mazeRepository, email) {
 
-    // FIXME - This conversion from email to userId is not Clean kosher
-    return mazeRepository.browse(`id:${email}`);
+    return mazeRepository.revision.browseLatestByCreatorEmail(email).
+    then((revisions) => {
+
+        return revisions.map((revision) => {
+            return {
+                id: revision.maze._id,
+                name: revision.maze.name,
+                size: revision.maze.size,
+                creator: revision.maze.creator,
+                version: revision.version
+            };
+        });
+    });
 };

@@ -15,9 +15,19 @@ html
             h1 Maze Editor
             
         main
-            section(id="user-info")= user
+            section
+                article(id="user-info")
+                    h2 User Info
+                    p= user
             
-            section(id="maze-list")= JSON.stringify(mazes)
+            section(id="maze-list")
+                each maze in mazes
+                    article(id=maze.id)
+                         h2= maze.name
+                         p(class="size")= maze.size
+                         p(class="version")= maze.version
+                            
+            JSON.stringify(mazes)
         
         footer
             
