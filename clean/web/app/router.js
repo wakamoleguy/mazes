@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
 router.get('/maze/', mazeController.list);
 
 router.use('/maze/:maze/edit', express.static(__dirname + '/editor'));
-router.use('/maze/:maze/run', express.static(__dirname + '/runner'));
+router.use('/maze/:maze/run', mazeController.run);
 router.use('/maze/', express.static(__dirname + '/public'));
 
 module.exports = router;

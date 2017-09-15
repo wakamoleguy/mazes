@@ -7,7 +7,7 @@ html
         title Maze editor
         
         // TODO - Stylesheets within app directory
-        link(rel="stylesheet" href="../../css/main.css")
+        link(rel="stylesheet" href="css/main.css")
 
     body
         
@@ -26,10 +26,7 @@ html
                          h2= maze.name
                          p Version #{maze.version} Size #{maze.size}
                          a.edit(href=`./${maze.id}/edit/`) Edit
-                         a.run(href=`./${maze.id}/run/`) Run
-                            
-            JSON.stringify(mazes)
-        
+                         a.run(href=`./${maze.id}/run/`) Run        
         footer
             
         script(type="module" src="main.js")

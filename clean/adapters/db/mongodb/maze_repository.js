@@ -167,6 +167,36 @@ const repository = {
                 });
             });
 
+        },
+
+        readLatestMazeRevision(mazeId) {
+
+            const connect = require('./connect');
+
+            const getRevisions = connect.then((models) => new Promise((resolve, reject) => {
+
+                models.Revision.
+                find({
+                    maze: mazeId
+                }).
+                populate('maze').
+                find((err, revisions) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(revisions);
+                    }
+                });
+            }));
+
+            return getRevisions.then((revisions) => {
+
+                return revisions.reduce((latest, revision) => {
+                    return revision.version > latest.version?
+                    revision:
+                    latest;
+                }, { version: -1 });
+            });
         }
     }
 };

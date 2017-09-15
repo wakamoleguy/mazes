@@ -1,6 +1,6 @@
 const userRepository = require('../../../adapters/db/mongodb/user_repository');
 const mazeRepository = require('../../../adapters/db/mongodb/maze_repository');
-const browseMazes = require('../../../usecases/browse_mazes');
+const mazeUseCases = require('../../../usecases/maze');
 const userUseCases = require('../../../usecases/user');
 
 module.exports = {
@@ -15,7 +15,7 @@ module.exports = {
         then((isNew) => {
 
             // TODO - backwards arguments?
-            return browseMazes(mazeRepository, email);
+            return mazeUseCases.browseMazes(mazeRepository, email);
         }).
         then((mazes) => {
 
@@ -26,6 +26,19 @@ module.exports = {
         }, (err) => {
             console.error(err);
             res.sendStatus(500);
+        });
+    },
+
+    run(req, res) {
+
+        const mazeId = req.params.maze;
+
+        mazeUseCases.read(mazeRepository, mazeId).then((maze) => {
+            console.log('My maze:', maze);
+
+            res.render('maze/run', {
+                maze
+            });
         });
     }
 };

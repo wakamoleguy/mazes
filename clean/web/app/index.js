@@ -2,6 +2,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const router = require('./router');
 
+// FIXME - This should go elsewhere?
+process.on('unhandledRejection', (error) => {
+    throw error;
+});
+
 module.exports = (authDriver) => {
 
     const app = express();
@@ -14,6 +19,7 @@ module.exports = (authDriver) => {
 
     // Some things are public
     app.use('/css/', express.static(__dirname + '/public/css'));
+    app.use('/js/', express.static(__dirname + '/public/js'));
 
     // Authentication flow
     app.use(authDriver.support());
