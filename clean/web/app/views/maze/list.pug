@@ -24,8 +24,9 @@ html
                 each maze in mazes
                     article(id=maze.id)
                          h2= maze.name
-                         p(class="size")= maze.size
-                         p(class="version")= maze.version
+                         p Version #{maze.version} Size #{maze.size}
+                         a.edit(href=`./${maze.id}/edit/`) Edit
+                         a.run(href=`./${maze.id}/run/`) Run
                             
             JSON.stringify(mazes)
         
