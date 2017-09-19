@@ -40,5 +40,10 @@ module.exports = {
                 maze
             });
         });
+    },
+
+    edit(req, res) {
+
+        res.render('maze/edit');
     }
 };

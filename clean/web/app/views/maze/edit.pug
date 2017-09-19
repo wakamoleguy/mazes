@@ -1,0 +1,32 @@
+html
+    head
+        
+            meta(charset="utf-8")
+            meta(name="description" content="A simple maze editor")
+            meta(name="viewport" content="width=device-width")
+            
+            title Maze editor
+            
+            // TODO - Stylesheets within app directory
+            link(rel="stylesheet" href="../../css/main.css")
+            link(rel="stylesheet" href="../../css/editor.css")
+                
+    body
+        
+        header
+            h1 Maze Editor
+            
+            a(href="../../") Back to List
+            
+        main
+            section#editor
+                
+        footer
+            
+        script
+            | window.app = {};
+        
+        script(src="../../../js/editor/store.js")
+        script(src="../../../js/editor/tile.js")
+        script(src="../../../js/editor/maze.js")
+        script(src="../../../js/editor/editor.js")
