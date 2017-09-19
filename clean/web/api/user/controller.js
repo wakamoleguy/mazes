@@ -6,9 +6,11 @@ const userUsecases = require('../../../usecases/user');
 module.exports = {
 
     browse(req, res) {
+        const email = req.user;
 
-        userUsecases.browse(userId, userRepository).
+        userUsecases.browse(email, userRepository).
         then((users) => {
+            res.set('Content-Type', 'application/json');
             res.send(view.renderAll(users));
         });
     },

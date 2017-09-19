@@ -43,7 +43,7 @@
             };
 
             const xhr = new XMLHttpRequest();
-            throw new Error('I changed revisions. Have to fix this API call now');
+            //throw new Error('I changed revisions. Have to fix this API call now');
             xhr.open('PUT', `http://localhost:3000/api/maze/${mazeId}/`);
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.send(JSON.stringify(newState));

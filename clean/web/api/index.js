@@ -3,25 +3,31 @@ const revision = require('./revision/controller');
 const user = require('./user/controller');
 
 const express = require('express');
+const bodyParser = require('body-parser');
 
-const app = express();
+module.exports = (authDriver) => {
 
-// FIXME - remove this
-app.get('/', (req, res) => {
-    res.send('Hello from the API');
-});
+    const app = express();
 
-app.get('/user/', user.browse);
-app.post('/user/', user.add);
-app.delete('/user/:id', user.delete);
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get('/maze/', maze.browse);
-app.get('/maze/:id', maze.read);
-app.put('/maze/:id', maze.edit);
-app.post('/maze/', maze.add);
-app.delete('/maze/:id', maze.delete);
+    // Nothing in the API is public
+    app.use(authDriver.support());
+    app.use(authDriver.restricted({}));
 
-app.get('/maze/:maze/revision/:id', revision.read);
-app.put('/maze/:maze/revision/:id', revision.add);
+    app.get('/user/', user.browse);
+    //app.post('/user/', user.add);
+    //app.delete('/user/:id', user.delete);
 
-module.exports = app;
+    //app.get('/maze/', maze.browse);
+    app.get('/maze/:id', maze.read);
+    //app.put('/maze/:id', maze.edit);
+    //app.post('/maze/', maze.add);
+    //app.delete('/maze/:id', maze.delete);
+
+    //app.get('/maze/:maze/revision/:id', revision.read);
+    //app.put('/maze/:maze/revision/:id', revision.add);
+
+    return app;
+};

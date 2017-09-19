@@ -7,8 +7,7 @@ const authDriver = process.env.SUDO?
     require('../adapters/auth/sudo'):
     require('../adapters/auth/passwordless');
 
-//const auth = require('./auth')(authDriver);
-//const api = require('./api');
+const api = require('./api')(authDriver);
 const app = require('./app')(authDriver);
 
 const combinedApp = express();
@@ -16,8 +15,7 @@ combinedApp.use(bodyParser.json());
 combinedApp.use(bodyParser.urlencoded({ extended: false }));
 
 combinedApp.use(express.static(__dirname + '/static'));
-//combinedApp.use(auth);
-//combinedApp.use('/api', api);
+combinedApp.use('/api', api);
 combinedApp.use('/app', app);
 
 const server = http.createServer(combinedApp);
