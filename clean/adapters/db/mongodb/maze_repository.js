@@ -35,8 +35,6 @@ const repository = {
             models.User.
             findOne({ email }).find((err, users) => {
 
-                console.log('User', users[0], err);
-
                 if (err) {
                     return reject(err);
                 }
@@ -51,7 +49,6 @@ const repository = {
                 }).
                 find((mazeErr, mazes) => {
 
-                    console.log('Mazes', mazes, err);
                     if (err) {
                         reject(err);
                     } else {
@@ -116,6 +113,30 @@ const repository = {
 
                     if (err) {
                         reject (err);
+                    } else {
+                        resolve();
+                    }
+                });
+            }));
+        },
+
+        update(id, mazeId, version, start, destination, map) {
+
+            const connect = require('./connect');
+
+            return connect.then((models) => new Promise((resolve, reject) => {
+
+                models.Revision.update({
+                    _id: id
+                }, {
+                    maze: mazeId,
+                    version,
+                    start,
+                    destination,
+                    map
+                }, (err, result) => {
+                    if (err) {
+                        reject(err);
                     } else {
                         resolve();
                     }

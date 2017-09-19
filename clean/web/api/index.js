@@ -22,7 +22,7 @@ module.exports = (authDriver) => {
 
     //app.get('/maze/', maze.browse);
     app.get('/maze/:id', maze.read);
-    //app.put('/maze/:id', maze.edit);
+    app.put('/maze/:id', maze.edit);
     //app.post('/maze/', maze.add);
     //app.delete('/maze/:id', maze.delete);
 

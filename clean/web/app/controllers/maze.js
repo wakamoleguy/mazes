@@ -34,7 +34,6 @@ module.exports = {
         const mazeId = req.params.maze;
 
         mazeUseCases.read(mazeRepository, mazeId).then((maze) => {
-            console.log('My maze:', maze);
 
             res.render('maze/run', {
                 maze

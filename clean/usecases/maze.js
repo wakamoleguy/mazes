@@ -32,5 +32,20 @@ module.exports = {
                 map: revision.map
             };
         });
+    },
+
+    updateMap(mazeRepository, mazeId, map) {
+
+        return mazeRepository.revision.readLatestMazeRevision(mazeId).
+        then((revision) => {
+
+            return mazeRepository.revision.update(
+                revision._id,
+                mazeId,
+                revision.version,
+                revision.start,
+                revision.destination,
+                map);
+        });
     }
 };

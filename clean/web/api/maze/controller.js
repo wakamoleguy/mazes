@@ -14,5 +14,18 @@ module.exports = {
             res.set('Content-Type', 'application/json');
             res.send(view.render(maze));
         });
+    },
+
+    edit(req, res) {
+
+        const email = req.user;
+        const mazeId = req.params.id;
+
+        const newMap = req.body.map;
+
+        mazeUsecases.updateMap(mazeRepository, mazeId, newMap).
+        then(() => {
+            res.sendStatus(200);
+        });
     }
 };
