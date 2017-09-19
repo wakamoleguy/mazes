@@ -3,7 +3,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 // Drivers
-const authDriver = require('../adapters/auth/passwordless');
+const authDriver = process.env.SUDO?
+    require('../adapters/auth/sudo'):
+    require('../adapters/auth/passwordless');
 
 //const auth = require('./auth')(authDriver);
 //const api = require('./api');
