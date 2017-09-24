@@ -29,6 +29,18 @@ module.exports = {
         });
     },
 
+    read(req, res) {
+
+        const mazeId = req.params.maze;
+
+        mazeUseCases.read(mazeRepository, mazeId).then((maze) => {
+
+            res.render('maze/view', {
+                maze
+            });
+        });
+    },
+
     run(req, res) {
 
         const mazeId = req.params.maze;

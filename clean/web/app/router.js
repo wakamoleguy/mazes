@@ -8,8 +8,9 @@ router.get('/', (req, res) => {
 });
 
 router.get('/maze/', mazeController.list);
-router.get('/maze/:maze/edit', mazeController.edit);
-router.get('/maze/:maze/run', mazeController.run);
+router.get('/maze/:maze/', mazeController.read);
+router.get('/maze/:maze/edit/', mazeController.edit);
+router.get('/maze/:maze/run/', mazeController.run);
 
 router.use('/maze/', express.static(__dirname + '/public'));
 

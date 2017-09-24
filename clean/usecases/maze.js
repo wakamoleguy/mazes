@@ -29,7 +29,9 @@ module.exports = {
                 version: revision.maze.version,
                 start: revision.start,
                 destination: revision.destination,
-                map: revision.map
+                map: revision.map,
+                //FIXME - Separate maze and latest revision use cases
+                revisions: [revision]
             };
         });
     },
