@@ -5,10 +5,11 @@ const userUseCases = require('../../../usecases/user');
 
 module.exports = {
 
-    list(req, res) {
+    list(req, res, next) {
 
-        const email = req.user;
-        const display = email;
+        const user = req.locals.user;
+        const display = user.display;
+        const email = user.email;
 
         // If this user does not exist, create it.
         userUseCases.add(email, display, userRepository, mazeRepository).
@@ -23,21 +24,27 @@ module.exports = {
                 user: display,
                 mazes
             });
+
+            next();
         }, (err) => {
             console.error(err);
             res.sendStatus(500);
+            next();
         });
     },
 
-    read(req, res) {
+    read(req, res, next) {
 
         const mazeId = req.params.maze;
 
         mazeUseCases.read(mazeRepository, mazeId).then((maze) => {
 
             res.render('maze/view', {
-                maze
+                maze,
+                user: req.locals.user.display
             });
+
+            next();
         });
     },
 

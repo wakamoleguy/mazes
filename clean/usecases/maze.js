@@ -21,6 +21,8 @@ module.exports = {
         return mazeRepository.revision.readLatestMazeRevision(mazeId).
         then((revision) => {
 
+            console.log('Revision', revision, mazeId);
+
             return {
                 id: revision.maze._id,
                 name: revision.maze.name,
