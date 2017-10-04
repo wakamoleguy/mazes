@@ -51,5 +51,15 @@ module.exports = {
                 revision.destination,
                 map);
         });
+    },
+
+    readRevision() {
+        // FIXME
+        throw new Error('Unimplemented');
+    },
+
+    editRevision() {
+        // FIXME
+        throw new Error('Unimplemented');
     }
 };

@@ -5,13 +5,11 @@ const mazeUseCases = require('../../../usecases/maze');
 describe('Maze controller', () => {
 
     let req, res;
-    var foo = '123';
 
     beforeEach(() => {
 
-        req = jasmine.createSpyObj('req', ['foo']);
+        req = {};
         res = jasmine.createSpyObj('res', ['render', 'sendStatus']);
-
 
         req.locals = {
             user: {
