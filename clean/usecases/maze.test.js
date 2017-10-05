@@ -1,6 +1,6 @@
 describe('Maze use cases', () => {
 
-    it('should be implemented', (done) => {
+    it('should have tests', (done) => {
 
         done.fail('Unimplemented');
     });

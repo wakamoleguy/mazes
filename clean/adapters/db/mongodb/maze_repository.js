@@ -218,6 +218,10 @@ const repository = {
                     latest;
                 }, { version: -1 });
             });
+        },
+
+        read(revisionId) {
+            throw new Error('Unimplemented');
         }
     }
 };
