@@ -3,8 +3,8 @@ const MongoStore = require('passwordless-mongostore');
 const email = require('emailjs');
 const session = require('express-session');
 
-const emailUser = process.env.EMAIL_USER;
-const emailPassword = process.env.EMAIL_PASSWORD;
+const emailUser = global.process.env.EMAIL_USER;
+const emailPassword = global.process.env.EMAIL_PASSWORD;
 
 if (!emailUser || !emailPassword) {
     throw new Error('Missing email user or password');
@@ -19,7 +19,7 @@ const smtpServer = email.server.connect({
 
 passwordless.init(
     new MongoStore(
-        process.env.MONGODB_URI ||
+        global.process.env.MONGODB_URI ||
         'mongodb://localhost:27017/passwordless-simple-mail'
     )
 );
@@ -35,7 +35,7 @@ passwordless.addDelivery((token, uid, recipient, callback) => {
         from: 'mailtest@wakamoleguy.com',
         to: recipient,
         subject: 'Token for Mazes Login'
-    }, (err, message) => {
+    }, (err) => {
         if (err) {
             console.error(err);
         }

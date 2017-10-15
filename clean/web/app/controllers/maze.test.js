@@ -24,8 +24,10 @@ describe('Maze controller', () => {
 
         beforeEach(() => {
 
-            spyOn(userUseCases, 'add').and.returnValue(Promise.resolve(false));
-            spyOn(mazeUseCases, 'browseMazes').and.returnValue(Promise.resolve([]));
+            spyOn(userUseCases, 'add').and.
+                returnValue(Promise.resolve(false));
+            spyOn(mazeUseCases, 'browseMazes').and.
+                returnValue(Promise.resolve([]));
         });
 
         it('should render the maze list index page', (done) => {
@@ -33,7 +35,7 @@ describe('Maze controller', () => {
             controller.list(req, res, () => {
 
                 expect(res.render).
-                toHaveBeenCalledWith('maze/list', jasmine.any(Object));
+                    toHaveBeenCalledWith('maze/list', jasmine.any(Object));
 
                 done();
             });
@@ -44,9 +46,11 @@ describe('Maze controller', () => {
             controller.list(req, res, () => {
 
                 expect(res.render).
-                toHaveBeenCalledWith(jasmine.any(String), jasmine.objectContaining({
-                    user: 'Ned Stark'
-                }));
+                    toHaveBeenCalledWith(
+                        jasmine.any(String),
+                        jasmine.objectContaining({
+                            user: 'Ned Stark'
+                        }));
 
                 done();
             });
@@ -59,14 +63,16 @@ describe('Maze controller', () => {
             controller.list(req, res, () => {
 
                 expect(mazeUseCases.browseMazes).
-                toHaveBeenCalledWith(
-                    jasmine.any(Object),
-                    'ned@stark.example.com');
+                    toHaveBeenCalledWith(
+                        jasmine.any(Object),
+                        'ned@stark.example.com');
 
                 expect(res.render).
-                toHaveBeenCalledWith(jasmine.any(String), jasmine.objectContaining({
-                    mazes: [1,2,3]
-                }));
+                    toHaveBeenCalledWith(
+                        jasmine.any(String),
+                        jasmine.objectContaining({
+                            mazes: [1,2,3]
+                        }));
 
                 done();
             });
@@ -89,7 +95,9 @@ describe('Maze controller', () => {
 
             controller.read(req, res, () => {
 
-                expect(res.render).toHaveBeenCalledWith('maze/view', jasmine.any(Object));
+                expect(res.render).toHaveBeenCalledWith(
+                    'maze/view',
+                    jasmine.any(Object));
 
                 done();
             });
@@ -99,9 +107,11 @@ describe('Maze controller', () => {
 
             controller.read(req, res, () => {
 
-                expect(res.render).toHaveBeenCalledWith(jasmine.any(String), jasmine.objectContaining({
-                    user: 'Ned Stark'
-                }));
+                expect(res.render).toHaveBeenCalledWith(
+                    jasmine.any(String),
+                    jasmine.objectContaining({
+                        user: 'Ned Stark'
+                    }));
                 done();
             });
         });
@@ -110,11 +120,15 @@ describe('Maze controller', () => {
 
             controller.read(req, res, () => {
 
-                expect(mazeUseCases.read).toHaveBeenCalledWith(jasmine.any(Object), '123ABC');
+                expect(mazeUseCases.read).toHaveBeenCalledWith(
+                    jasmine.any(Object),
+                    '123ABC');
 
-                expect(res.render).toHaveBeenCalledWith(jasmine.any(String), jasmine.objectContaining({
-                    maze: 'A'
-                }));
+                expect(res.render).toHaveBeenCalledWith(
+                    jasmine.any(String),
+                    jasmine.objectContaining({
+                        maze: 'A'
+                    }));
                 done();
             });
         });

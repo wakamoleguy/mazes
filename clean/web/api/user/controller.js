@@ -9,25 +9,25 @@ module.exports = {
         const email = req.user;
 
         userUsecases.browse(email, userRepository).
-        then((users) => {
-            res.set('Content-Type', 'application/json');
-            res.send(view.renderAll(users));
-        });
-    },
+            then((users) => {
+                res.set('Content-Type', 'application/json');
+                res.send(view.renderAll(users));
+            });
+    }//,
 
-    read(req, res) {
-        throw new Error('Unimplemented');
-    },
-
-    edit(req, res) {
-
-    },
-
-    add(req, res) {
-
-    },
-
-    delete(req, res) {
-
-    }
+    // read(req, res) {
+    //     throw new Error('Unimplemented');
+    // },
+    //
+    // edit(req, res) {
+    //
+    // },
+    //
+    // add(req, res) {
+    //
+    // },
+    //
+    // delete(req, res) {
+    //
+    // }
 };

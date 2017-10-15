@@ -11,7 +11,6 @@ describe('Maze model', () => {
         const ned = new User('ned@stark.example.com', 'Ned Stark');
         const size = 9;
         const name = 'Crypts of Winterfell';
-        const id = 123;
 
         const maze = new Maze(size, ned, name);
 

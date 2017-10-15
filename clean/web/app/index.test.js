@@ -41,27 +41,27 @@ describe('App', () => {
             it('should make login page accessible', (done) => {
 
                 request(app).
-                get('/login/').
-                expect(200).
-                end(jasmine.finish(done));
+                    get('/login/').
+                    expect(200).
+                    end(jasmine.finish(done));
             });
 
             it('should redirect app pages to login', (done) => {
 
                 request(app).
-                get('/foo/').
-                expect(302).
-                expect('Location', '/login/?origin=%2Ffoo%2F').
-                end(jasmine.finish(done));
+                    get('/foo/').
+                    expect(302).
+                    expect('Location', '/login/?origin=%2Ffoo%2F').
+                    end(jasmine.finish(done));
             });
 
             it('should redirect deeper app pages to login', (done) => {
 
                 request(app).
-                get('/foo/bar/baz/').
-                expect(302).
-                expect('Location', '/login/?origin=%2Ffoo%2Fbar%2Fbaz%2F').
-                end(jasmine.finish(done));
+                    get('/foo/bar/baz/').
+                    expect(302).
+                    expect('Location', '/login/?origin=%2Ffoo%2Fbar%2Fbaz%2F').
+                    end(jasmine.finish(done));
             });
 
             it('should request a new token on POST to request URL', (done) => {
@@ -69,24 +69,24 @@ describe('App', () => {
                 expect(authDriver.store.length()).toBe(0);
 
                 request(app).
-                post('/login/request/').
-                send({ user: ned }).
-                set('Content-Type', 'application/json').
-                expect(302).
-                expect('Location', '/login/pending/').
-                expect((res) => {
+                    post('/login/request/').
+                    send({ user: ned }).
+                    set('Content-Type', 'application/json').
+                    expect(302).
+                    expect('Location', '/login/pending/').
+                    expect(() => {
 
-                    expect(authDriver.store.length()).toBe(1);
-                }).
-                end(jasmine.finish(done));
+                        expect(authDriver.store.length()).toBe(1);
+                    }).
+                    end(jasmine.finish(done));
             });
 
             it('should reject bad tokens at the accept URL', (done) => {
 
                 request(app).
-                get('/login/accept/').
-                expect(401).
-                end(jasmine.finish(done));
+                    get('/login/accept/').
+                    expect(401).
+                    end(jasmine.finish(done));
             });
 
             it('should accept good tokens at the accept URL', (done) => {
@@ -99,11 +99,11 @@ describe('App', () => {
                     token, ned, msToLive, originUrl, () => {});
 
                 request(app).
-                get('/login/accept/' +
+                    get('/login/accept/' +
                     `?token=${token}&uid=${encodeURIComponent(ned)}`).
-                expect(302).
-                expect('Location', originUrl).
-                end(jasmine.finish(done));
+                    expect(302).
+                    expect('Location', originUrl).
+                    end(jasmine.finish(done));
             });
 
             it('should redirect to somewhere if no origin', (done) => {
@@ -116,10 +116,10 @@ describe('App', () => {
                     token, ned, msToLive, originUrl, () => {});
 
                 request(app).
-                get('/login/accept/' +
+                    get('/login/accept/' +
                     `?token=${token}&uid=${encodeURIComponent(ned)}`).
-                expect(302).
-                end(jasmine.finish(done));
+                    expect(302).
+                    end(jasmine.finish(done));
             });
 
         });
@@ -139,50 +139,50 @@ describe('App', () => {
 
                 // Authenticate an agent
                 agent.
-                get('/login/accept/' +
+                    get('/login/accept/' +
                     `?token=${token}&uid=${encodeURIComponent(ned)}`).
-                expect(302).
-                end(jasmine.finish(done));
+                    expect(302).
+                    end(jasmine.finish(done));
             });
 
             it('should redirect login page to some app page', (done) => {
 
                 agent.
-                get('/login/').
-                expect(302).
-                end(jasmine.finish(done));
+                    get('/login/').
+                    expect(302).
+                    end(jasmine.finish(done));
             });
 
             it('should make app pages accessible', (done) => {
 
                 agent.
-                get('/foo/').
-                expect(404).
-                end(jasmine.finish(done));
+                    get('/foo/').
+                    expect(404).
+                    end(jasmine.finish(done));
             });
 
             it('should make deeper app pages accessible', (done) => {
                 agent.
-                get('/foo/bar/baz/').
-                expect(404).
-                end(jasmine.finish(done));
+                    get('/foo/bar/baz/').
+                    expect(404).
+                    end(jasmine.finish(done));
             });
 
             it('should accept and redirect any token request', (done) => {
 
                 agent.
-                get('/login/accept/').
-                expect(302).
-                end(jasmine.finish(done));
+                    get('/login/accept/').
+                    expect(302).
+                    end(jasmine.finish(done));
             });
         });
 
         it('should deny GET requests to the token request URL', (done) => {
 
             request(app).
-            get(`/login/request/?user=${encodeURIComponent(ned)}`).
-            expect(403).
-            end(jasmine.finish(done));
+                get(`/login/request/?user=${encodeURIComponent(ned)}`).
+                expect(403).
+                end(jasmine.finish(done));
         });
     });
 });

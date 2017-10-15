@@ -20,7 +20,7 @@ class Revision {
 
         const size = maze.size;
 
-        this.map = new Array(size).fill().map((row) => new Array(size).fill(0));
+        this.map = new Array(size).fill().map(() => new Array(size).fill(0));
 
         const lastVersion = maze.revisions.length === 0?
             -1:
@@ -74,40 +74,6 @@ class Revision {
 
         return revision.map.length;
     }
-};
-
-const schemas = {
-
-    maze: {
-        name: String,
-        size: Number,
-        creator: {
-            type: String,
-            ref: 'User'
-        },
-        revisions: [{
-            //type: Schema.Types.ObjectId,
-            ref: 'Revision'
-        }]
-    },
-
-    revision: {
-        maze: {
-            //type: Schema.Types.ObjectId,
-            ref: 'Maze'
-        },
-        version: Number,
-        start: {
-            x: Number,
-            z: Number,
-            direction: String
-        },
-        destination: {
-            x: Number,
-            z: Number
-        },
-        map: [[Number]]
-    }
-};
+}
 
 module.exports = Revision;

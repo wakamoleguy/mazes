@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const router = require('./router');
 
 // FIXME - This should go elsewhere?
-process.on('unhandledRejection', (error) => {
+global.process.on('unhandledRejection', (error) => {
     throw error;
 });
 
@@ -74,4 +74,4 @@ module.exports = (authDriver) => {
 
     return app;
 
-}
+};

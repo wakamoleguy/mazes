@@ -12,16 +12,16 @@ const repository = {
         return connect.then((models) => new Promise((resolve, reject) => {
 
             models.Maze.
-            find({
-                creator: userId
-            }).
-            find((err, mazes) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(mazes);
-                }
-            });
+                find({
+                    creator: userId
+                }).
+                find((err, mazes) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(mazes);
+                    }
+                });
         }));
     },
 
@@ -33,29 +33,29 @@ const repository = {
 
             // Should this live in user_repository?
             models.User.
-            findOne({ email }).find((err, users) => {
-
-                if (err) {
-                    return reject(err);
-                }
-
-                if (users.length === 0) {
-                    return reject(new Error('No such user'));
-                }
-
-                models.Maze.
-                find({
-                    creator: users[0]._id
-                }).
-                find((mazeErr, mazes) => {
+                findOne({ email }).find((err, users) => {
 
                     if (err) {
-                        reject(err);
-                    } else {
-                        resolve(mazes);
+                        return reject(err);
                     }
+
+                    if (users.length === 0) {
+                        return reject(new Error('No such user'));
+                    }
+
+                    models.Maze.
+                        find({
+                            creator: users[0]._id
+                        }).
+                        find((mazeErr, mazes) => {
+
+                            if (err) {
+                                reject(err);
+                            } else {
+                                resolve(mazes);
+                            }
+                        });
                 });
-            });
         }));
     },
 
@@ -70,7 +70,7 @@ const repository = {
                 name,
                 creator: creatorId,
                 size
-            }).save((err, maze) => {
+            }).save((err) => {
 
                 if (err) {
                     reject(err);
@@ -109,7 +109,7 @@ const repository = {
                     start,
                     destination,
                     map
-                }).save((err, revision) => {
+                }).save((err) => {
 
                     if (err) {
                         reject (err);
@@ -134,7 +134,7 @@ const repository = {
                     start,
                     destination,
                     map
-                }, (err, result) => {
+                }, (err) => {
                     if (err) {
                         reject(err);
                     } else {
@@ -159,17 +159,17 @@ const repository = {
                     return new Promise((resolve, reject) => {
 
                         models.Revision.
-                        find({
-                            maze: maze._id
-                        }).
-                        populate('maze').
-                        find((err, revisions) => {
-                            if (err) {
-                                reject(err);
-                            } else {
-                                resolve(revisions);
-                            }
-                        });
+                            find({
+                                maze: maze._id
+                            }).
+                            populate('maze').
+                            find((err, revisions) => {
+                                if (err) {
+                                    reject(err);
+                                } else {
+                                    resolve(revisions);
+                                }
+                            });
                     });
                 }));
 
@@ -181,8 +181,8 @@ const repository = {
                     return revisionsByMaze.map((revisions) => {
                         return revisions.reduce((latest, revision) => {
                             return revision.version > latest.version?
-                            revision:
-                            latest;
+                                revision:
+                                latest;
                         }, { version: -1 });
                     });
                 });
@@ -194,35 +194,36 @@ const repository = {
 
             const connect = require('./connect');
 
-            const getRevisions = connect.then((models) => new Promise((resolve, reject) => {
+            const getRevisions = connect.
+                then((models) => new Promise((resolve, reject) => {
 
-                models.Revision.
-                find({
-                    maze: mazeId
-                }).
-                populate('maze').
-                find((err, revisions) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(revisions);
-                    }
-                });
-            }));
+                    models.Revision.
+                        find({
+                            maze: mazeId
+                        }).
+                        populate('maze').
+                        find((err, revisions) => {
+                            if (err) {
+                                reject(err);
+                            } else {
+                                resolve(revisions);
+                            }
+                        });
+                }));
 
             return getRevisions.then((revisions) => {
 
                 return revisions.reduce((latest, revision) => {
                     return revision.version > latest.version?
-                    revision:
-                    latest;
+                        revision:
+                        latest;
                 }, { version: -1 });
             });
-        },
-
-        read(revisionId) {
-            throw new Error('Unimplemented');
-        }
+        }//,
+        //
+        // read(revisionId) {
+        //     throw new Error('Unimplemented');
+        // }
     }
 };
 

@@ -4,7 +4,8 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "JASMINE_CONFIG_PATH=jasmine.json jasmine"
+        "test": "JASMINE_CONFIG_PATH=jasmine.json jasmine",
+        "posttest": "./node_modules/.bin/eslint clean/**"
     },
     "repository": {
         "type": "git",

@@ -30,31 +30,31 @@ describe('Adding a new user', () => {
         );
 
         usecases.
-        add(email, display, userRepository, mazeRepository).
-        then((success) => {
-            expect(success).toBe(false);
-            done();
-        }).catch(done.fail);
+            add(email, display, userRepository, mazeRepository).
+            then((success) => {
+                expect(success).toBe(false);
+                done();
+            }).catch(done.fail);
     });
 
     it('should create a new user', (done) => {
 
         usecases.
-        add(email, display, userRepository, mazeRepository).
-        then((success) => {
+            add(email, display, userRepository, mazeRepository).
+            then((success) => {
 
-            expect(userRepository.browse).toHaveBeenCalledWith(email);
+                expect(userRepository.browse).toHaveBeenCalledWith(email);
 
-            expect(userRepository.add).toHaveBeenCalledWith(
-                jasmine.any(String),
-                email,
-                display
-            );
+                expect(userRepository.add).toHaveBeenCalledWith(
+                    jasmine.any(String),
+                    email,
+                    display
+                );
 
-            expect(success).toBe(true);
+                expect(success).toBe(true);
 
-            done();
-        }).catch(done.fail);
+                done();
+            }).catch(done.fail);
     });
 
     it('should create three new mazes', (done) => {
@@ -62,36 +62,36 @@ describe('Adding a new user', () => {
         const size = 9;
 
         usecases.
-        add(email, display, userRepository, mazeRepository).
-        then(() => {
+            add(email, display, userRepository, mazeRepository).
+            then(() => {
 
-            expect(mazeRepository.add).toHaveBeenCalledWith(
-                jasmine.any(String),
-                size,
-                jasmine.any(String),
-                'Maze 0',
-                jasmine.any(Object)
-            );
+                expect(mazeRepository.add).toHaveBeenCalledWith(
+                    jasmine.any(String),
+                    size,
+                    jasmine.any(String),
+                    'Maze 0',
+                    jasmine.any(Object)
+                );
 
-            expect(mazeRepository.add).toHaveBeenCalledWith(
-                jasmine.any(String),
-                size,
-                jasmine.any(String),
-                'Maze 1',
-                jasmine.any(Object)
-            );
+                expect(mazeRepository.add).toHaveBeenCalledWith(
+                    jasmine.any(String),
+                    size,
+                    jasmine.any(String),
+                    'Maze 1',
+                    jasmine.any(Object)
+                );
 
-            expect(mazeRepository.add).toHaveBeenCalledWith(
-                jasmine.any(String),
-                size,
-                jasmine.any(String),
-                'Maze 2',
-                jasmine.any(Object)
-            );
+                expect(mazeRepository.add).toHaveBeenCalledWith(
+                    jasmine.any(String),
+                    size,
+                    jasmine.any(String),
+                    'Maze 2',
+                    jasmine.any(Object)
+                );
 
-            expect(mazeRepository.add.calls.count()).toBe(3);
+                expect(mazeRepository.add.calls.count()).toBe(3);
 
-            done();
-        }).catch(done.fail);
+                done();
+            }).catch(done.fail);
     });
 });

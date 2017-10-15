@@ -11,7 +11,6 @@ describe('Revision model', () => {
         const ned = new User('ned@stark.example.com', 'Ned Stark');
         const size = 9;
         const name = 'Crypts of Winterfell';
-        const id = 123;
 
         const maze = new Maze(size, ned, name);
 
@@ -125,7 +124,7 @@ describe('Revision model', () => {
             const start = original.start;
             const destination = original.destination;
 
-            const clone = original.clone();
+            original.clone();
             expect(original.version).toBe(version);
             expect(original.start).toBe(start);
             expect(original.destination).toBe(destination);

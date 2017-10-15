@@ -12,13 +12,13 @@ const repository = {
         return connect.then((models) => new Promise((resolve, reject) => {
 
             models.User.
-            find({ email }, (err, users) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(users);
-                }
-            });
+                find({ email }, (err, users) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(users);
+                    }
+                });
         }));
     },
 

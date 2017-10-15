@@ -1,5 +1,4 @@
 const maze = require('./maze/controller');
-const revision = require('./revision/controller');
 const user = require('./user/controller');
 
 const express = require('express');

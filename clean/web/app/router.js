@@ -9,7 +9,7 @@ router.use((req, res, next) => {
     if (req.user) {
 
         req.locals = {
-                user: {
+            user: {
                 display: req.user, // FIXME - This is a terrible hack.
                 email: req.user
             }

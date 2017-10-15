@@ -14,7 +14,7 @@ class User {
         this.email = email;
         this.display = display;
     }
-};
+}
 
 User.from = (props) => {
 

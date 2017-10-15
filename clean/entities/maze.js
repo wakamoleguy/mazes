@@ -13,7 +13,9 @@ class Maze {
             throw new Error('Maze Size out of bounds');
         }
 
-        if (creator === null || creator === undefined || creator.id === undefined) {
+        if (creator === null || creator === undefined ||
+            creator.id === undefined) {
+
             throw new Error('Maze must have Creator');
         }
 
@@ -43,8 +45,8 @@ class Maze {
         return this;
     }
 
-    static get MIN_SIZE() { return 3; };
-    static get MAX_SIZE() { return 15; };
+    static get MIN_SIZE() { return 3; }
+    static get MAX_SIZE() { return 15; }
 }
 
 Maze.from = (props) => {

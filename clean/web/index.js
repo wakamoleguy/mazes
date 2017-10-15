@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 // Drivers
-const authDriver = process.env.TRUSTING?
+const authDriver = global.process.env.TRUSTING?
     require('../adapters/auth/trusting'):
     require('../adapters/auth/passwordless');
 
@@ -19,5 +19,5 @@ combinedApp.use('/api', api);
 combinedApp.use('/app', app);
 
 const server = http.createServer(combinedApp);
-server.listen(process.env.PORT || 3000);
-console.log('Server listening on port', process.env.PORT || 3000);
+server.listen(global.process.env.PORT || 3000);
+console.log('Server listening on port', global.process.env.PORT || 3000);

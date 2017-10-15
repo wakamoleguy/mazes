@@ -3,15 +3,17 @@ const mazeUseCases = require('../../../usecases/maze');
 
 module.exports = {
 
-        read(req, res, next) {
+    read(req, res, next) {
 
-            const user = req.locals.user;
-            const revisionId = req.params.revision;
+        const user = req.locals.user;
+        const revisionId = req.params.revision;
 
-            mazeUseCases.readRevision(revisionId, mazeRepository).
+        mazeUseCases.readRevision(revisionId, mazeRepository).
             then((revision) => {
 
-                const view = revision.locked ? 'revision/view' : 'revision/edit';
+                const view = revision.locked?
+                    'revision/view':
+                    'revision/edit';
 
                 res.render(view, {
                     user: user.display,
@@ -20,16 +22,16 @@ module.exports = {
 
                 next();
             });
-        },
+    },
 
-        run(req, res, next) {
+    run(req, res, next) {
 
-            // FIXME - This is why we abstract. So much copied code.
+        // FIXME - This is why we abstract. So much copied code.
 
-            const user = req.locals.user;
-            const revisionId = req.params.revision;
+        const user = req.locals.user;
+        const revisionId = req.params.revision;
 
-            mazeUseCases.readRevision(revisionId, mazeRepository).
+        mazeUseCases.readRevision(revisionId, mazeRepository).
             then((revision) => {
 
                 res.render('revision/run', {
@@ -39,17 +41,17 @@ module.exports = {
 
                 next();
             });
-        },
+    },
 
-        edit(req, res, next) {
+    edit(req, res, next) {
 
-            const revisionId = req.params.revision;
-            const body = req.body;
+        const revisionId = req.params.revision;
+        const body = req.body;
 
-            mazeUseCases.editRevision(mazeRepository, revisionId, body).
+        mazeUseCases.editRevision(mazeRepository, revisionId, body).
             then(() => {
                 res.sendStatus(200);
                 next();
             });
-        }
+    }
 };

@@ -8,7 +8,7 @@ mongoose.Promise = global.Promise;
 const connect = new Promise((resolve, reject) => {
 
     mongoose.connect(
-        process.env.MONGODB_URI || 'mongodb://localhost:27017/test'
+        global.process.env.MONGODB_URI || 'mongodb://localhost:27017/test'
     );
 
     const db = mongoose.connection;
@@ -17,8 +17,6 @@ const connect = new Promise((resolve, reject) => {
 });
 
 const models = connect.then(() => {
-
-    const Schema = mongoose.Schema;
 
     const schemas = {
 
