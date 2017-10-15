@@ -8,12 +8,15 @@ router.use((req, res, next) => {
 
     if (req.user) {
 
+        /* eslint-disable no-param-reassign */
         req.locals = {
             user: {
                 display: req.user, // FIXME - This is a terrible hack.
                 email: req.user
             }
         };
+        /* eslint-enable no-param-reassign */
+
     }
 
     next();

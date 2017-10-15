@@ -78,20 +78,16 @@ const repository = {
                     resolve();
                 }
             });
-        })).then(() => {
-
-            // Save revisions
-            return Promise.all(
-                revisions.map((revision) => repository.revision.add(
-                    revision.id,
-                    id, // mazeId
-                    revision.version,
-                    revision.start,
-                    revision.destination,
-                    revision.map
-                ))
-            ).then(() => {}); // Return undefined rather than an array
-        });
+        })).then(() => Promise.all(
+            revisions.map((revision) => repository.revision.add(
+                revision.id,
+                id, // mazeId
+                revision.version,
+                revision.start,
+                revision.destination,
+                revision.map
+            ))
+        )).then(() => {}); // Return undefined rather than an array
     },
 
     revision: {
@@ -154,9 +150,8 @@ const repository = {
                 const models = results[0];
                 const mazes = results[1];
 
-                const getRevisionsByMaze = Promise.all(mazes.map((maze) => {
-
-                    return new Promise((resolve, reject) => {
+                const getRevisionsByMaze = Promise.all(
+                    mazes.map((maze) => new Promise((resolve, reject) => {
 
                         models.Revision.
                             find({
@@ -170,22 +165,21 @@ const repository = {
                                     resolve(revisions);
                                 }
                             });
-                    });
-                }));
+                    }))
+                );
 
                 // Flatten each maze's revisions to just the latest one.
-                return getRevisionsByMaze.then((revisionsByMaze) => {
+                return getRevisionsByMaze.then((revisionsByMaze) =>
 
                     // revisionsByMaze is a list of revision lists
-
-                    return revisionsByMaze.map((revisions) => {
-                        return revisions.reduce((latest, revision) => {
-                            return revision.version > latest.version?
-                                revision:
-                                latest;
-                        }, { version: -1 });
-                    });
-                });
+                    revisionsByMaze.map(
+                        (revisions) => revisions.reduce(
+                            (latest, revision) =>
+                                revision.version > latest.version?
+                                    revision:
+                                    latest,
+                            { version: -1 }))
+                );
             });
 
         },
@@ -211,15 +205,14 @@ const repository = {
                         });
                 }));
 
-            return getRevisions.then((revisions) => {
-
-                return revisions.reduce((latest, revision) => {
-                    return revision.version > latest.version?
-                        revision:
-                        latest;
-                }, { version: -1 });
-            });
-        }//,
+            return getRevisions.then((revisions) =>
+                revisions.reduce(
+                    (latest, revision) =>
+                        revision.version > latest.version?
+                            revision:
+                            latest,
+                    { version: -1 }));
+        }// ,
         //
         // read(revisionId) {
         //     throw new Error('Unimplemented');

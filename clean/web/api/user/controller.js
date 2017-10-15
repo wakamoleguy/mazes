@@ -13,7 +13,7 @@ module.exports = {
                 res.set('Content-Type', 'application/json');
                 res.send(view.renderAll(users));
             });
-    }//,
+    }// ,
 
     // read(req, res) {
     //     throw new Error('Unimplemented');

@@ -13,11 +13,11 @@ module.exports = {
 
         // If this user does not exist, create it.
         userUseCases.add(email, display, userRepository, mazeRepository).
-            then(() => {
+            then(() => 
 
                 // TODO - backwards arguments?
-                return mazeUseCases.browseMazes(mazeRepository, email);
-            }).
+                mazeUseCases.browseMazes(mazeRepository, email)
+            ).
             then((mazes) => {
 
                 res.render('maze/list', {

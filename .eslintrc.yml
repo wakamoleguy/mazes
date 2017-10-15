@@ -6,6 +6,8 @@ env:
   es6: true
 extends: 'eslint:recommended'
 rules:
+  no-eval:
+    - error
   no-console:
     - off
   indent:
@@ -35,3 +37,35 @@ rules:
   max-len:
     - error
     - 80
+  prefer-rest-params:
+    - error
+  no-new-func:
+    - error
+  space-before-function-paren:
+    - error
+    - anonymous: always
+      named: never
+  space-before-blocks:
+    - error
+  no-param-reassign:
+    - error
+    - props: true
+  prefer-spread:
+    - error
+  prefer-arrow-callback:
+    - error
+  arrow-spacing:
+    - error
+  arrow-parens:
+    - error
+  arrow-body-style:
+    - error
+    - as-needed
+  eqeqeq:
+    - error
+  no-nested-ternary:
+    - error
+  no-unneeded-ternary:
+    - error
+  spaced-comment:
+    - error

@@ -16,17 +16,17 @@ module.exports = (authDriver) => {
     app.use(authDriver.restricted({}));
 
     app.get('/user/', user.browse);
-    //app.post('/user/', user.add);
-    //app.delete('/user/:id', user.delete);
+    // app.post('/user/', user.add);
+    // app.delete('/user/:id', user.delete);
 
-    //app.get('/maze/', maze.browse);
+    // app.get('/maze/', maze.browse);
     app.get('/maze/:id', maze.read);
     app.put('/maze/:id', maze.edit);
-    //app.post('/maze/', maze.add);
-    //app.delete('/maze/:id', maze.delete);
+    // app.post('/maze/', maze.add);
+    // app.delete('/maze/:id', maze.delete);
 
-    //app.get('/maze/:maze/revision/:id', revision.read);
-    //app.put('/maze/:maze/revision/:id', revision.add);
+    // app.get('/maze/:maze/revision/:id', revision.read);
+    // app.put('/maze/:maze/revision/:id', revision.add);
 
     return app;
 };

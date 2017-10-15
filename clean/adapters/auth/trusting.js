@@ -17,7 +17,9 @@ module.exports = {
     requestToken: () => (req, res, next) => next(),
     acceptToken: () => (req, res, next) => next(),
     restricted: () => (req, res, next) => {
+        /* eslint-disable no-param-reassign */
         req.user = 'wakamoleguy@gmail.com';
+        /* eslint-enable no-param-reassign */
         next();
     }
 };

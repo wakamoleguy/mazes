@@ -59,32 +59,26 @@ module.exports = {
     },
 
     requestToken: passwordless.requestToken.bind(passwordless),
-    acceptToken: (options) => {
+    acceptToken: (options) => (req, res, next) => {
+        const middleware = passwordless.acceptToken({
+            successRedirect: options.successRedirect?
+                req.baseUrl + options.successRedirect : null,
+            enableOriginRedirect: options.enableOriginRedirect,
+            tokenField: options.tokenField,
+            uidField: options.uidField,
+            allowPost: options.allowPost
+        });
 
-        return (req, res, next) => {
-            const middleware = passwordless.acceptToken({
-                successRedirect: options.successRedirect?
-                    req.baseUrl + options.successRedirect : null,
-                enableOriginRedirect: options.enableOriginRedirect,
-                tokenField: options.tokenField,
-                uidField: options.uidField,
-                allowPost: options.allowPost
-            });
-
-            middleware(req, res, next);
-        };
+        middleware(req, res, next);
     },
-    restricted: (options) => {
+    restricted: (options) => (req, res, next) => {
 
-        return (req, res, next) => {
+        const middleware = passwordless.restricted({
+            failureRedirect: options.failureRedirect?
+                req.baseUrl + options.failureRedirect : null,
+            originField: options.originField
+        });
 
-            const middleware = passwordless.restricted({
-                failureRedirect: options.failureRedirect?
-                    req.baseUrl + options.failureRedirect : null,
-                originField: options.originField
-            });
-
-            middleware(req, res, next);
-        };
+        middleware(req, res, next);
     }
 };

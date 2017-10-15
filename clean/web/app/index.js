@@ -39,12 +39,12 @@ module.exports = (authDriver) => {
 
     app.post('/login/request/', authDriver.requestToken(
         // Turn the email address into a user ID
-        function (user, delivery, callback) {
+        (user, delivery, callback) => {
             callback(null, user);
         }, {
             originField: 'origin'
         }
-    ), function (req, res) {
+    ), (req, res) => {
         res.redirect(302, req.baseUrl + '/login/pending/');
     });
 
