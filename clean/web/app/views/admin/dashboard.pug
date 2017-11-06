@@ -1,0 +1,33 @@
+html
+    head
+        
+            meta(charset="utf-8")
+            meta(name="description" content="A simple maze editor")
+            meta(name="viewport" content="width=device-width")
+            
+            title Maze editor
+            
+            // TODO - Stylesheets within app directory
+            link(rel="stylesheet" href="../css/main.css")
+                
+    body
+        
+        header
+            h1 Admin Dashboard
+            
+        main
+            
+            section
+                h2 Users
+                            
+                ul
+                    each user in users
+                        li= user._id + '|' + user.email + '|' + user.display
+            section
+                h2 Mazes
+                        
+                ul
+                    each maze in mazes
+                        li= maze._id + '|' + maze.name + '|' + maze.creator + '|' + maze.size
+                
+        footer

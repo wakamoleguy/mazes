@@ -5,6 +5,22 @@
 
 const repository = {
 
+    dump() {
+
+        const connect = require('./connect');
+
+        return connect.then((models) => new Promise((resolve, reject) => {
+
+            models.Maze.find({}, (err, mazes) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(mazes);
+                }
+            });
+        }));
+    },
+
     browse(userId) {
 
         const connect = require('./connect');

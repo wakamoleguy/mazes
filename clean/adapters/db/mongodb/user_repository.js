@@ -5,6 +5,22 @@
 
 const repository = {
 
+    dump() {
+
+        const connect = require('./connect');
+
+        return connect.then((models) => new Promise((resolve, reject) => {
+
+            models.User.find({}, (err, users) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(users);
+                }
+            });
+        }));
+    },
+
     browse(email) {
 
         const connect = require('./connect');

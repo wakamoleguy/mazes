@@ -1,3 +1,4 @@
+const adminController = require('./controllers/admin');
 const mazeController = require('./controllers/maze');
 const express = require('express');
 
@@ -32,5 +33,7 @@ router.get('/maze/:maze/edit/', mazeController.edit);
 router.get('/maze/:maze/run/', mazeController.run);
 
 router.use('/maze/', express.static(__dirname + '/public'));
+
+router.use('/admin/', adminController.dashboard);
 
 module.exports = router;
