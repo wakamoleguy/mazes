@@ -5,6 +5,29 @@ const DEFAULT_SIZE = 9;
 
 module.exports = {
 
+    populateUser(verifiedEmail, userRepo) {
+
+        return userRepo.readByEmail(verifiedEmail).then((maybeFoundUser) => {
+
+            if (maybeFoundUser) {
+
+                return {
+                    user: maybeFoundUser,
+                    userRepo
+                };
+            } else {
+
+                const newUser = new User(verifiedEmail, verifiedEmail).raw();
+
+                return userRepo.add(newUser).then((newRepo) => ({
+                    user: newUser,
+                    userRepo: newRepo
+                }));
+            }
+        });
+
+    },
+
     add(email, display, userRepository, mazeRepository) {
 
         return userRepository.browse(email).then((existingUsers) => {

@@ -4,6 +4,11 @@ env:
   commonjs: true
   jasmine: true
   es6: true
+parserOptions:
+    ecmaVersion: 8
+    ecmaFeatures:
+        impliedStrict: true
+        experimentalObjectRestSpread: true
 extends: 'eslint:recommended'
 rules:
   no-eval:
