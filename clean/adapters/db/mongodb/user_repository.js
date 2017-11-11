@@ -21,42 +21,87 @@ const repository = {
         }));
     },
 
-    browse(email) {
+    readByEmail(email) {
 
         const connect = require('./connect');
 
         return connect.then((models) => new Promise((resolve, reject) => {
 
             models.User.
-                find({ email }, (err, users) => {
+                findOne({ email }, (err, user) => {
+
                     if (err) {
                         reject(err);
+                    } else if (user !== null) {
+                        resolve({
+                            id: user._id,
+                            email: user.email,
+                            display: user.display
+                        });
                     } else {
-                        resolve(users);
+                        resolve(null);
                     }
                 });
         }));
     },
 
-    add(id, email, display) {
+    add(newUser) {
 
         const connect = require('./connect');
 
         return connect.then((models) => new Promise((resolve, reject) => {
 
             new models.User({
-                _id: id,
-                email,
-                display
+                _id: newUser.id,
+                email: newUser.email,
+                display: newUser.display
             }).save((err) => {
+
                 if (err) {
                     reject(err);
                 } else {
-                    resolve();
+                    resolve(repository);
                 }
             });
         }));
     }
+    //
+    // browse(email) {
+    //
+    //     const connect = require('./connect');
+    //
+    //     return connect.then((models) => new Promise((resolve, reject) => {
+    //
+    //         models.User.
+    //             find({ email }, (err, users) => {
+    //                 if (err) {
+    //                     reject(err);
+    //                 } else {
+    //                     resolve(users);
+    //                 }
+    //             });
+    //     }));
+    // },
+    //
+    // add(id, email, display) {
+    //
+    //     const connect = require('./connect');
+    //
+    //     return connect.then((models) => new Promise((resolve, reject) => {
+    //
+    //         new models.User({
+    //             _id: id,
+    //             email,
+    //             display
+    //         }).save((err) => {
+    //             if (err) {
+    //                 reject(err);
+    //             } else {
+    //                 resolve();
+    //             }
+    //         });
+    //     }));
+    // }
 };
 
 module.exports = repository;
