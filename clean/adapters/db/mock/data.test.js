@@ -4,11 +4,11 @@ describe('Mock data', () => {
 
     describe('User', () => {
 
-        it('should have three users', () => {
+        it('should have four users', () => {
 
             expect(DATA.users).toBeDefined();
 
-            expect(Object.keys(DATA.users).length).toBe(3);
+            expect(Object.keys(DATA.users).length).toBe(4);
         });
 
         describe('Ned', () => {

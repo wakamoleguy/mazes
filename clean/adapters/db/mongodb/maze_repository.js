@@ -21,6 +21,34 @@ const repository = {
         }));
     },
 
+    browseByCreator(userId) {
+
+        const connect = require('./connect');
+
+        return connect.then((models) => new Promise((resolve, reject) => {
+
+            models.Maze.
+                find({
+                    creator: userId
+                }).
+                find((err, mazes) => {
+
+                    if (err) {
+
+                        reject(err);
+                    } else {
+
+                        resolve(mazes.map((maze) => ({
+                            id: maze._id,
+                            creator: maze.creator,
+                            size: maze.size,
+                            revisions: maze.revisions
+                        })));
+                    }
+                });
+        }));
+    },
+
     browse(userId) {
 
         const connect = require('./connect');

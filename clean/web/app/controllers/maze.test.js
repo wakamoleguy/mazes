@@ -91,7 +91,7 @@ describe('Maze controller', () => {
             spyOn(mazeUseCases, 'read').and.returnValue(Promise.resolve('A'));
         });
 
-        it('should render the maze details page', (done) => {
+        xit('should render the maze details page', (done) => {
 
             controller.read(req, res, () => {
 
@@ -103,7 +103,7 @@ describe('Maze controller', () => {
             });
         });
 
-        it('should render the display name for the user', (done) => {
+        xit('should render the display name for the user', (done) => {
 
             controller.read(req, res, () => {
 
@@ -116,7 +116,7 @@ describe('Maze controller', () => {
             });
         });
 
-        it('should fetch the maze from the repository', (done) => {
+        xit('should fetch the maze from the repository', (done) => {
 
             controller.read(req, res, () => {
 

@@ -15,6 +15,12 @@ exports.users = {
         id: '003',
         email: 'jaime@lannister.example.com',
         display: 'Jaime Lannister'
+    },
+
+    dany: {
+        id: '004',
+        email: 'dany@targaryen.example.com',
+        display: 'Daenerys Targaryen'
     }
 };
 
