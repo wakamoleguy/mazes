@@ -19,7 +19,7 @@ describe('Mock data', () => {
 
                 expect(ned).toBeDefined();
 
-                expect(ned.id).toBe('001');
+                expect(ned.id).toBe('id:001');
                 expect(ned.email).toBe('ned@stark.example.com');
                 expect(ned.display).toBe('Eddard Stark');
             });
@@ -33,7 +33,7 @@ describe('Mock data', () => {
 
                 expect(cat).toBeDefined();
 
-                expect(cat.id).toBe('002');
+                expect(cat.id).toBe('id:002');
                 expect(cat.email).toBe('cat@stark.example.com');
                 expect(cat.display).toBe('Catelyn Stark');
             });
@@ -47,7 +47,7 @@ describe('Mock data', () => {
 
                 expect(jaime).toBeDefined();
 
-                expect(jaime.id).toBe('003');
+                expect(jaime.id).toBe('id:003');
                 expect(jaime.email).toBe('jaime@lannister.example.com');
                 expect(jaime.display).toBe('Jaime Lannister');
             });
@@ -78,7 +78,7 @@ describe('Mock data', () => {
 
                 expect(winterfell).toBeDefined();
 
-                expect(winterfell.creator).toBe('001');
+                expect(winterfell.creator).toBe('id:001');
             });
 
             it('should have three revisions', () => {
@@ -95,7 +95,7 @@ describe('Mock data', () => {
 
                 expect(riverrun).toBeDefined();
 
-                expect(riverrun.creator).toBe('002');
+                expect(riverrun.creator).toBe('id:002');
             });
 
             it('should have one revision', () => {
@@ -112,7 +112,7 @@ describe('Mock data', () => {
 
                 expect(eyrie).toBeDefined();
 
-                expect(eyrie.creator).toBe('002');
+                expect(eyrie.creator).toBe('id:002');
             });
 
             it('should have one revision', () => {
@@ -129,7 +129,7 @@ describe('Mock data', () => {
 
                 expect(rock).toBeDefined();
 
-                expect(rock.creator).toBe('003');
+                expect(rock.creator).toBe('id:003');
             });
 
             it('should have one revision', () => {
@@ -146,7 +146,7 @@ describe('Mock data', () => {
 
                 expect(keep).toBeDefined();
 
-                expect(keep.creator).toBe('003');
+                expect(keep.creator).toBe('id:003');
             });
 
             it('should have one revision', () => {
@@ -163,7 +163,7 @@ describe('Mock data', () => {
 
                 expect(highgarden).toBeDefined();
 
-                expect(highgarden.creator).toBe('003');
+                expect(highgarden.creator).toBe('id:003');
             });
 
             it('should have one revision', () => {

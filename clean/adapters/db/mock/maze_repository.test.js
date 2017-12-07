@@ -6,7 +6,7 @@ describe('Mock Maze Repository', () => {
 
         it('should resolve to a list of mazes if user exists', (done) => {
 
-            repo.browseByCreator('001').then((mazes) => {
+            repo.browseByCreator('id:001').then((mazes) => {
 
                 expect(mazes).toBeDefined();
                 expect(mazes.length).toBe(1);
@@ -17,7 +17,7 @@ describe('Mock Maze Repository', () => {
 
         it('should resolve to an empty list if user has no mazes', (done) => {
 
-            repo.browseByCreator('004').then((mazes) => {
+            repo.browseByCreator('id:004').then((mazes) => {
 
                 expect(mazes).toEqual([]);
                 done();

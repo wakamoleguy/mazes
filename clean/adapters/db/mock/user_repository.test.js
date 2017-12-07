@@ -10,7 +10,7 @@ describe('Mock User Repository', () => {
 
                 expect(ned).toEqual({
                     email: 'ned@stark.example.com',
-                    id: '001',
+                    id: 'id:001',
                     display: 'Eddard Stark'
                 });
 
@@ -24,7 +24,7 @@ describe('Mock User Repository', () => {
 
                 expect(cat).toEqual({
                     email: 'cat@stark.example.com',
-                    id: '002',
+                    id: 'id:002',
                     display: 'Catelyn Stark'
                 });
 
@@ -46,11 +46,11 @@ describe('Mock User Repository', () => {
 
         it('should resolve to a user if it exists', (done) => {
 
-            repo.read('001').then((ned) => {
+            repo.read('id:001').then((ned) => {
 
                 expect(ned).toEqual({
                     email: 'ned@stark.example.com',
-                    id: '001',
+                    id: 'id:001',
                     display: 'Eddard Stark'
                 });
 
@@ -60,11 +60,11 @@ describe('Mock User Repository', () => {
 
         it('should resolve to a different user with another id', (done) => {
 
-            repo.read('002').then((cat) => {
+            repo.read('id:002').then((cat) => {
 
                 expect(cat).toEqual({
                     email: 'cat@stark.example.com',
-                    id: '002',
+                    id: 'id:002',
                     display: 'Catelyn Stark'
                 });
 
@@ -74,7 +74,7 @@ describe('Mock User Repository', () => {
 
         it('should resolve to null if no user exists', (done) => {
 
-            repo.read('101').then((u) => {
+            repo.read('id:101').then((u) => {
 
                 expect(u).toBeNull();
                 done();
@@ -85,7 +85,7 @@ describe('Mock User Repository', () => {
 
     describe('add', () => {
         const nightking = {
-            id: '101',
+            id: 'id:101',
             display: 'The Night King',
             email: 'nightking@whitewalkers.example.com'
         };
@@ -131,7 +131,7 @@ describe('Mock User Repository', () => {
         it('should throw if the id conflicts', (done) => {
 
             repo.add({
-                id: '001',
+                id: 'id:001',
                 email: 'other.ned@stark.example.com',
                 display: 'Ned Stark'
             }).then(done.fail, done);
@@ -140,7 +140,7 @@ describe('Mock User Repository', () => {
         it('should throw if the email conflicts', (done) => {
 
             repo.add({
-                id: '101',
+                id: 'id:101',
                 email: 'ned@stark.example.com',
                 display: 'Ned Stark'
             }).then(done.fail, done);
@@ -149,7 +149,7 @@ describe('Mock User Repository', () => {
         it('should succeed if the display name conflicts', (done) => {
 
             repo.add({
-                id: '101',
+                id: 'id:101',
                 email: 'other.ned@stark.example.com',
                 display: 'Eddard Stark'
             }).then(done).catch(done.fail);

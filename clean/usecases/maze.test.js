@@ -7,7 +7,7 @@ describe('Maze use cases', () => {
 
         it('resolves to a list of mazes for the user', (done) => {
 
-            usecases.browseByCreator('003', mazeRepo).then((mazes) => {
+            usecases.browseByCreator('id:003', mazeRepo).then((mazes) => {
 
                 expect(mazes.length).toBe(3);
                 done();
@@ -16,7 +16,7 @@ describe('Maze use cases', () => {
 
         it('resolves to an empty list if no mazes found', (done) => {
 
-            usecases.browseByCreator('004', mazeRepo).then((mazes) => {
+            usecases.browseByCreator('id:004', mazeRepo).then((mazes) => {
 
                 expect(mazes).toEqual([]);
                 done();

@@ -1,24 +1,24 @@
 exports.users = {
     ned: {
-        id: '001',
+        id: 'id:001',
         email: 'ned@stark.example.com',
         display: 'Eddard Stark'
     },
 
     cat: {
-        id: '002',
+        id: 'id:002',
         email: 'cat@stark.example.com',
         display: 'Catelyn Stark'
     },
 
     jaime: {
-        id: '003',
+        id: 'id:003',
         email: 'jaime@lannister.example.com',
         display: 'Jaime Lannister'
     },
 
     dany: {
-        id: '004',
+        id: 'id:004',
         email: 'dany@targaryen.example.com',
         display: 'Daenerys Targaryen'
     }
@@ -28,7 +28,7 @@ exports.mazes = {
 
     winterfell: {
         id: 'm1',
-        creator: '001',
+        creator: 'id:001',
         size: 9,
         revisions: [
             {
@@ -111,7 +111,7 @@ exports.mazes = {
 
     riverrun: {
         id: 'm2',
-        creator: '002',
+        creator: 'id:002',
         size: 9,
         revisions: [
             {
@@ -144,7 +144,7 @@ exports.mazes = {
 
     eyrie: {
         id: 'm3',
-        creator: '002',
+        creator: 'id:002',
         size: 9,
         revisions: [
             {
@@ -177,7 +177,7 @@ exports.mazes = {
 
     rock: {
         id: 'm4',
-        creator: '003',
+        creator: 'id:003',
         size: 9,
         revisions: [
             {
@@ -210,7 +210,7 @@ exports.mazes = {
 
     keep: {
         id: 'm5',
-        creator: '003',
+        creator: 'id:003',
         size: 9,
         revisions: [
             {
@@ -243,7 +243,7 @@ exports.mazes = {
 
     highgarden: {
         id: 'm6',
-        creator: '003',
+        creator: 'id:003',
         size: 9,
         revisions: [
             {

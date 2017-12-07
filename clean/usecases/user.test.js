@@ -13,7 +13,7 @@ describe('PopulateUser', () => {
 
                 expect(result.user).toEqual({
                     email: 'ned@stark.example.com',
-                    id: '001',
+                    id: 'id:001',
                     display: 'Eddard Stark'
                 });
 
@@ -66,7 +66,7 @@ describe('User Read', () => {
 
     describe('when user exists', () => {
 
-        const id = '001';
+        const id = 'id:001';
 
         it('should fetch the user from the repo', (done) => {
 
@@ -74,7 +74,7 @@ describe('User Read', () => {
 
                 expect(result.user).toEqual({
                     email: 'ned@stark.example.com',
-                    id: '001',
+                    id: 'id:001',
                     display: 'Eddard Stark'
                 });
 
@@ -94,7 +94,7 @@ describe('User Read', () => {
     });
 
     describe('when the user does not exist', () => {
-        const id = '101';
+        const id = 'id:101';
 
         it('should return a null user', (done) => {
 

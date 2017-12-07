@@ -33,7 +33,7 @@ module.exports = {
     readUser(userId, userRepo) {
 
         if (userId.substr(0, 3) !== 'id:') {
-        //    throw new Error(`Expected ID but no prefix found: ${userId}`);
+            throw new Error(`Expected ID but no prefix found: ${userId}`);
         }
 
         return userRepo.read(userId).then((maybeFoundUser) => {
