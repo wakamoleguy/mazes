@@ -15,17 +15,11 @@ html
             h1 Maze Editor
             
         main
-            section
-                article(id="user-info")
-                    h2 User Info
-                    p= user
+            include /user/show.pug
             
             section(id="maze-list")
                 each maze in mazes
-                    article(id=maze.id)
-                         h2
-                             a(href=`./${maze.id}/`)= maze.name
-                         p Version #{maze.version} Size #{maze.size}
+                    include /maze/show.pug
         footer
             
         script(type="module" src="js/list/main.js")

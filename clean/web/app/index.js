@@ -17,7 +17,8 @@ module.exports = (authDriver) => {
     // Body parsing and rendering
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
-    app.set('views', __dirname + '/views');
+    app.locals.basedir = __dirname + '/views';
+    app.set('views', app.locals.basedir);
     app.set('view engine', 'pug');
 
     // Some things are public

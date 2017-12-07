@@ -11,15 +11,10 @@ module.exports = {
         mazeUseCases.browseByCreator(user.id, mazeRepository).
             then((mazes) => {
 
-                // res.render('maze/list', {
-                //    user: display,
-                //    mazes
-                // });
-
-                res.send(JSON.stringify({
+                res.render('pages/maze', {
                     user,
                     mazes
-                }));
+                });
 
                 next();
             }, (err) => {
