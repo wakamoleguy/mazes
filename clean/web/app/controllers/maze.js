@@ -6,15 +6,20 @@ module.exports = {
     list(req, res, next) {
 
         const user = req.locals.user;
-        const display = user.display;
+        // const display = user.display;
 
         mazeUseCases.browseByCreator(user.id, mazeRepository).
             then((mazes) => {
 
-                res.render('maze/list', {
-                    user: display,
+                // res.render('maze/list', {
+                //    user: display,
+                //    mazes
+                // });
+
+                res.send(JSON.stringify({
+                    user,
                     mazes
-                });
+                }));
 
                 next();
             }, (err) => {

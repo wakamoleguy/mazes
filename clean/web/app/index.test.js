@@ -30,7 +30,8 @@ describe('App', () => {
 
     describe('authentication', () => {
 
-        const ned = 'ned@stark.example.com';
+        const nedemail = 'ned@stark.example.com';
+        const nedid = 'id:ned@stark.example.com';
 
         beforeAll((done) => {
             authDriver.store.clear(done);
@@ -70,7 +71,7 @@ describe('App', () => {
 
                 request(app).
                     post('/login/request/').
-                    send({ user: ned }).
+                    send({ user: nedemail }).
                     set('Content-Type', 'application/json').
                     expect(302).
                     expect('Location', '/login/pending/').
@@ -96,11 +97,11 @@ describe('App', () => {
                 const originUrl = '/foo/bar/origin/';
 
                 authDriver.store.storeOrUpdate(
-                    token, ned, msToLive, originUrl, () => {});
+                    token, nedid, msToLive, originUrl, () => {});
 
                 request(app).
                     get('/login/accept/' +
-                    `?token=${token}&uid=${encodeURIComponent(ned)}`).
+                    `?token=${token}&uid=${encodeURIComponent(nedid)}`).
                     expect(302).
                     expect('Location', originUrl).
                     end(jasmine.finish(done));
@@ -113,11 +114,11 @@ describe('App', () => {
                 const originUrl = null;
 
                 authDriver.store.storeOrUpdate(
-                    token, ned, msToLive, originUrl, () => {});
+                    token, nedid, msToLive, originUrl, () => {});
 
                 request(app).
                     get('/login/accept/' +
-                    `?token=${token}&uid=${encodeURIComponent(ned)}`).
+                    `?token=${token}&uid=${encodeURIComponent(nedid)}`).
                     expect(302).
                     end(jasmine.finish(done));
             });
@@ -133,14 +134,14 @@ describe('App', () => {
             beforeEach((done) => {
                 authDriver.store.clear(() => {});
                 authDriver.store.storeOrUpdate(
-                    token, ned, msToLive, null, () => {});
+                    token, nedid, msToLive, null, () => {});
 
                 agent = request.agent(app);
 
                 // Authenticate an agent
                 agent.
                     get('/login/accept/' +
-                    `?token=${token}&uid=${encodeURIComponent(ned)}`).
+                    `?token=${token}&uid=${encodeURIComponent(nedid)}`).
                     expect(302).
                     end(jasmine.finish(done));
             });
@@ -180,7 +181,7 @@ describe('App', () => {
         it('should deny GET requests to the token request URL', (done) => {
 
             request(app).
-                get(`/login/request/?user=${encodeURIComponent(ned)}`).
+                get(`/login/request/?user=${encodeURIComponent(nedemail)}`).
                 expect(403).
                 end(jasmine.finish(done));
         });

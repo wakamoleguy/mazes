@@ -2,6 +2,9 @@ const adminController = require('./controllers/admin');
 const mazeController = require('./controllers/maze');
 const express = require('express');
 
+const userRepo = require('../../adapters/db/mongodb/user_repository');
+const readUser = require('../../usecases/user').readUser;
+
 const router = express.Router();
 
 // Populate all requests with local user information
@@ -9,18 +12,20 @@ router.use((req, res, next) => {
 
     if (req.user) {
 
-        /* eslint-disable no-param-reassign */
-        req.locals = {
-            user: {
-                display: req.user, // FIXME - This is a terrible hack.
-                email: req.user
-            }
-        };
-        /* eslint-enable no-param-reassign */
+        readUser(req.user, userRepo).then((result) => {
 
+            /* eslint-disable no-param-reassign */
+            req.locals = {
+                user: result.user
+            };
+            /* eslint-enable no-param-reassign */
+
+            next();
+        });
+    } else {
+
+        next();
     }
-
-    next();
 });
 
 router.get('/', (req, res) => {

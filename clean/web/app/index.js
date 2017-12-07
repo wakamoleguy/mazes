@@ -46,7 +46,7 @@ module.exports = (authDriver) => {
 
             populateUser(email, userRepo).then((result) => {
 
-                callback(null, result.user);
+                callback(null, result.user.id);
             });
         }, {
             originField: 'origin'
