@@ -42,6 +42,47 @@ describe('Mock User Repository', () => {
         });
     });
 
+    describe('read', () => {
+
+        it('should resolve to a user if it exists', (done) => {
+
+            repo.read('001').then((ned) => {
+
+                expect(ned).toEqual({
+                    email: 'ned@stark.example.com',
+                    id: '001',
+                    display: 'Eddard Stark'
+                });
+
+                done();
+            }).catch(done.fail);
+        });
+
+        it('should resolve to a different user with another id', (done) => {
+
+            repo.read('002').then((cat) => {
+
+                expect(cat).toEqual({
+                    email: 'cat@stark.example.com',
+                    id: '002',
+                    display: 'Catelyn Stark'
+                });
+
+                done();
+            }).catch(done.fail);
+        });
+
+        it('should resolve to null if no user exists', (done) => {
+
+            repo.read('101').then((u) => {
+
+                expect(u).toBeNull();
+                done();
+            }).catch(done.fail);
+        });
+    });
+
+
     describe('add', () => {
         const nightking = {
             id: '101',

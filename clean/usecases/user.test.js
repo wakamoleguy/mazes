@@ -61,3 +61,60 @@ describe('PopulateUser', () => {
         });
     });
 });
+
+describe('User Read', () => {
+
+    describe('when user exists', () => {
+
+        const id = '001';
+
+        it('should fetch the user from the repo', (done) => {
+
+            usecases.readUser(id, userRepo).then((result) => {
+
+                expect(result.user).toEqual({
+                    email: 'ned@stark.example.com',
+                    id: '001',
+                    display: 'Eddard Stark'
+                });
+
+                done();
+            }).catch(done.fail);
+        });
+
+        it('should resolve with the same repo', (done) => {
+
+            usecases.readUser(id, userRepo).then((result) => {
+
+                expect(result.userRepo).toBe(userRepo);
+
+                done();
+            }).catch(done.fail);
+        });
+    });
+
+    describe('when the user does not exist', () => {
+        const id = '101';
+
+        it('should return a null user', (done) => {
+
+            usecases.readUser(id, userRepo).then((result) => {
+
+                expect(result.user).toBeNull();
+
+                done();
+            }).catch(done.fail);
+        });
+
+        it('should resolve with the same repo', (done) => {
+
+            usecases.readUser(id, userRepo).then((result) => {
+
+                expect(result.userRepo).toBeDefined();
+                expect(result.userRepo).toBe(userRepo);
+
+                done();
+            }).catch(done.fail);
+        });
+    });
+});

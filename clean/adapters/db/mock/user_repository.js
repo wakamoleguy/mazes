@@ -16,6 +16,18 @@ function createRepo(data) {
             });
         },
 
+        read(id) {
+
+            return new Promise((resolve) => {
+
+                const users = Object.values(data.users);
+
+                const match = users.find((user) => user.id === id);
+
+                resolve(match || null);
+            });
+        },
+
         add(newUser) {
 
             return new Promise((resolve, reject) => {

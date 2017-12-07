@@ -1,7 +1,5 @@
-const userRepository = require('../../../adapters/db/mongodb/user_repository');
 const mazeRepository = require('../../../adapters/db/mongodb/maze_repository');
 const mazeUseCases = require('../../../usecases/maze');
-const userUseCases = require('../../../usecases/user');
 
 module.exports = {
 
@@ -9,7 +7,6 @@ module.exports = {
 
         const user = req.locals.user;
         const display = user.display;
-        const email = user.email;
 
         mazeUseCases.browseByCreator(user.id, mazeRepository).
             then((mazes) => {

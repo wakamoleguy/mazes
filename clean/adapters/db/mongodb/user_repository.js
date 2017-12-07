@@ -45,6 +45,30 @@ const repository = {
         }));
     },
 
+    read(id) {
+
+        const connect = require('./connect');
+
+        return connect.then((models) => new Promise((resolve, reject) => {
+
+            models.User.
+                findById(id, (err, user) => {
+
+                    if (err) {
+                        reject(err);
+                    } else if (user !== null) {
+                        resolve({
+                            id: user._id,
+                            email: user.email,
+                            display: user.display
+                        });
+                    } else {
+                        resolve(null);
+                    }
+                });
+        }));
+    },
+
     add(newUser) {
 
         const connect = require('./connect');
