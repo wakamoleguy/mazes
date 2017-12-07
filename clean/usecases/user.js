@@ -1,5 +1,3 @@
-const User = require('../entities/user');
-
 module.exports = {
 
     populateUser(verifiedEmail, userRepo) {
@@ -14,7 +12,11 @@ module.exports = {
                 };
             } else {
 
-                const newUser = new User(verifiedEmail, verifiedEmail).raw();
+                const newUser = { // XCXC - Abstract entity literals
+                    id: 'id:' + verifiedEmail,
+                    email: verifiedEmail,
+                    display: verifiedEmail
+                };
 
                 return userRepo.add(newUser).then((newRepo) => ({
                     user: newUser,

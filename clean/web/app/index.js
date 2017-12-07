@@ -2,6 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const router = require('./router');
 
+const userRepo = require('../../adapters/db/mongodb/user_repository');
+const populateUser = require('../../usecases/user').populateUser;
+
 // FIXME - This should go elsewhere?
 global.process.on('unhandledRejection', (error) => {
     throw error;
@@ -39,8 +42,12 @@ module.exports = (authDriver) => {
 
     app.post('/login/request/', authDriver.requestToken(
         // Turn the email address into a user ID
-        (user, delivery, callback) => {
-            callback(null, user);
+        (email, delivery, callback) => {
+
+            populateUser(email, userRepo).then((result) => {
+
+                callback(null, result.user);
+            });
         }, {
             originField: 'origin'
         }

@@ -1,2 +1,0 @@
-This is the 'entity' level of the clean architecture. It should have the core
-business logic of the models for mazes, users, challenges, etc.
