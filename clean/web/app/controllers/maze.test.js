@@ -1,10 +1,15 @@
 const controller = require('./maze');
-const userUseCases = require('../../../usecases/user');
 const mazeUseCases = require('../../../usecases/maze');
 
 describe('Maze controller', () => {
 
     let req, res;
+
+    const ned = {
+        display: 'Ned Stark',
+        email: 'ned@stark.example.com',
+        id: '001'
+    };
 
     beforeEach(() => {
 
@@ -12,10 +17,7 @@ describe('Maze controller', () => {
         res = jasmine.createSpyObj('res', ['render', 'sendStatus']);
 
         req.locals = {
-            user: {
-                display: 'Ned Stark',
-                email: 'ned@stark.example.com'
-            }
+            user: ned
         };
 
     });
@@ -24,24 +26,22 @@ describe('Maze controller', () => {
 
         beforeEach(() => {
 
-            spyOn(userUseCases, 'add').and.
-                returnValue(Promise.resolve(false));
-            spyOn(mazeUseCases, 'browseMazes').and.
+            spyOn(mazeUseCases, 'browseByCreator').and.
                 returnValue(Promise.resolve([]));
         });
 
-        xit('should render the maze list index page', (done) => {
+        it('should render the maze list index page', (done) => {
 
             controller.list(req, res, () => {
 
                 expect(res.render).
-                    toHaveBeenCalledWith('maze/list', jasmine.any(Object));
+                    toHaveBeenCalledWith('pages/maze', jasmine.any(Object));
 
                 done();
             });
         });
 
-        xit('should render the display name for the user', (done) => {
+        it('should render the user', (done) => {
 
             controller.list(req, res, () => {
 
@@ -49,23 +49,22 @@ describe('Maze controller', () => {
                     toHaveBeenCalledWith(
                         jasmine.any(String),
                         jasmine.objectContaining({
-                            user: 'Ned Stark'
+                            user: ned
                         }));
 
                 done();
             });
         });
 
-        xit('should fetch mazes', (done) => {
+        it('should fetch mazes for the user by creator id', (done) => {
 
-            mazeUseCases.browseMazes.and.returnValue(Promise.resolve([1,2,3]));
+            mazeUseCases.browseByCreator.
+                and.returnValue(Promise.resolve([1,2,3]));
 
             controller.list(req, res, () => {
 
-                expect(mazeUseCases.browseMazes).
-                    toHaveBeenCalledWith(
-                        jasmine.any(Object),
-                        'ned@stark.example.com');
+                expect(mazeUseCases.browseByCreator).
+                    toHaveBeenCalledWith(ned.id, jasmine.any(Object));
 
                 expect(res.render).
                     toHaveBeenCalledWith(
@@ -91,38 +90,38 @@ describe('Maze controller', () => {
             spyOn(mazeUseCases, 'read').and.returnValue(Promise.resolve('A'));
         });
 
-        xit('should render the maze details page', (done) => {
+        it('should render the maze details page', (done) => {
 
             controller.read(req, res, () => {
 
                 expect(res.render).toHaveBeenCalledWith(
-                    'maze/view',
+                    'pages/maze_view',
                     jasmine.any(Object));
 
                 done();
             });
         });
 
-        xit('should render the display name for the user', (done) => {
+        it('should render the user', (done) => {
 
             controller.read(req, res, () => {
 
                 expect(res.render).toHaveBeenCalledWith(
                     jasmine.any(String),
                     jasmine.objectContaining({
-                        user: 'Ned Stark'
+                        user: ned
                     }));
                 done();
             });
         });
 
-        xit('should fetch the maze from the repository', (done) => {
+        it('should fetch the maze from the repository', (done) => {
 
             controller.read(req, res, () => {
 
                 expect(mazeUseCases.read).toHaveBeenCalledWith(
-                    jasmine.any(Object),
-                    '123ABC');
+                    '123ABC',
+                    jasmine.any(Object));
 
                 expect(res.render).toHaveBeenCalledWith(
                     jasmine.any(String),
