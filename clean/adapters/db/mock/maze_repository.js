@@ -12,6 +12,16 @@ function createRepo(data) {
 
                 resolve(mazes.filter((maze) => maze.creator === userId));
             });
+        },
+
+        read(mazeId) {
+
+            return new Promise((resolve) => {
+
+                const mazes = Object.values(data.mazes);
+
+                resolve(mazes.find((maze) => maze.id === mazeId) || null);
+            });
         }
     };
 }

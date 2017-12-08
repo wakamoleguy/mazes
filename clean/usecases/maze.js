@@ -10,5 +10,10 @@ module.exports = {
 
             return mazes;
         });
+    },
+
+    read(mazeId, mazeRepo) {
+
+        return mazeRepo.read(mazeId);
     }
 };

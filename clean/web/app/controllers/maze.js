@@ -28,12 +28,18 @@ module.exports = {
 
         const mazeId = req.params.maze;
 
-        mazeUseCases.read(mazeRepository, mazeId).then((maze) => {
+        mazeUseCases.read(mazeId, mazeRepository).then((maze) => {
 
-            res.render('maze/view', {
-                maze,
-                user: req.locals.user.display
-            });
+            if (maze === null) {
+                // No maze found by that id.
+                res.sendStatus(404);
+            } else {
+
+                res.render('pages/maze_view', {
+                    maze,
+                    user: req.locals.user
+                });
+            }
 
             next();
         });

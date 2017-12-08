@@ -5,7 +5,7 @@ describe('Maze use cases', () => {
 
     describe('browseByCreator', () => {
 
-        it('resolves to a list of mazes for the user', (done) => {
+        it('should resolve to a list of mazes for the user', (done) => {
 
             usecases.browseByCreator('id:003', mazeRepo).then((mazes) => {
 
@@ -14,7 +14,7 @@ describe('Maze use cases', () => {
             }).catch(done.fail);
         });
 
-        it('includes revisions for those mazes', (done) => {
+        it('should include revisions for those mazes', (done) => {
 
             usecases.browseByCreator('id:003', mazeRepo).then((mazes) => {
 
@@ -24,7 +24,7 @@ describe('Maze use cases', () => {
             });
         });
 
-        it('rejects if the mazes do not have revisions (bad data)', (done) => {
+        it('should reject if the mazes do not have revisions', (done) => {
 
             const mockRepo = {
 
@@ -44,13 +44,37 @@ describe('Maze use cases', () => {
             usecases.browseByCreator('id:003', mockRepo).then(done.fail, done);
         });
 
-        it('resolves to an empty list if no mazes found', (done) => {
+        it('should resolve to an empty list if no mazes found', (done) => {
 
             usecases.browseByCreator('id:004', mazeRepo).then((mazes) => {
 
                 expect(mazes).toEqual([]);
                 done();
             }).catch(done.fail);
+        });
+    });
+
+    describe('read', () => {
+
+        it('should resolve to a single maze if found', (done) => {
+
+            usecases.read('m1', mazeRepo).then((maze) => {
+
+                expect(maze).toBeDefined();
+                expect(maze.id).toBe('m1');
+                expect(maze.revisions).toBeDefined();
+
+                done();
+            });
+        });
+
+        it('should resolve to null if no maze is found', (done) => {
+
+            usecases.read('foobar', mazeRepo).then((maze) => {
+
+                expect(maze).toBeNull();
+                done();
+            });
         });
     });
 });

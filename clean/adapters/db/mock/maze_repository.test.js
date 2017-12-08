@@ -71,4 +71,41 @@ describe('Mock Maze Repository', () => {
             }).catch(done.fail);
         });
     });
+
+    describe('read', () => {
+
+        it('should resolve to a maze if it exists', (done) => {
+
+            repo.read('m1').then((maybeMaze) => {
+
+                expect(maybeMaze).not.toBeNull();
+                expect(maybeMaze.id).toBe('m1');
+                expect(maybeMaze.revisions.length).toBe(3);
+
+                done();
+            });
+        });
+
+        it('should resolve to different mazes with different ids', (done) => {
+
+            repo.read('m6').then((maybeMaze) => {
+
+                expect(maybeMaze).not.toBeNull();
+                expect(maybeMaze.id).toBe('m6');
+                expect(maybeMaze.revisions.length).toBe(1);
+
+                done();
+            });
+        });
+
+        it('should resolve to null if no maze found', (done) => {
+
+            repo.read('foobar').then((maybeMaze) => {
+
+                expect(maybeMaze).toBeNull();
+
+                done();
+            });
+        });
+    });
 });

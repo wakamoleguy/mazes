@@ -70,6 +70,27 @@ const repository = {
         }));
     },
 
+    read(mazeId) {
+
+        const connect = require('./connect');
+
+        return connect.then((models) => new Promise((resolve, reject) => {
+
+            models.Maze.
+                findById(mazeId).
+                populate('revisions')
+                .findOne((err, maze) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(maze);
+                    }
+                });
+        }));
+    },
+
+    // Older methods are kept below here
+
     browseByCreatorEmail(email) {
 
         const connect = require('./connect');
