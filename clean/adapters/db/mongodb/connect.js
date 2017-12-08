@@ -27,7 +27,11 @@ const models = connect.then(() => {
             creator: {
                 type: String,
                 ref: 'User'
-            }
+            },
+            revisions: [{
+                type: String,
+                ref: 'Revision'
+            }]
         },
 
         revision: {

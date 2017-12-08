@@ -31,6 +31,7 @@ const repository = {
                 find({
                     creator: userId
                 }).
+                populate('revisions').
                 find((err, mazes) => {
 
                     if (err) {

@@ -1,5 +1,10 @@
 article(id=maze.id)
-     h2
-         a(href=`./${maze.id}/`) Hi!
-     p Version #{maze.version} Size #{maze.size}
-     p= JSON.stringify(maze)
+    h2
+        a(href=`./${maze.id}/`) Hi!
+    p Version #{maze.version} Size #{maze.size}
+    p= JSON.stringify(maze)
+     
+    div(data-grid-size=maze.size)
+        each row in maze.revisions[maze.revisions.length - 1].map
+            each tile in row
+                div(data-tile-type=tile)

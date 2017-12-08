@@ -266,3 +266,36 @@ body > footer > a {
 
     margin: 0 1em 0 0;
 }
+
+/**
+ *
+ * Custom Styles for Maze Elements
+ *
+ */
+
+div[data-grid-size="9"] {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    height: 200px;
+    width: 200px;
+    position: relative;
+}
+
+div[data-grid-size="9"] > * {
+    height: 11.12%;
+    width: 11%;
+}
+
+div[data-tile-type] {
+    border: 1px solid black;
+    box-sizing: border-box;
+}
+
+div[data-tile-type="0"] {
+   background: gray;
+}
+
+div[data-tile-type="1"] {
+   background: black;
+}
