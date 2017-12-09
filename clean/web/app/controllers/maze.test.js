@@ -145,4 +145,60 @@ describe('Maze controller', () => {
     describe('delete', () => {
 
     });
+
+
+    describe('run', () => {
+
+        beforeEach(() => {
+
+            req.params = {
+                maze: '123ABC'
+            };
+
+            spyOn(mazeUseCases, 'read').and.returnValue(Promise.resolve('A'));
+        });
+
+        it('should render the maze runner page', (done) => {
+
+            controller.run(req, res, () => {
+
+                expect(res.render).toHaveBeenCalledWith(
+                    'pages/maze_run',
+                    jasmine.any(Object));
+
+                done();
+            });
+        });
+
+        it('should render the user', (done) => {
+
+            controller.run(req, res, () => {
+
+                expect(res.render).toHaveBeenCalledWith(
+                    jasmine.any(String),
+                    jasmine.objectContaining({
+                        user: ned
+                    }));
+                done();
+            });
+        });
+
+        it('should fetch the maze from the repository', (done) => {
+
+            controller.run(req, res, () => {
+
+                expect(mazeUseCases.read).toHaveBeenCalledWith(
+                    '123ABC',
+                    jasmine.any(Object));
+
+                expect(res.render).toHaveBeenCalledWith(
+                    jasmine.any(String),
+                    jasmine.objectContaining({
+                        maze: 'A'
+                    }));
+                done();
+            });
+        });
+
+    });
 });

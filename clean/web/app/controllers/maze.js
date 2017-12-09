@@ -45,15 +45,24 @@ module.exports = {
         });
     },
 
-    run(req, res) {
+    run(req, res, next) {
 
         const mazeId = req.params.maze;
 
-        mazeUseCases.read(mazeRepository, mazeId).then((maze) => {
+        mazeUseCases.read(mazeId, mazeRepository).then((maze) => {
 
-            res.render('maze/run', {
-                maze
-            });
+            if (maze === null) {
+                // No maze found by that id.
+                res.sendStatus(404);
+            } else {
+
+                res.render('pages/maze_run', {
+                    maze,
+                    user: req.locals.user
+                });
+            }
+
+            next();
         });
     },
 
