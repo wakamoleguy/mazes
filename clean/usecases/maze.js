@@ -15,5 +15,11 @@ module.exports = {
     read(mazeId, mazeRepo) {
 
         return mazeRepo.read(mazeId);
+    },
+
+    updateMap(mazeId, newMap, mazeRepo) {
+
+        return mazeRepo.updateMap(mazeId, newMap).
+            then(() => true).catch(() => false);
     }
 };

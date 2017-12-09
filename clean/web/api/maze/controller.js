@@ -8,7 +8,7 @@ module.exports = {
     read(req, res) {
         const mazeId = req.params.id;
 
-        mazeUsecases.read(mazeRepository, mazeId).
+        mazeUsecases.read(mazeId, mazeRepository).
             then((maze) => {
                 res.set('Content-Type', 'application/json');
                 res.send(view.render(maze));
@@ -21,7 +21,14 @@ module.exports = {
 
         const newMap = req.body.map;
 
-        mazeUsecases.updateMap(mazeRepository, mazeId, newMap).
+        console.log('Editing', mazeId, req.body);
+
+        if (newMap === undefined) {
+            res.sendStatus(200);
+            return;
+        }
+
+        mazeUsecases.updateMap(mazeId, newMap, mazeRepository).
             then(() => {
                 res.sendStatus(200);
             });

@@ -28,7 +28,7 @@ const app = require('./index')(authDriver);
 
 describe('App', () => {
 
-    describe('authentication', () => {
+    xdescribe('authentication', () => {
 
         const nedemail = 'ned@stark.example.com';
         const nedid = 'id:ned@stark.example.com';

@@ -26,8 +26,6 @@ module.exports = (authDriver) => {
     app.use('/js/', express.static(__dirname + '/public/js'));
 
     // Authentication flow
-    app.use(authDriver.support());
-
     app.get('/login/', (req, res) => {
 
         if (req.user) {

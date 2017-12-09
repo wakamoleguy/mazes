@@ -26,8 +26,9 @@ exports.users = {
 
 exports.mazes = {
 
-    winterfell: {
+    m1: {
         id: 'm1',
+        name: 'Winterfell',
         creator: 'id:001',
         size: 9,
         revisions: [
@@ -109,8 +110,9 @@ exports.mazes = {
         ]
     },
 
-    riverrun: {
+    m2: {
         id: 'm2',
+        name: 'Riverrun',
         creator: 'id:002',
         size: 9,
         revisions: [
@@ -142,8 +144,9 @@ exports.mazes = {
         ]
     },
 
-    eyrie: {
+    m3: {
         id: 'm3',
+        name: 'The Eyrie',
         creator: 'id:002',
         size: 9,
         revisions: [
@@ -175,8 +178,9 @@ exports.mazes = {
         ]
     },
 
-    rock: {
+    m4: {
         id: 'm4',
+        name: 'Casterly Rock',
         creator: 'id:003',
         size: 9,
         revisions: [
@@ -208,8 +212,9 @@ exports.mazes = {
         ]
     },
 
-    keep: {
+    m5: {
         id: 'm5',
+        name: 'The Red Keep',
         creator: 'id:003',
         size: 9,
         revisions: [
@@ -241,8 +246,9 @@ exports.mazes = {
         ]
     },
 
-    highgarden: {
+    m6: {
         id: 'm6',
+        name: 'Highgarden',
         creator: 'id:003',
         size: 9,
         revisions: [

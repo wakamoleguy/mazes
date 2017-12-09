@@ -7,10 +7,12 @@ const authDriver = global.process.env.TRUSTING?
     require('../adapters/auth/trusting'):
     require('../adapters/auth/passwordless');
 
+const combinedApp = express();
+combinedApp.use(authDriver.support());
+
 const api = require('./api')(authDriver);
 const app = require('./app')(authDriver);
 
-const combinedApp = express();
 combinedApp.use(bodyParser.json());
 combinedApp.use(bodyParser.urlencoded({ extended: false }));
 

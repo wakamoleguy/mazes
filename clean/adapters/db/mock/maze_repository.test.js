@@ -108,4 +108,72 @@ describe('Mock Maze Repository', () => {
             });
         });
     });
+
+    describe('updateMap', () => {
+
+        const newMap = [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 1, 1, 1, 0, 0, 0],
+            [0, 1, 0, 0, 0, 0, 0, 1, 0],
+            [0, 1, 0, 0, 0, 0, 0, 1, 0],
+            [0, 1, 0, 0, 0, 0, 0, 1, 0],
+            [0, 0, 0, 1, 1, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ];
+
+        it('should resolve to a new repo', (done) => {
+
+            repo.updateMap('m1', newMap).then((newRepo) => {
+
+                expect(newRepo).not.toBe(repo);
+
+                // Make sure it looks like a repo
+                expect(newRepo.updateMap).toBeDefined();
+                expect(newRepo.browseByCreator).toBeDefined();
+
+                done();
+            }).catch(done.fail);
+        });
+
+        it('should contain the updated maze in the new repo', (done) => {
+
+            repo.updateMap('m1', newMap).then(
+
+                (newRepo) => newRepo.read('m1')
+            ).then((maze) => {
+
+                expect(maze.revisions).toBeDefined();
+                expect(maze.revisions[maze.revisions.length-1]).toEqual(newMap);
+
+                done();
+            }).catch(done.fail);
+        });
+
+        it('should not update the maze in the old repo', (done) => {
+
+            repo.updateMap('m1', newMap).then(
+
+                () => repo.read('m1')
+            ).then((maze) => {
+
+                expect(maze.revisions).toBeDefined();
+                expect(maze.revisions[maze.revisions.length-1]).
+                    not.toEqual(newMap);
+
+                done();
+            }).catch(done.fail);
+        });
+
+        it('should throw if the size is bad', (done) => {
+
+            repo.updateMap('m1', [[0, 0], [0, 0]]).then(done.fail, done);
+        });
+
+        it('should throw if the maze does not exist', (done) => {
+
+            repo.updateMap('foobar', newMap).then(done.fail, done);
+        });
+    });
 });

@@ -89,6 +89,50 @@ const repository = {
         }));
     },
 
+    updateMap(mazeId, newMap) {
+
+        const connect = require('./connect');
+
+        return connect.then((models) => new Promise((resolve, reject) => {
+
+            models.Revision.
+                find({
+                    maze: mazeId
+                }).
+                populate('maze').
+                find((err, revisions) => {
+
+                    if (err) {
+
+                        reject(err);
+                    } else {
+
+                        const latest = revisions.
+                            sort((a, b) => b.version - a.version)[0];
+
+                        const maze = latest.maze;
+
+                        if (
+                            newMap.length !== maze.size ||
+                            newMap.some((row) => row.length !== maze.size)
+                        ) {
+
+                            reject('Bad size for newMap');
+                        } else {
+
+                            latest.update({ map: newMap }, (err) => {
+                                if (err) {
+                                    reject(err);
+                                } else {
+                                    resolve();
+                                }
+                            });
+                        }
+                    }
+                });
+        }));
+    },
+
     // Older methods are kept below here
 
     add(id, size, creatorId, name, revisions) {

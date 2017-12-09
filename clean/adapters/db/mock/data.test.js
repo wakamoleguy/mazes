@@ -72,13 +72,18 @@ describe('Mock data', () => {
 
         describe('Winterfell', () => {
 
-            const winterfell = DATA.mazes.winterfell;
+            const winterfell = DATA.mazes.m1;
 
             it('should be created by Ned', () => {
 
                 expect(winterfell).toBeDefined();
 
                 expect(winterfell.creator).toBe('id:001');
+            });
+
+            it('should be named Winterfell', () => {
+
+                expect(winterfell.name).toBe('Winterfell');
             });
 
             it('should have three revisions', () => {
@@ -89,13 +94,18 @@ describe('Mock data', () => {
 
         describe('Riverrun', () => {
 
-            const riverrun = DATA.mazes.riverrun;
+            const riverrun = DATA.mazes.m2;
 
             it('should be created by Cat', () => {
 
                 expect(riverrun).toBeDefined();
 
                 expect(riverrun.creator).toBe('id:002');
+            });
+
+            it('should be named Riverrun', () => {
+
+                expect(riverrun.name).toBe('Riverrun');
             });
 
             it('should have one revision', () => {
@@ -106,13 +116,18 @@ describe('Mock data', () => {
 
         describe('The Eyrie', () => {
 
-            const eyrie = DATA.mazes.eyrie;
+            const eyrie = DATA.mazes.m3;
 
             it('should be created by Cat', () => {
 
                 expect(eyrie).toBeDefined();
 
                 expect(eyrie.creator).toBe('id:002');
+            });
+
+            it('should be named The Eyrie', () => {
+
+                expect(eyrie.name).toBe('The Eyrie');
             });
 
             it('should have one revision', () => {
@@ -123,13 +138,18 @@ describe('Mock data', () => {
 
         describe('Casterly Rock', () => {
 
-            const rock = DATA.mazes.rock;
+            const rock = DATA.mazes.m4;
 
             it('should be created by Jaime', () => {
 
                 expect(rock).toBeDefined();
 
                 expect(rock.creator).toBe('id:003');
+            });
+
+            it('should be named Casterly Rock', () => {
+
+                expect(rock.name).toBe('Casterly Rock');
             });
 
             it('should have one revision', () => {
@@ -140,13 +160,18 @@ describe('Mock data', () => {
 
         describe('Red Keep', () => {
 
-            const keep = DATA.mazes.keep;
+            const keep = DATA.mazes.m5;
 
             it('should be created by Jaime', () => {
 
                 expect(keep).toBeDefined();
 
                 expect(keep.creator).toBe('id:003');
+            });
+
+            it('should be named The Red Keep', () => {
+
+                expect(keep.name).toBe('The Red Keep');
             });
 
             it('should have one revision', () => {
@@ -157,13 +182,18 @@ describe('Mock data', () => {
 
         describe('Highgarden', () => {
 
-            const highgarden = DATA.mazes.highgarden;
+            const highgarden = DATA.mazes.m6;
 
             it('should be created by Jaime', () => {
 
                 expect(highgarden).toBeDefined();
 
                 expect(highgarden.creator).toBe('id:003');
+            });
+
+            it('should be named Highgarden', () => {
+
+                expect(highgarden.name).toBe('Highgarden');
             });
 
             it('should have one revision', () => {

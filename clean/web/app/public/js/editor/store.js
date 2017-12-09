@@ -19,12 +19,20 @@
 
             // TODO - handle errors
             const maze = JSON.parse(xhr.responseText);
+            const revision = maze.revisions[maze.revisions.length-1];
 
-            this.state = maze;
+            this.state = {
+                name: maze.name,
+                size: maze.size,
+                start: revision.start,
+                destination: revision.destination,
+                map: revision.map
+            };
             this.dispatch('LOADED');
         });
 
         xhr.open("GET", `http://localhost:3000/api/maze/${mazeId}/`);
+        xhr.withCredentials = true;
         xhr.send();
 
         this.subscribers = [];
@@ -45,6 +53,7 @@
             const xhr = new XMLHttpRequest();
             //throw new Error('I changed revisions. Have to fix this API call now');
             xhr.open('PUT', `http://localhost:3000/api/maze/${mazeId}/`);
+            xhr.withCredentials = true;
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.send(JSON.stringify(newState));
 

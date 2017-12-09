@@ -77,4 +77,47 @@ describe('Maze use cases', () => {
             });
         });
     });
+
+    describe('updateMap', () => {
+
+        const newMap = [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ];
+
+        it('should resolve true if the maze is found and updated', (done) => {
+
+            usecases.updateMap('m1', newMap, mazeRepo).then((result) => {
+
+                expect(result).toBe(true);
+                done();
+            });
+        });
+
+        it('should resolve false if the maze does not exist', (done) => {
+
+            usecases.updateMap('foobar', newMap, mazeRepo).then((result) => {
+
+                expect(result).toBe(false);
+                done();
+            });
+        });
+
+        it('should resolve false if the map is the wrong size', (done) => {
+
+            const smallerMap = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+            usecases.updateMap('m1', smallerMap, mazeRepo).then((result) => {
+
+                expect(result).toBe(false);
+                done();
+            });
+        });
+    });
 });

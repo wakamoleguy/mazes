@@ -136,6 +136,57 @@ describe('Maze controller', () => {
 
     describe('edit', () => {
 
+        beforeEach(() => {
+
+            req.params = {
+                maze: '123ABC'
+            };
+
+            spyOn(mazeUseCases, 'read').and.returnValue(Promise.resolve('A'));
+        });
+
+        it('should render the maze edit page', (done) => {
+
+            controller.edit(req, res, () => {
+
+                expect(res.render).toHaveBeenCalledWith(
+                    'pages/maze_edit',
+                    jasmine.any(Object));
+
+                done();
+            });
+        });
+
+        it('should render the user', (done) => {
+
+            controller.edit(req, res, () => {
+
+                expect(res.render).toHaveBeenCalledWith(
+                    jasmine.any(String),
+                    jasmine.objectContaining({
+                        user: ned
+                    }));
+                done();
+            });
+        });
+
+        it('should fetch the maze from the repository', (done) => {
+
+            controller.edit(req, res, () => {
+
+                expect(mazeUseCases.read).toHaveBeenCalledWith(
+                    '123ABC',
+                    jasmine.any(Object));
+
+                expect(res.render).toHaveBeenCalledWith(
+                    jasmine.any(String),
+                    jasmine.objectContaining({
+                        maze: 'A'
+                    }));
+                done();
+            });
+        });
+
     });
 
     describe('add', () => {

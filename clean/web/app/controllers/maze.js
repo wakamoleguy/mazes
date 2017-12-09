@@ -45,6 +45,27 @@ module.exports = {
         });
     },
 
+    edit(req, res, next) {
+
+        const mazeId = req.params.maze;
+
+        mazeUseCases.read(mazeId, mazeRepository).then((maze) => {
+
+            if (maze === null) {
+                // No maze found by that id.
+                res.sendStatus(404);
+            } else {
+
+                res.render('pages/maze_edit', {
+                    maze,
+                    user: req.locals.user
+                });
+            }
+
+            next();
+        });
+    },
+
     run(req, res, next) {
 
         const mazeId = req.params.maze;
@@ -64,10 +85,5 @@ module.exports = {
 
             next();
         });
-    },
-
-    edit(req, res) {
-
-        res.render('maze/edit');
     }
 };
