@@ -63,7 +63,7 @@ class MazeViewer extends HTMLElement {
 
         shadow.appendChild(MazeViewerStyle());
 
-        const title = document.createElement('h1');
+        const title = document.createElement('h6');
         title.innerText = this.getAttribute('data-name');
         shadow.appendChild(title);
 

@@ -8,6 +8,8 @@ html
         
         // TODO - Stylesheets within app directory
         link(rel="stylesheet" href="css/main.css")
+        
+        include /shared/polyfill.pug
 
     body
         
@@ -26,4 +28,5 @@ html
         footer
             
         script(type="module" src="js/list/main.js")
+
         script(src="js/maze_viewer.js")

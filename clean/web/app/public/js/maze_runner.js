@@ -27,6 +27,8 @@ class MazeRunner extends HTMLElement {
     constructor() {
         super();
 
+        console.log('Constructing maze runner');
+
         this.camera = camera();
         this.scene = scene();
 
@@ -34,7 +36,7 @@ class MazeRunner extends HTMLElement {
 
         shadow.appendChild(MazeRunnerStyle());
 
-        const title = document.createElement('h1');
+        const title = document.createElement('h6');
         title.innerText = this.getAttribute('data-name');
         shadow.appendChild(title);
 
