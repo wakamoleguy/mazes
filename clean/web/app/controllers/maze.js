@@ -6,7 +6,6 @@ module.exports = {
     list(req, res, next) {
 
         const user = req.locals.user;
-        // const display = user.display;
 
         mazeUseCases.browseByCreator(user.id, mazeRepository).
             then((mazes) => {
@@ -27,6 +26,13 @@ module.exports = {
     read(req, res, next) {
 
         const mazeId = req.params.maze;
+
+        if (mazeId === 'create') {
+
+            // This was a request for the maze creation form. Abort.
+            next();
+            return;
+        }
 
         mazeUseCases.read(mazeId, mazeRepository).then((maze) => {
 
@@ -63,6 +69,43 @@ module.exports = {
             }
 
             next();
+        });
+    },
+
+    create(req, res, next) {
+
+        res.render('pages/maze_create');
+        next();
+    },
+
+    add(req, res, next) {
+
+        const name = req.body.name;
+
+        if (!name) {
+            res.sendStatus(400);
+            next();
+            return;
+        }
+
+        const user = req.locals.user;
+
+        mazeUseCases.create(name, 9, user.id, mazeRepository).then(() => {
+
+            mazeUseCases.browseByCreator(user.id, mazeRepository).
+                then((mazes) => {
+
+                    res.render('pages/maze', {
+                        user,
+                        mazes
+                    });
+
+                    next();
+                }, (err) => {
+                    console.error(err);
+                    res.sendStatus(500);
+                    next();
+                });
         });
     },
 

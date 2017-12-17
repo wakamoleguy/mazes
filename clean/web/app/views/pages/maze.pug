@@ -18,6 +18,9 @@ html
             include /user/show.pug
             
             section(id="maze-list")
+                
+                a(href="./create/") Create a New Maze
+                
                 each maze in mazes
                     include /maze/show.pug
         footer

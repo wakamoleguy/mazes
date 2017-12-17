@@ -1,7 +1,7 @@
 article(id=maze.id)
     h2
-        a(href=`./${maze.id}/`) Hi!
-    p Version #{maze.version} Size #{maze.size}
+        a(href=`./${maze.id}/`) #{maze.name || 'Untitled Maze'}
+    p Size #{maze.size}
     p= JSON.stringify(maze)
      
     div(data-grid-size=maze.size)

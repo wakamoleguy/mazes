@@ -120,4 +120,75 @@ describe('Maze use cases', () => {
             });
         });
     });
+
+    describe('create', () => {
+
+        const name = 'The Wall';
+        const size = 9;
+        const creatorId = 'id:001';
+
+        it('should create a new maze', (done) => {
+
+            usecases.create(name, size, creatorId, mazeRepo).then((result) => {
+
+                expect(result.maze).toEqual({
+                    id: jasmine.any(String),
+                    creator: creatorId,
+                    size,
+                    name,
+                    revisions: [{
+
+                        id: jasmine.any(String),
+                        maze: jasmine.any(String),
+                        version: 0,
+                        start: { x: 0, y: 0, direction: 'east' },
+                        destination: { x: -1, y: 0 },
+                        map: [
+                            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                            [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                            [0, 0, 0, 0, 0, 0, 0, 0, 0]
+                        ]
+                    }]
+                });
+
+                expect(result.maze.revisions[0].maze).toEqual(result.maze.id);
+
+                done();
+            }).catch(done.fail);
+        });
+
+        it('should resolve with a new repo', (done) => {
+
+            usecases.create(name, size, creatorId, mazeRepo).then((result) => {
+
+                expect(result.mazeRepo).toBeDefined();
+                expect(result.mazeRepo).not.toBe(mazeRepo);
+
+                done();
+            }).catch(done.fail);
+        });
+
+        it('should resolve to the exact same thing that is read', (done) => {
+
+            usecases.create(name, size, creatorId, mazeRepo).then((result) => {
+
+                const mazeId = result.maze.id;
+
+                const readMaze = usecases.read(mazeId, result.mazeRepo);
+
+                return Promise.all([result.maze, readMaze]);
+            }).then((mazes) => {
+
+                expect(mazes[0]).toEqual(mazes[1]);
+
+                done();
+            }).catch(done.fail);
+        });
+    });
 });

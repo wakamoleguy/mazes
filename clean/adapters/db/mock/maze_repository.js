@@ -60,6 +60,29 @@ function createRepo(data) {
                     resolve(createRepo(newData));
                 }
             });
+        },
+
+        add(newMaze) {
+
+            return new Promise((resolve, reject) => {
+
+                const mazes = Object.values(data.mazes);
+
+                if (mazes.some((maze) => maze.id === newMaze.id)) {
+                    reject('Cannot add new maze, duplicate ID');
+                } else {
+
+                    const newMazes = { ...data.mazes };
+                    newMazes[newMaze.id] = newMaze;
+
+                    const newData = {
+                        users: data.users,
+                        mazes: newMazes
+                    };
+
+                    resolve(createRepo(newData));
+                }
+            });
         }
     };
 }

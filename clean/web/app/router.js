@@ -32,7 +32,11 @@ router.get('/', (req, res) => {
     res.redirect(307, 'maze/');
 });
 
+router.param('maze', (req, res, next) => next());
+
 router.get('/maze/', mazeController.list);
+router.post('/maze/', mazeController.add);
+router.get('/maze/create/', mazeController.create);
 router.get('/maze/:maze/', mazeController.read);
 router.get('/maze/:maze/edit/', mazeController.edit);
 router.get('/maze/:maze/run/', mazeController.run);

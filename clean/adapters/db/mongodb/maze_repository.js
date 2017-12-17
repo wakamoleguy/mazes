@@ -41,30 +41,11 @@ const repository = {
 
                         resolve(mazes.map((maze) => ({
                             id: maze._id,
+                            name: maze.name,
                             creator: maze.creator,
                             size: maze.size,
                             revisions: maze.revisions
                         })));
-                    }
-                });
-        }));
-    },
-
-    browse(userId) {
-
-        const connect = require('./connect');
-
-        return connect.then((models) => new Promise((resolve, reject) => {
-
-            models.Maze.
-                find({
-                    creator: userId
-                }).
-                find((err, mazes) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(mazes);
                     }
                 });
         }));
@@ -83,7 +64,14 @@ const repository = {
                     if (err) {
                         reject(err);
                     } else {
-                        resolve(maze);
+
+                        resolve({
+                            id: maze._id,
+                            name: maze.name,
+                            creator: maze.creator,
+                            size: maze.size,
+                            revisions: maze.revisions
+                        });
                     }
                 });
         }));
@@ -133,37 +121,52 @@ const repository = {
         }));
     },
 
-    // Older methods are kept below here
-
-    add(id, size, creatorId, name, revisions) {
+    add(newMaze) {
 
         const connect = require('./connect');
 
-        return connect.then((models) => new Promise((resolve, reject) => {
+        return connect.then((models) => {
 
-            new models.Maze({
-                _id: id,
-                name,
-                creator: creatorId,
-                size
-            }).save((err) => {
+            const revisionIds = newMaze.revisions.map(
+                (newRevision) => new Promise((resolve, reject) => {
 
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve();
-                }
-            });
-        })).then(() => Promise.all(
-            revisions.map((revision) => repository.revision.add(
-                revision.id,
-                id, // mazeId
-                revision.version,
-                revision.start,
-                revision.destination,
-                revision.map
-            ))
-        )).then(() => {}); // Return undefined rather than an array
+                    new models.Revision({
+                        _id: newRevision.id,
+                        maze: newRevision.maze,
+                        version: newRevision.version,
+                        start: newRevision.start,
+                        destination: newRevision.destination,
+                        map: newRevision.map
+                    }).save((err, revision) => {
+
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve(revision._id);
+                        }
+                    });
+                })
+            );
+
+            return Promise.all(revisionIds).then(
+                (revisionIds) => new Promise((resolve, reject) => {
+
+                    new models.Maze({
+                        _id: newMaze.id,
+                        name: newMaze.name,
+                        size: newMaze.size,
+                        creator: newMaze.creator,
+                        revisions: revisionIds
+                    }).save((err) => {
+
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve(repository);
+                        }
+                    });
+                }));
+        });
     }
 };
 

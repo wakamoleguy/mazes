@@ -132,6 +132,21 @@ describe('Maze controller', () => {
             });
         });
 
+        it('should abort if the maze id looks like "create"', (done) => {
+
+            req.params = {
+                maze: 'create'
+            };
+
+            controller.read(req, res, () => {
+
+                expect(mazeUseCases.read).not.toHaveBeenCalled();
+                expect(res.render).not.toHaveBeenCalled();
+
+                done();
+            });
+        });
+
     });
 
     describe('edit', () => {
@@ -189,7 +204,105 @@ describe('Maze controller', () => {
 
     });
 
+    describe('create', () => {
+
+        it('should render a new maze creation form', (done) => {
+
+            controller.create(req, res, () => {
+
+                expect(res.render).toHaveBeenCalledWith(
+                    'pages/maze_create'
+                );
+
+                done();
+            });
+        });
+    });
+
     describe('add', () => {
+
+        const name = 'The Wall';
+
+        beforeEach(() => {
+
+            req.body = {
+                name
+            };
+
+            spyOn(mazeUseCases, 'create').and.returnValue(Promise.resolve('A'));
+        });
+
+        it('should create a maze', (done) => {
+
+            controller.add(req, res, () => {
+
+                expect(mazeUseCases.create).toHaveBeenCalledWith(
+                    name,
+                    9,
+                    ned.id,
+                    jasmine.any(Object)
+                );
+
+                done();
+            });
+        });
+
+        it('should render the maze list page', (done) => {
+
+            controller.add(req, res, () => {
+
+                expect(res.render).toHaveBeenCalledWith(
+                    'pages/maze',
+                    jasmine.any(Object));
+
+                done();
+            });
+        });
+
+        it('should send an error if there was no name found', (done) => {
+
+            req.body = {};
+
+            controller.add(req, res, () => {
+
+                expect(res.sendStatus).toHaveBeenCalledWith(400);
+                done();
+            });
+        });
+
+        it('should render the user', (done) => {
+
+            controller.add(req, res, () => {
+
+                expect(res.render).toHaveBeenCalledWith(
+                    jasmine.any(String),
+                    jasmine.objectContaining({
+                        user: ned
+                    }));
+                done();
+            });
+        });
+
+        it('should fetch mazes for the user by creator id', (done) => {
+
+            spyOn(mazeUseCases, 'browseByCreator').
+                and.returnValue(Promise.resolve([1,2,3]));
+
+            controller.add(req, res, () => {
+
+                expect(mazeUseCases.browseByCreator).
+                    toHaveBeenCalledWith(ned.id, jasmine.any(Object));
+
+                expect(res.render).
+                    toHaveBeenCalledWith(
+                        jasmine.any(String),
+                        jasmine.objectContaining({
+                            mazes: [1,2,3]
+                        }));
+
+                done();
+            });
+        });
 
     });
 

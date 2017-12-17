@@ -1,3 +1,5 @@
+const uuidv4 = require('uuid/v4');
+
 module.exports = {
 
     browseByCreator(userId, mazeRepo) {
@@ -21,5 +23,33 @@ module.exports = {
 
         return mazeRepo.updateMap(mazeId, newMap).
             then(() => true).catch(() => false);
+    },
+
+    create(name, size, creatorId, mazeRepo) {
+
+        const id = uuidv4();
+
+        // Mazes are created with a blank revision (for now)
+        const revision = {
+            id: id + 'r0',
+            maze: id,
+            version: 0,
+            start: { x: 0, y: 0, direction: 'east' },
+            destination: { x: -1, y: 0 },
+            map: Array(size).fill().map(() => Array(size).fill(0))
+        };
+
+        const maze = {
+            id,
+            size,
+            name,
+            creator: creatorId,
+            revisions: [revision]
+        };
+
+        return mazeRepo.add(maze).then((newRepo) => ({
+            maze,
+            mazeRepo: newRepo
+        }));
     }
 };

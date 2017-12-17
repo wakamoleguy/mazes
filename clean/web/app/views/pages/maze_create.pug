@@ -1,0 +1,32 @@
+html
+    head
+        
+            meta(charset="utf-8")
+            meta(name="description" content="A simple maze editor")
+            meta(name="viewport" content="width=device-width")
+            
+            title Maze editor
+            
+            // TODO - Stylesheets within app directory
+            link(rel="stylesheet" href="../css/main.css")
+                
+    body
+        
+        header
+            h1 Create a new maze
+            
+            p Size 9 (Only size right now)
+            
+        main
+
+
+            form(method="POST" action="../")
+                label Give Your Maze A Name:
+                    input(
+                        type="text"
+                        name="name"
+                        placeholder="Crypts of Winterfell")
+                
+            a(href="../") Back to List
+                
+        footer

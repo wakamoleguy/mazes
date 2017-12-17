@@ -176,4 +176,88 @@ describe('Mock Maze Repository', () => {
             repo.updateMap('foobar', newMap).then(done.fail, done);
         });
     });
+
+    describe('add', () => {
+
+        const thewall = {
+            id: 'm101',
+            name: 'The Wall',
+            creator: 'id:001',
+            size: 9,
+            revisions: [
+                {
+                    id: 'm101r0',
+                    maze: 'm101',
+                    version: 0,
+                    start: {
+                        x: 0,
+                        z: 0,
+                        direction: 'east'
+                    },
+                    destination: {
+                        x: 8,
+                        z: 8
+                    },
+                    map: [
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [1, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [1, 1, 1, 1, 1, 1, 1, 1, 1],
+                        [1, 1, 1, 1, 1, 1, 1, 1, 1],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0, 0, 0, 0, 0]
+                    ]
+                }
+            ]
+        };
+
+        it('should resolve to a new repo', (done) => {
+
+            repo.add(thewall).then((newRepo) => {
+
+                expect(newRepo).not.toBe(repo);
+                expect(newRepo.read).toBeDefined();
+                expect(newRepo.browseByCreator).toBeDefined();
+
+                done();
+            }).catch(done.fail);
+        });
+
+        it('should contain the maze in the new repo', (done) => {
+
+            repo.add(thewall).then(
+
+                (newRepo) => newRepo.read(thewall.id)
+            ).then((maybeFoundMaze) => {
+
+                expect(maybeFoundMaze).toEqual(thewall);
+
+                done();
+            }).catch(done.fail);
+        });
+
+        it('should not add the maze to the old repo', (done) => {
+
+            repo.add(thewall).then(
+
+                () => repo.read(thewall.id)
+            ).then((maybeFoundMaze) => {
+
+                expect(maybeFoundMaze).toBeNull();
+
+                done();
+            }).catch(done.fail);
+        });
+
+        it('should should throw if the id conflicts', (done) => {
+
+            const badwinterfell = { ...thewall, id: 'm1' };
+
+            repo.add(badwinterfell).then(done.fail, done);
+        });
+
+        // Other tests for data constraints?
+    });
 });
