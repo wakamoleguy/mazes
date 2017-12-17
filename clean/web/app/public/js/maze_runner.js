@@ -65,8 +65,8 @@ class MazeRunner extends HTMLElement {
 
         // Put the camera in the starting position.
         // Position the camera based on the starting position
-        this.camera.position.x = parseInt(this.getAttribute('data-starting-x'), 10) * 10 + 5;
-        this.camera.position.z = parseInt(this.getAttribute('data-starting-z'), 10) * 10 + 5;
+        this.camera.position.x = parseInt(this.getAttribute('data-starting-z'), 10) * 10 + 5;
+        this.camera.position.z = parseInt(this.getAttribute('data-starting-x'), 10) * 10 + 5;
 
         switch (this.getAttribute('data-starting-direction')) {
             case 'west':
@@ -152,8 +152,8 @@ class MazeRunner extends HTMLElement {
 
         if (maze[row] === undefined || maze[row][col] === undefined) {
 
-            if (parseInt(this.getAttribute('data-destination-z'), 10) === row
-            && parseInt(this.getAttribute('data-destination-x'), 10) === col) {
+            if (parseInt(this.getAttribute('data-destination-z'), 10) === col
+            && parseInt(this.getAttribute('data-destination-x'), 10) === row) {
                 return -1;
             } else {
                 return 0;
@@ -203,31 +203,31 @@ class MazeRunner extends HTMLElement {
         const tileZStep = this.wallTypeAtCoordinates(
             this.camera.position.z + (forwardZComponent / Math.abs(forwardZComponent)),
             this.camera.position.x);
-            const tileXStep = this.wallTypeAtCoordinates(
-                this.camera.position.z,
-                this.camera.position.x + (forwardXComponent / Math.abs(forwardXComponent)));
-                const tileForwardOne = this.wallTypeAtCoordinates(
-                    this.camera.position.z + forwardZComponent,
-                    this.camera.position.x + forwardXComponent);
-                    const tileForwardStep = this.wallTypeAtCoordinates(newZ, newX);
+        const tileXStep = this.wallTypeAtCoordinates(
+            this.camera.position.z,
+            this.camera.position.x + (forwardXComponent / Math.abs(forwardXComponent)));
+        const tileForwardOne = this.wallTypeAtCoordinates(
+            this.camera.position.z + forwardZComponent,
+            this.camera.position.x + forwardXComponent);
+        const tileForwardStep = this.wallTypeAtCoordinates(newZ, newX);
 
-                    if (tileForwardOne === 1 || tileForwardStep === 1) {
-                        if (tileZStep !== 1 && tileXStep === 1) {
-                            this.camera.position.z = newZ;
-                        } else if (tileXStep !== 1 && tileZStep === 1) {
-                            this.camera.position.x = newX;
-                        }
-                    } else if (tileForwardOne !== 1 && tileForwardStep !== 1) {
-                        if (tileZStep !== 1) {
-                            this.camera.position.z = newZ;
-                        }
-                        if (tileForwardStep !== 1 && tileXStep !== 1) {
-                            this.camera.position.x = newX;
-                        }
-                    }
-
-                    this.renderer.render(this.scene, this.camera);
-                }
+        if (tileForwardOne === 1 || tileForwardStep === 1) {
+            if (tileZStep !== 1 && tileXStep === 1) {
+                this.camera.position.z = newZ;
+            } else if (tileXStep !== 1 && tileZStep === 1) {
+                this.camera.position.x = newX;
             }
+        } else if (tileForwardOne !== 1 && tileForwardStep !== 1) {
+            if (tileZStep !== 1) {
+                this.camera.position.z = newZ;
+            }
+            if (tileForwardStep !== 1 && tileXStep !== 1) {
+                this.camera.position.x = newX;
+            }
+        }
 
-            customElements.define('maze-runner', MazeRunner);
+        this.renderer.render(this.scene, this.camera);
+    }
+}
+
+customElements.define('maze-runner', MazeRunner);

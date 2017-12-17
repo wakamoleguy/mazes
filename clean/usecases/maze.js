@@ -34,8 +34,8 @@ module.exports = {
             id: id + 'r0',
             maze: id,
             version: 0,
-            start: { x: 0, y: 0, direction: 'east' },
-            destination: { x: -1, y: 0 },
+            start: { x: 0, z: 0, direction: 'east' },
+            destination: { x: -1, z: 0 },
             map: Array(size).fill().map(() => Array(size).fill(0))
         };
 
