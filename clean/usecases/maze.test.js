@@ -141,8 +141,8 @@ describe('Maze use cases', () => {
                         id: jasmine.any(String),
                         maze: jasmine.any(String),
                         version: 0,
-                        start: { x: 0, y: 0, direction: 'east' },
-                        destination: { x: -1, y: 0 },
+                        start: { x: 0, z: 0, direction: 'east' },
+                        destination: { x: -1, z: 0 },
                         map: [
                             [0, 0, 0, 0, 0, 0, 0, 0, 0],
                             [0, 0, 0, 0, 0, 0, 0, 0, 0],
