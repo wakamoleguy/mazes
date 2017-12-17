@@ -57,13 +57,36 @@ const models = connect.then(() => {
             _id: String,
             email: String,
             display: String
+        },
+
+        challenge: {
+            _id: String,
+            challengingUser: {
+                type: String,
+                ref: 'User'
+            },
+            challengedUser: {
+                type: String,
+                ref: 'User'
+            },
+            challengingMaze: {
+                type: String,
+                ref: 'Maze'
+            },
+            challengedMaze: {
+                type: String,
+                ref: 'Maze'
+            },
+            challengingTime: Number,
+            challengedTime: Number
         }
     };
 
     return {
         Maze: mongoose.model('Maze', schemas.maze),
         Revision: mongoose.model('Revision', schemas.revision),
-        User: mongoose.model('User', schemas.user)
+        User: mongoose.model('User', schemas.user),
+        Challenge: mongoose.model('Challenge', schemas.challenge)
     };
 });
 

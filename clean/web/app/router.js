@@ -1,5 +1,6 @@
 const adminController = require('./controllers/admin');
 const mazeController = require('./controllers/maze');
+const userController = require('./controllers/user');
 const express = require('express');
 
 const userRepo = require('../../adapters/db/mongodb/user_repository');
@@ -32,8 +33,6 @@ router.get('/', (req, res) => {
     res.redirect(307, 'maze/');
 });
 
-router.param('maze', (req, res, next) => next());
-
 router.get('/maze/', mazeController.list);
 router.post('/maze/', mazeController.add);
 router.get('/maze/create/', mazeController.create);
@@ -42,6 +41,8 @@ router.get('/maze/:maze/edit/', mazeController.edit);
 router.get('/maze/:maze/run/', mazeController.run);
 
 router.use('/maze/', express.static(__dirname + '/public'));
+
+router.get('/user/', userController.browse);
 
 router.use('/admin/', adminController.dashboard);
 

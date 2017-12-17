@@ -2,6 +2,23 @@ const repo = require('./user_repository');
 
 describe('Mock User Repository', () => {
 
+    describe('browse', () => {
+
+        it('should resolve to a list of all users', (done) => {
+
+            repo.browse().then((users) => {
+
+                expect(users.length).toBe(4);
+                expect(users[0]).toEqual({
+                    email: 'ned@stark.example.com',
+                    id: 'id:001',
+                    display: 'Eddard Stark'
+                });
+                done();
+            }).catch(done.fail);
+        });
+    });
+
     describe('readByEmail', () => {
 
         it('should resolve to a user if it exists', (done) => {

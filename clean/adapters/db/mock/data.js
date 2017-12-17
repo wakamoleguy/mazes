@@ -280,3 +280,56 @@ exports.mazes = {
         ]
     }
 };
+
+exports.challenges = {
+
+    // A new challenge
+    new: {
+        challengingUser: 'id:001',
+        challengedUser: 'id:002',
+        challengingMaze: 'm1',
+        challengedMaze: null,
+        challengingTime: null,
+        challengedTime: null
+    },
+
+    // An accepted challenge
+    accepted: {
+        challengingUser: 'id:001',
+        challengedUser: 'id:003',
+        challengingMaze: 'm1',
+        challengedMaze: 'm4',
+        challengingTime: null,
+        challengedTime: null
+    },
+
+    // A challenge where the first user has run
+    first_run: {
+        challengingUser: 'id:001',
+        challengedUser: 'id:002',
+        challengingMaze: 'm1',
+        challengedMaze: 'm3',
+        challengingTime: 97,
+        challengedTime: null
+    },
+
+    // A challenge where the second user has runner
+    second_run: {
+        challengingUser: 'id:001',
+        challengedUser: 'id:003',
+        challengingMaze: 'm1',
+        challengedMaze: 'm5',
+        challengingTime: null,
+        challengedTime: 59
+    },
+
+    // A challenge where both users have run
+    complete: {
+        challengingUser: 'id:001',
+        challengedUser: 'id:003',
+        challengingMaze: 'm1',
+        challengedMaze: 'm6',
+        challengingTime: 33,
+        challengedTime: 36
+    }
+};

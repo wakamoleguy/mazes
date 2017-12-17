@@ -1,0 +1,32 @@
+html
+    head
+        meta(charset="utf-8")
+        meta(name="description" content="A simple maze editor")
+        meta(name="viewport" content="width=device-width")
+            
+        title Maze Editor
+        
+        link(rel="stylesheet" href="../maze/css/main.css")
+            
+        include /shared/polyfill.pug
+        
+    body
+        
+        header
+            h1 Maze Editor
+            
+        main
+            
+            section
+                article
+                    include /user/show.pug
+            
+            section(id="user-list")
+                
+                h2 All Users:
+                
+                each user in users
+                    article
+                        include /user/show.pug
+                    
+        footer

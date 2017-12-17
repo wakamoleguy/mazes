@@ -202,4 +202,22 @@ describe('Mock data', () => {
             });
         });
     });
+
+    describe('Challenges', () => {
+
+        it('should each have the same six fields', () => {
+
+            const challenges = DATA.challenges;
+
+            Object.values(challenges).forEach((c) => {
+
+                expect(c.challengingUser).toBeDefined();
+                expect(c.challengedUser).toBeDefined();
+                expect(c.challengingMaze).toBeDefined();
+                expect(c.challengedMaze).toBeDefined();
+                expect(c.challengingTime).toBeDefined();
+                expect(c.challengedTime).toBeDefined();
+            });
+        });
+    });
 });

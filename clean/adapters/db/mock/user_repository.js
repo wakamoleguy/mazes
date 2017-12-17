@@ -4,6 +4,14 @@ function createRepo(data) {
 
     return {
 
+        browse() {
+            return new Promise((resolve) => {
+
+                const users = Object.values(data.users);
+                resolve(users.sort());
+            });
+        },
+
         readByEmail(email) {
 
             return new Promise((resolve) => {

@@ -50,5 +50,10 @@ module.exports = {
                 };
             }
         });
+    },
+
+    browse(userRepo) {
+
+        return userRepo.browse();
     }
 };

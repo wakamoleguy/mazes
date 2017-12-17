@@ -5,7 +5,7 @@
 
 const repository = {
 
-    dump() {
+    browse() {
 
         const connect = require('./connect');
 
