@@ -65,8 +65,8 @@ class MazeRunner extends HTMLElement {
 
         // Put the camera in the starting position.
         // Position the camera based on the starting position
-        this.camera.position.x = parseInt(this.getAttribute('data-starting-x'), 10) * 10 + 5;
-        this.camera.position.z = parseInt(this.getAttribute('data-starting-z'), 10) * 10 + 5;
+        this.camera.position.x = parseInt(this.getAttribute('data-starting-z'), 10) * 10 + 5;
+        this.camera.position.z = parseInt(this.getAttribute('data-starting-x'), 10) * 10 + 5;
 
         switch (this.getAttribute('data-starting-direction')) {
             case 'west':
@@ -152,8 +152,8 @@ class MazeRunner extends HTMLElement {
 
         if (maze[row] === undefined || maze[row][col] === undefined) {
 
-            if (parseInt(this.getAttribute('data-destination-z'), 10) === row
-            && parseInt(this.getAttribute('data-destination-x'), 10) === col) {
+            if (parseInt(this.getAttribute('data-destination-z'), 10) === col
+            && parseInt(this.getAttribute('data-destination-x'), 10) === row) {
                 return -1;
             } else {
                 return 0;
