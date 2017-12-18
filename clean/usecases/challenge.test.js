@@ -31,4 +31,5 @@ describe('Challenge use cases', () => {
                 }).catch(done.fail);
         });
     });
+
 });

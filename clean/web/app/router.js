@@ -46,6 +46,8 @@ router.use('/maze/', express.static(__dirname + '/public'));
 router.get('/user/', userController.browse);
 
 router.get('/challenge/', challengeController.browse);
+router.get('/challenge/create/', challengeController.create);
+router.post('/challenge/', challengeController.add);
 
 router.use('/admin/', adminController.dashboard);
 

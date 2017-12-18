@@ -60,7 +60,6 @@ const models = connect.then(() => {
         },
 
         challenge: {
-            _id: String,
             challengingUser: {
                 type: String,
                 ref: 'User'

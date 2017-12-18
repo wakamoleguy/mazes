@@ -22,6 +22,25 @@ function createRepo(data) {
 
                 resolve(challenges.filter((c) => c.challengedUser === userId));
             });
+        },
+
+        add(newChallenge) {
+
+            return new Promise((resolve) => {
+
+                const id = Object.values(data.challenges).length;
+
+                const newChallenges = { ...data.challenges };
+                newChallenges[id] = newChallenge;
+
+                const newData = {
+                    users: data.users,
+                    mazes: data.mazes,
+                    challenges: newChallenges
+                };
+
+                resolve(createRepo(newData));
+            });
         }
     };
 }

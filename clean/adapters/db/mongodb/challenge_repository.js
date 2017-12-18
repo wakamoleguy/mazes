@@ -10,6 +10,10 @@ const repository = {
                 find({
                     challengingUser: userId
                 }).
+                populate('challengingUser').
+                populate('challengedUser').
+                populate('challengingMaze').
+                populate('challengedMaze').
                 find((err, challenges) => {
 
                     if (err) {
@@ -41,6 +45,10 @@ const repository = {
                 find({
                     challengedUser: userId
                 }).
+                populate('challengingUser').
+                populate('challengedUser').
+                populate('challengingMaze').
+                populate('challengedMaze').
                 find((err, challenges) => {
 
                     if (err) {
@@ -59,6 +67,30 @@ const repository = {
                         })));
                     }
                 });
+        }));
+    },
+
+    add(challenge) {
+
+        const connect = require('./connect');
+
+        return connect.then((models) => new Promise((resolve, reject) => {
+
+            new models.Challenge({
+                challengingUser: challenge.challengingUser,
+                challengedUser: challenge.challengedUser,
+                challengingMaze: challenge.challengingMaze,
+                challengedMaze: null,
+                challengingTime: null,
+                challengedTime: null
+            }).save((err) => {
+
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(repository);
+                }
+            });
         }));
     }
 

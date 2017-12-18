@@ -77,7 +77,8 @@ function createRepo(data) {
 
                     const newData = {
                         users: data.users,
-                        mazes: newMazes
+                        mazes: newMazes,
+                        challenges: data.challenges
                     };
 
                     resolve(createRepo(newData));

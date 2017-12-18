@@ -63,4 +63,53 @@ describe('Mock challenge repository', () => {
             }).catch(done.fail);
         });
     });
+
+    describe('add', () => {
+
+        const challenge = {
+            challengingUser: 'id:003',
+            challengedUser: 'id:004',
+            challengingMaze: 'm5'
+        };
+
+        it('should resolve to a new repo', (done) => {
+
+            repo.add(challenge).then((newRepo) => {
+
+                expect(newRepo).not.toBe(repo);
+                expect(newRepo.browseByChallenger).toBeDefined();
+                expect(newRepo.add).toBeDefined();
+
+                done();
+            }).catch(done.fail);
+        });
+
+        it('should contain the challenge in the new repo', (done) => {
+
+            repo.add(challenge).then(
+
+                (newRepo) => newRepo
+                    .browseByChallenger(challenge.challengingUser)
+            ).then((foundChallenges) => {
+
+                expect(foundChallenges.length).toBe(1);
+                expect(foundChallenges[0]).toEqual(challenge);
+
+                done();
+            }).catch(done.fail);
+        });
+
+        it('should not add the challenge to the old repo', (done) => {
+
+            repo.add(challenge).then(
+
+                () => repo.browseByChallenger(challenge.challengingUser)
+            ).then((foundChallenges) => {
+
+                expect(foundChallenges.length).toBe(0);
+
+                done();
+            }).catch(done.fail);
+        });
+    });
 });

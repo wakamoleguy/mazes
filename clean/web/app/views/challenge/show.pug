@@ -1,1 +1,6 @@
-= JSON.stringify(challenge)
+p Challenger: #{challenge.challengingUser.display}
+p Challenged: #{challenge.challengedUser.display}
+p Challenger's Maze: #{challenge.challengingMaze.name}
+p Challenged's Maze: #{challenge.challengedMaze && challenge.challengedMaze.name}
+p Challenger's Time: #{challenge.challengingTime}
+p Challenged's Time: #{challenge.challengedTime}

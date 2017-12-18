@@ -1,5 +1,7 @@
 const controller = require('./challenge');
 const challengeUseCases = require('../../../usecases/challenge');
+const mazeUseCases = require('../../../usecases/maze');
+const userUseCases = require('../../../usecases/user');
 
 describe('Challenge controller', () => {
 
@@ -81,4 +83,64 @@ describe('Challenge controller', () => {
             });
         });
     });
+
+
+    describe('create', () => {
+
+        beforeEach(() => {
+
+            spyOn(userUseCases, 'browse').and.
+                returnValue(Promise.resolve([ned, ned, ned]));
+            spyOn(mazeUseCases, 'browseByCreator').and.
+                returnValue(Promise.resolve(['A', 'B', 'C']));
+        });
+
+        it('should render a new challenge creation form', (done) => {
+
+            controller.create(req, res, () => {
+
+                expect(res.render).toHaveBeenCalledWith(
+                    'pages/challenge_create',
+                    jasmine.any(Object)
+                );
+
+                done();
+            });
+        });
+
+        it('should load a list of users to select from', (done) => {
+
+            controller.create(req, res, () => {
+
+                expect(userUseCases.browse).
+                    toHaveBeenCalledWith(jasmine.any(Object));
+
+                expect(res.render).
+                    toHaveBeenCalledWith(
+                        jasmine.any(String),
+                        jasmine.objectContaining({
+                            users: [ned, ned, ned]
+                        }));
+                done();
+            });
+        });
+
+        it('should load a list of mazes to select from', (done) => {
+
+            controller.create(req, res, () => {
+
+                expect(mazeUseCases.browseByCreator).
+                    toHaveBeenCalledWith(ned.id, jasmine.any(Object));
+
+                expect(res.render).
+                    toHaveBeenCalledWith(
+                        jasmine.any(String),
+                        jasmine.objectContaining({
+                            mazes: ['A', 'B', 'C']
+                        }));
+                done();
+            });
+        });
+    });
+
 });
