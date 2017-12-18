@@ -230,6 +230,8 @@ describe('Maze controller', () => {
             };
 
             spyOn(mazeUseCases, 'create').and.returnValue(Promise.resolve('A'));
+            spyOn(mazeUseCases, 'browseByCreator').
+                and.returnValue(Promise.resolve([1,2,3]));
         });
 
         it('should create a maze', (done) => {
@@ -284,9 +286,6 @@ describe('Maze controller', () => {
         });
 
         it('should fetch mazes for the user by creator id', (done) => {
-
-            spyOn(mazeUseCases, 'browseByCreator').
-                and.returnValue(Promise.resolve([1,2,3]));
 
             controller.add(req, res, () => {
 
