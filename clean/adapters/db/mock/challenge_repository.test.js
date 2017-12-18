@@ -74,7 +74,17 @@ describe('Mock challenge repository', () => {
                 expect(maybeChallenge.id).toBe('c0');
 
                 done();
-            });
+            }).catch(done.fail);
+        });
+
+        it('should populate a user object with id', (done) => {
+
+            repo.read('c0').then((challenge) => {
+
+                expect(challenge.challengingUser.id).toBe('id:001');
+                expect(challenge.challengedUser.id).toBe('id:002');
+                done();
+            }).catch(done.fail);
         });
 
         it('should resolve to different challenges', (done) => {
@@ -214,6 +224,142 @@ describe('Mock challenge repository', () => {
         it('should throw if the challenge is already complete', (done) => {
 
             repo.updateAccept('c4', 'm2').then(done.fail, done);
+        });
+    });
+
+    describe('updateChallengingTime', () => {
+
+        it('should resolve to a new repo', (done) => {
+
+            repo.updateChallengingTime('c1', 1).then((newRepo) => {
+
+                expect(newRepo).not.toBe(repo);
+
+                // Make sure it looks like a repo
+                expect(newRepo.updateAccept).toBeDefined();
+                expect(newRepo.browseByChallenger).toBeDefined();
+
+                done();
+            }).catch(done.fail);
+        });
+
+        it('should contain the updated challenge in the new repo', (done) => {
+
+            repo.updateChallengingTime('c1', 1).then(
+
+                (newRepo) => newRepo.read('c1')
+            ).then((challenge) => {
+
+                expect(challenge.challengingTime).toBe(1);
+
+                done();
+            }).catch(done.fail);
+        });
+
+        it('should not update the challenge in the old repo', (done) => {
+
+            repo.updateChallengingTime('c1', 1).then(
+
+                () => repo.read('c1')
+            ).then((challenge) => {
+
+                expect(challenge.challengingTime).toBeNull();
+
+                done();
+            }).catch(done.fail);
+        });
+
+        it('should throw if the challenge does not exist', (done) => {
+
+            repo.updateChallengingTime('foobar', 1).then(done.fail, done);
+        });
+
+        it('should throw if the challenge is not yet accepted', (done) => {
+
+            repo.updateChallengingTime('c0', 1).then(done.fail, done);
+        });
+
+        it('should throw if the challenge is already first-run', (done) => {
+
+            repo.updateChallengingTime('c2', 1).then(done.fail, done);
+        });
+
+        it('should work if the challenge is already second-run', (done) => {
+
+            repo.updateChallengingTime('c3', 1).then(done, done.fail);
+        });
+
+        it('should throw if the challenge is already complete', (done) => {
+
+            repo.updateChallengingTime('c4', 1).then(done.fail, done);
+        });
+    });
+
+    describe('updateChallengedTime', () => {
+
+        it('should resolve to a new repo', (done) => {
+
+            repo.updateChallengedTime('c1', 1).then((newRepo) => {
+
+                expect(newRepo).not.toBe(repo);
+
+                // Make sure it looks like a repo
+                expect(newRepo.updateAccept).toBeDefined();
+                expect(newRepo.browseByChallenger).toBeDefined();
+
+                done();
+            }).catch(done.fail);
+        });
+
+        it('should contain the updated challenge in the new repo', (done) => {
+
+            repo.updateChallengedTime('c1', 1).then(
+
+                (newRepo) => newRepo.read('c1')
+            ).then((challenge) => {
+
+                expect(challenge.challengedTime).toBe(1);
+
+                done();
+            }).catch(done.fail);
+        });
+
+        it('should not update the challenge in the old repo', (done) => {
+
+            repo.updateChallengedTime('c1', 1).then(
+
+                () => repo.read('c1')
+            ).then((challenge) => {
+
+                expect(challenge.challengedTime).toBeNull();
+
+                done();
+            }).catch(done.fail);
+        });
+
+        it('should throw if the challenge does not exist', (done) => {
+
+            repo.updateChallengedTime('foobar', 1).then(done.fail, done);
+        });
+
+        it('should throw if the challenge is not yet accepted', (done) => {
+
+            repo.updateChallengedTime('c0', 1).then(done.fail, done);
+        });
+
+        it('should work if the challenge is already first-run', (done) => {
+
+            repo.updateChallengedTime('c2', 1).then(done, done.fail);
+        });
+
+        it('should throw if the challenge is already second-run', (done) => {
+
+            repo.updateChallengedTime('c3', 1).then(done.fail, done);
+        });
+
+        it('should throw if the challenge is already complete', (done) => {
+
+            repo.updateChallengedTime('c4', 1).then(done.fail, done);
         });
     });
 });

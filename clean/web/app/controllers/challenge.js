@@ -149,5 +149,76 @@ module.exports = {
             res.redirect(303, '../');
             next();
         });
+    },
+
+    run(req, res, next) {
+
+        const user = req.locals.user;
+
+        const challengeId = req.params.challengeId;
+
+        if (!challengeId) {
+            res.sendStatus(400);
+            next();
+            return;
+        }
+
+        challengeUseCases.readRunMaze(
+            challengeId,
+            user.id,
+            challengeRepo,
+            mazeRepo
+        ).then((maze) => {
+
+            res.render('pages/challenge_run', {
+                user,
+                maze
+            });
+            next();
+
+        }, (err) => {
+
+            console.error(err);
+            res.sendStatus(500);
+            next();
+        });
+    },
+
+    postTime(req, res, next) {
+
+        const user = req.locals.user;
+
+        const challengeId = req.params.challengeId;
+
+        if (!challengeId) {
+            res.sendStatus(400);
+            next();
+            return;
+        }
+
+        const time = parseInt(req.body.time, 10);
+
+        if (!time) {
+
+            res.sendStatus(400);
+            next();
+            return;
+        }
+
+        challengeUseCases.postTime(
+            user.id,
+            challengeId,
+            time,
+            challengeRepo
+        ).then(() => {
+
+            res.redirect(303, '../../');
+            next();
+
+        }, (err) => {
+            console.error(err);
+            res.sendStatus(500);
+            next();
+        });
     }
 };

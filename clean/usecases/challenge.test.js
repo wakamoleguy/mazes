@@ -51,4 +51,90 @@ describe('Challenge use cases', () => {
         });
     });
 
+    describe('readRunMaze', () => {
+
+        it('should have tests', (done) => {
+            done.fail();
+        });
+    });
+
+    describe('postTime', () => {
+
+        beforeEach(() => {
+
+            spyOn(challengeRepo, 'updateChallengingTime');
+            spyOn(challengeRepo, 'updateChallengedTime');
+        });
+
+        it('should save the challenge if the challenger posts', (done) => {
+
+            usecases.postTime('id:001', 'c1', 10, challengeRepo).then(() => {
+
+                expect(challengeRepo.updateChallengingTime).
+                    toHaveBeenCalled();
+                expect(challengeRepo.updateChallengedTime).
+                    not.toHaveBeenCalled();
+
+                done();
+            }).catch(done.fail);
+
+        });
+
+        it('should save the challenge if the challenged posts', (done) => {
+
+            usecases.postTime('id:003', 'c1', 10, challengeRepo).then(() => {
+
+                expect(challengeRepo.updateChallengingTime).
+                    not.toHaveBeenCalled();
+                expect(challengeRepo.updateChallengedTime).
+                    toHaveBeenCalled();
+
+                done();
+            }).catch(done.fail);
+
+        });
+
+        it('should save if the other user posts after first-run', (done) => {
+
+            usecases.postTime('id:002', 'c2', 94, challengeRepo).then(() => {
+
+                expect(challengeRepo.updateChallengingTime).
+                    not.toHaveBeenCalled();
+                expect(challengeRepo.updateChallengedTime).
+                    toHaveBeenCalled();
+
+                done();
+            }).catch(done.fail);
+
+        });
+
+        it('should save if the other user posts after second-run', (done) => {
+
+            usecases.postTime('id:001', 'c3', 63, challengeRepo).then(() => {
+
+                expect(challengeRepo.updateChallengingTime).
+                    toHaveBeenCalled();
+                expect(challengeRepo.updateChallengedTime).
+                    not.toHaveBeenCalled();
+
+                done();
+            }).catch(done.fail);
+
+        });
+
+        it('should reject if the user does not match the challenge', (done) => {
+
+            usecases.postTime('id:005', 'c1', 63, challengeRepo).then(
+                done.fail,
+                done);
+        });
+
+        it('should reject if no challenge is found', (done) => {
+
+            usecases.postTime('id:001', 'foobar', 63, challengeRepo).then(
+                done.fail,
+                done);
+        });
+    });
+
 });

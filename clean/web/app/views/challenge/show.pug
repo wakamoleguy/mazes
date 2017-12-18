@@ -7,3 +7,6 @@ p Challenged's Time: #{challenge.challengedTime}
 
 if !challenge.challengedMaze
     a(href="./" + challenge.id + "/accept/") Accept This Challenge!
+
+if challenge.challengedMaze && challenge.challengingMaze
+    a(href="./" + challenge.id + "/run/") Run This Maze!

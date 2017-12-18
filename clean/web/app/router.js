@@ -48,8 +48,11 @@ router.get('/user/', userController.browse);
 router.get('/challenge/', challengeController.browse);
 router.post('/challenge/', challengeController.add);
 router.get('/challenge/create/', challengeController.create);
-router.get('/challenge/:challengeId/accept/', challengeController.acceptForm);
+
 router.post('/challenge/:challengeId/', challengeController.accept);
+router.get('/challenge/:challengeId/accept/', challengeController.acceptForm);
+router.get('/challenge/:challengeId/run/', challengeController.run);
+router.post('/challenge/:challengeId/run/', challengeController.postTime);
 
 router.use('/admin/', adminController.dashboard);
 

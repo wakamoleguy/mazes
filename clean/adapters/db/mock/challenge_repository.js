@@ -30,7 +30,24 @@ function createRepo(data) {
 
                 const challenges = Object.values(data.challenges);
 
-                resolve(challenges.find((c) => c.id === challengeId) || null);
+                const challenge = challenges.find((c) => c.id === challengeId);
+
+                if (!challenge) {
+                    resolve(null);
+                }
+
+                const users = Object.values(data.users);
+
+                const challengingUser = users.find(
+                    (u) => u.id === challenge.challengingUser);
+                const challengedUser = users.find(
+                    (u) => u.id === challenge.challengedUser);
+
+                resolve({
+                    ...challenge,
+                    challengingUser,
+                    challengedUser
+                });
             });
         },
 
@@ -93,6 +110,102 @@ function createRepo(data) {
                 }
 
 
+            });
+        },
+
+        updateChallengingTime(challengeId, time) {
+
+            return new Promise((resolve, reject) => {
+
+                const challenges = Object.values(data.challenges);
+
+                const challengeToUpdate = challenges.find(
+                    (challenge) => challenge.id === challengeId
+                );
+
+                if (!challengeToUpdate) {
+
+                    reject('No challenge found to update');
+
+                } else if (challengeToUpdate.challengingTime !== null) {
+
+                    reject('Challenge has already been first-run');
+
+                } else if (
+                    challengeToUpdate.challengingMaze === null ||
+                    challengeToUpdate.challengedMaze === null
+                ) {
+
+                    reject('Tried to run a challenge with no maze to run');
+
+                } else {
+
+                    const newChallenge = {
+                        ...challengeToUpdate,
+                        challengingTime: time
+                    };
+
+                    const newChallenges = {
+                        ...data.challenges,
+                        [newChallenge.id]: newChallenge
+                    };
+
+                    const newData = {
+                        users: data.users,
+                        mazes: data.mazes,
+                        challenges: newChallenges
+                    };
+
+                    resolve(createRepo(newData));
+                }
+            });
+        },
+
+        updateChallengedTime(challengeId, time) {
+
+            return new Promise((resolve, reject) => {
+
+                const challenges = Object.values(data.challenges);
+
+                const challengeToUpdate = challenges.find(
+                    (challenge) => challenge.id === challengeId
+                );
+
+                if (!challengeToUpdate) {
+
+                    reject('No challenge found to update');
+
+                } else if (challengeToUpdate.challengedTime !== null) {
+
+                    reject('Challenge has already been first-run');
+
+                } else if (
+                    challengeToUpdate.challengingMaze === null ||
+                    challengeToUpdate.challengedMaze === null
+                ) {
+
+                    reject('Tried to run a challenge with no maze to run');
+
+                } else {
+
+                    const newChallenge = {
+                        ...challengeToUpdate,
+                        challengedTime: time
+                    };
+
+                    const newChallenges = {
+                        ...data.challenges,
+                        [newChallenge.id]: newChallenge
+                    };
+
+                    const newData = {
+                        users: data.users,
+                        mazes: data.mazes,
+                        challenges: newChallenges
+                    };
+
+                    resolve(createRepo(newData));
+                }
             });
         }
     };

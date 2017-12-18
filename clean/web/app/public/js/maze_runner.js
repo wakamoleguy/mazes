@@ -183,7 +183,9 @@ class MazeRunner extends HTMLElement {
 
         if (this.wallTypeAtCoordinates(this.camera.position.z, this.camera.position.x) === -1) {
             this.timer.className = 'done';
-            this.dispatchEvent(new Event('win'));
+            const event = new Event('win');
+            event.time = elapsed;
+            this.dispatchEvent(event);
             return;
         }
 

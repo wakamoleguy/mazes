@@ -229,4 +229,87 @@ describe('Challenge controller', () => {
         });
     });
 
+    describe('run', () => {
+
+        beforeEach(() => {
+
+            req.params = {
+                challengeId: 'c0'
+            };
+
+            spyOn(challengeUseCases, 'readRunMaze').
+                and.returnValue(Promise.resolve(1));
+        });
+
+        it('should render the running page', (done) => {
+
+            controller.run(req, res, () => {
+
+                expect(res.render).toHaveBeenCalledWith(
+                    'pages/challenge_run',
+                    jasmine.any(Object)
+                );
+
+                done();
+            });
+        });
+
+        it('should read the maze to be run', (done) => {
+
+            controller.run(req, res, () => {
+
+                expect(challengeUseCases.readRunMaze).toHaveBeenCalledWith(
+                    'c0',
+                    ned.id,
+                    jasmine.any(Object),
+                    jasmine.any(Object)
+                );
+
+                done();
+            });
+        });
+    });
+
+    describe('postTime', () => {
+
+        beforeEach(() => {
+
+            req.params = {
+                challengeId: 'c0'
+            };
+
+            req.body = {
+                time: 100
+            };
+
+            spyOn(challengeUseCases, 'postTime').
+                and.returnValue(Promise.resolve());
+        });
+
+        it('should render the challenge list page', (done) => {
+
+            controller.postTime(req, res, () => {
+
+                expect(res.redirect).toHaveBeenCalledWith(303, '../../');
+
+                done();
+            });
+        });
+
+        it('should post the time', (done) => {
+
+            controller.postTime(req, res, () => {
+
+                expect(challengeUseCases.postTime).toHaveBeenCalledWith(
+                    ned.id,
+                    'c0',
+                    100,
+                    jasmine.any(Object)
+                );
+
+                done();
+            });
+        });
+    });
+
 });
