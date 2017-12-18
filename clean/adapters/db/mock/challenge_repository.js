@@ -24,6 +24,16 @@ function createRepo(data) {
             });
         },
 
+        read(challengeId) {
+
+            return new Promise((resolve) => {
+
+                const challenges = Object.values(data.challenges);
+
+                resolve(challenges.find((c) => c.id === challengeId) || null);
+            });
+        },
+
         add(newChallenge) {
 
             return new Promise((resolve) => {
@@ -40,6 +50,49 @@ function createRepo(data) {
                 };
 
                 resolve(createRepo(newData));
+            });
+        },
+
+        updateAccept(challengeId, mazeId) {
+
+            return new Promise((resolve, reject) => {
+
+                const challenges = Object.values(data.challenges);
+
+                const challengeToUpdate = challenges.find(
+                    (challenge) => challenge.id === challengeId
+                );
+
+                if (!challengeToUpdate) {
+
+                    reject('No challenge found to update');
+
+                } else if (challengeToUpdate.challengedMaze !== null) {
+
+                    reject('Challenge has already been accepted');
+
+                } else {
+
+                    const newChallenge = {
+                        ...challengeToUpdate,
+                        challengedMaze: mazeId
+                    };
+
+                    const newChallenges = {
+                        ...data.challenges,
+                        [newChallenge.id]: newChallenge
+                    };
+
+                    const newData = {
+                        users: data.users,
+                        mazes: data.mazes,
+                        challenges: newChallenges
+                    };
+
+                    resolve(createRepo(newData));
+                }
+
+
             });
         }
     };

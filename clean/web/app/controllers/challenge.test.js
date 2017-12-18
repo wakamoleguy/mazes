@@ -16,7 +16,11 @@ describe('Challenge controller', () => {
     beforeEach(() => {
 
         req = {};
-        res = jasmine.createSpyObj('res', ['render', 'sendStatus']);
+        res = jasmine.createSpyObj('res', [
+            'render',
+            'sendStatus',
+            'redirect'
+        ]);
 
         req.locals = {
             user: ned
@@ -138,6 +142,88 @@ describe('Challenge controller', () => {
                         jasmine.objectContaining({
                             mazes: ['A', 'B', 'C']
                         }));
+                done();
+            });
+        });
+    });
+
+    // FIXME - This should have a more 'RESTful' name. Actions are SOAPy
+    describe('acceptForm', () => {
+
+        beforeEach(() => {
+
+            req.params = {
+                challengeId: 'c0'
+            };
+
+            spyOn(mazeUseCases, 'browseByCreator').and.
+                returnValue(Promise.resolve(['A', 'B', 'C']));
+        });
+
+        it('should load a list of mazes to select from', (done) => {
+
+            controller.acceptForm(req, res, () => {
+
+                expect(mazeUseCases.browseByCreator).
+                    toHaveBeenCalledWith(ned.id, jasmine.any(Object));
+
+                expect(res.render).
+                    toHaveBeenCalledWith(
+                        jasmine.any(String),
+                        jasmine.objectContaining({
+                            mazes: ['A', 'B', 'C']
+                        }));
+                done();
+            });
+        });
+
+        it('should render a new challenge accept form', (done) => {
+
+            controller.acceptForm(req, res, () => {
+
+                expect(res.render).toHaveBeenCalledWith(
+                    'pages/challenge_accept',
+                    jasmine.any(Object)
+                );
+
+                done();
+            });
+        });
+    });
+
+    describe('accept', () => {
+
+        beforeEach(() => {
+            req.params = {
+                challengeId: 'c0'
+            };
+
+            req.body = {
+                maze: 'm1'
+            };
+
+            spyOn(challengeUseCases, 'accept').
+                and.returnValue(Promise.resolve());
+        });
+
+        it('should update the challenge', (done) => {
+
+            controller.accept(req, res, () => {
+
+                expect(challengeUseCases.accept).toHaveBeenCalledWith(
+                    'c0',
+                    'm1',
+                    jasmine.any(Object)
+                );
+                done();
+            });
+        });
+
+        it('should redirect to the challenge list page', (done) => {
+
+            controller.accept(req, res, () => {
+
+                expect(res.redirect).toHaveBeenCalledWith(303, '../');
                 done();
             });
         });

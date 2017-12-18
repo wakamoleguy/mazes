@@ -284,7 +284,8 @@ exports.mazes = {
 exports.challenges = {
 
     // A new challenge
-    new: {
+    c0: {
+        id: 'c0',
         challengingUser: 'id:001',
         challengedUser: 'id:002',
         challengingMaze: 'm1',
@@ -294,7 +295,8 @@ exports.challenges = {
     },
 
     // An accepted challenge
-    accepted: {
+    c1: {
+        id: 'c1',
         challengingUser: 'id:001',
         challengedUser: 'id:003',
         challengingMaze: 'm1',
@@ -304,7 +306,8 @@ exports.challenges = {
     },
 
     // A challenge where the first user has run
-    first_run: {
+    c2: {
+        id: 'c2',
         challengingUser: 'id:001',
         challengedUser: 'id:002',
         challengingMaze: 'm1',
@@ -314,7 +317,8 @@ exports.challenges = {
     },
 
     // A challenge where the second user has runner
-    second_run: {
+    c3: {
+        id: 'c3',
         challengingUser: 'id:001',
         challengedUser: 'id:003',
         challengingMaze: 'm1',
@@ -324,7 +328,8 @@ exports.challenges = {
     },
 
     // A challenge where both users have run
-    complete: {
+    c4: {
+        id: 'c4',
         challengingUser: 'id:001',
         challengedUser: 'id:003',
         challengingMaze: 'm1',

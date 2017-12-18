@@ -4,3 +4,6 @@ p Challenger's Maze: #{challenge.challengingMaze.name}
 p Challenged's Maze: #{challenge.challengedMaze && challenge.challengedMaze.name}
 p Challenger's Time: #{challenge.challengingTime}
 p Challenged's Time: #{challenge.challengedTime}
+
+if !challenge.challengedMaze
+    a(href="./" + challenge.id + "/accept/") Accept This Challenge!

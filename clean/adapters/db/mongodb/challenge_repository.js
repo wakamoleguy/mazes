@@ -92,6 +92,53 @@ const repository = {
                 }
             });
         }));
+    },
+
+    updateAccept(challengeId, mazeId) {
+
+        const connect = require('./connect');
+
+        return connect.then((models) => new Promise((resolve, reject) => {
+
+            models.Challenge.
+                findById(challengeId).
+                findOne((err, challenge) => {
+
+                    if (err) {
+
+                        reject(err);
+
+                    } else if (
+                        challenge === null ||
+                        challenge === undefined
+                    ) {
+
+                        reject('Challenge not found');
+
+                    } else if (
+                        challenge.challengedMaze !== null &&
+                        challenge.challengedMaze !== undefined
+                    ) {
+
+                        reject('Cannot update challenge: Already accepted');
+
+                    } else {
+
+                        challenge.update({
+                            challengedMaze: mazeId
+                        }, (updateErr) => {
+
+                            if (updateErr) {
+
+                                reject(updateErr);
+                            } else {
+
+                                resolve(repository);
+                            }
+                        });
+                    }
+                });
+        }));
     }
 
 };

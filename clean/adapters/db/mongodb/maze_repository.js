@@ -112,7 +112,7 @@ const repository = {
                                 if (err) {
                                     reject(err);
                                 } else {
-                                    resolve();
+                                    resolve(repository);
                                 }
                             });
                         }

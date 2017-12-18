@@ -16,12 +16,18 @@ module.exports = {
         challengingUserId,
         challengedUserId,
         challengingMazeId,
-        challengeRepo) {
+        challengeRepo
+    ) {
 
         return challengeRepo.add({
             challengingUser: challengingUserId,
             challengedUser: challengedUserId,
             challengingMaze: challengingMazeId
         });
+    },
+
+    accept(challengeId, mazeId, challengeRepo) {
+
+        return challengeRepo.updateAccept(challengeId, mazeId);
     }
 };

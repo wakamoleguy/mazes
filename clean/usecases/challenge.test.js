@@ -3,7 +3,6 @@ const challengeRepo = require('../adapters/db/mock/challenge_repository');
 
 describe('Challenge use cases', () => {
 
-
     describe('browseByParticipant', () => {
 
         it('should resolve to two lists of challenges for the user', (done) => {
@@ -29,6 +28,26 @@ describe('Challenge use cases', () => {
 
                     done();
                 }).catch(done.fail);
+        });
+    });
+
+    describe('accept', () => {
+
+        it('should save the accepted challenge', (done) => {
+
+            const challengeId = 'c0';
+            const mazeId = 'm2';
+
+            spyOn(challengeRepo, 'updateAccept').and.callThrough();
+
+            usecases.accept(challengeId, mazeId, challengeRepo).then(() => {
+
+                expect(challengeRepo.updateAccept).toHaveBeenCalledWith(
+                    challengeId,
+                    mazeId
+                );
+                done();
+            }).catch(done.fail);
         });
     });
 
