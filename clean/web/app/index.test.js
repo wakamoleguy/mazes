@@ -1,5 +1,6 @@
 const request = require('supertest');
-const authDriver = require('../../adapters/auth/mock');
+const authDriver = require('../../adapters/auth/trusting');
+// TODO - auth - require('../../adapters/auth/mock');
 const app = require('./index')(authDriver);
 
 /*

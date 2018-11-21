@@ -3,10 +3,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 // Drivers
-const authDriver = global.process.env.TRUSTING?
-    require('../adapters/auth/trusting'):
-    require('../adapters/auth/passwordless');
-
+// const authDriver = global.process.env.TRUSTING?
+//     require('../adapters/auth/trusting'):
+//     require('../adapters/auth/passwordless');
+const authDriver = require('../adapters/auth/trusting');
 const combinedApp = express();
 combinedApp.use(authDriver.support());
 
