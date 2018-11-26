@@ -1,10 +1,9 @@
 module.exports = {
+  renderAll(users) {
+    return JSON.stringify(users)
+  },
 
-    renderAll(users) {
-        return JSON.stringify(users);
-    },
-
-    render(user) {
-        return JSON.stringify(user);
-    }
-};
+  render(user) {
+    return JSON.stringify(user)
+  }
+}

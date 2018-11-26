@@ -1,175 +1,180 @@
-const repo = require('./user_repository');
+const repo = require('./user_repository')
 
 describe('Mock User Repository', () => {
+  describe('browse', () => {
+    it('should resolve to a list of all users', (done) => {
+      repo
+        .browse()
+        .then((users) => {
+          expect(users.length).toBe(4)
+          expect(users[0]).toEqual({
+            email: 'ned@stark.example.com',
+            id: 'id:001',
+            display: 'Eddard Stark'
+          })
+          done()
+        })
+        .catch(done.fail)
+    })
+  })
 
-    describe('browse', () => {
+  describe('readByEmail', () => {
+    it('should resolve to a user if it exists', (done) => {
+      repo
+        .readByEmail('ned@stark.example.com')
+        .then((ned) => {
+          expect(ned).toEqual({
+            email: 'ned@stark.example.com',
+            id: 'id:001',
+            display: 'Eddard Stark'
+          })
 
-        it('should resolve to a list of all users', (done) => {
+          done()
+        })
+        .catch(done.fail)
+    })
 
-            repo.browse().then((users) => {
+    it('should resolve to a different user with another email', (done) => {
+      repo
+        .readByEmail('cat@stark.example.com')
+        .then((cat) => {
+          expect(cat).toEqual({
+            email: 'cat@stark.example.com',
+            id: 'id:002',
+            display: 'Catelyn Stark'
+          })
 
-                expect(users.length).toBe(4);
-                expect(users[0]).toEqual({
-                    email: 'ned@stark.example.com',
-                    id: 'id:001',
-                    display: 'Eddard Stark'
-                });
-                done();
-            }).catch(done.fail);
-        });
-    });
+          done()
+        })
+        .catch(done.fail)
+    })
 
-    describe('readByEmail', () => {
+    it('should resolve to null if no user exists', (done) => {
+      repo
+        .readByEmail('nightking@whitewalkers.example.com')
+        .then((u) => {
+          expect(u).toBeNull()
+          done()
+        })
+        .catch(done.fail)
+    })
+  })
 
-        it('should resolve to a user if it exists', (done) => {
+  describe('read', () => {
+    it('should resolve to a user if it exists', (done) => {
+      repo
+        .read('id:001')
+        .then((ned) => {
+          expect(ned).toEqual({
+            email: 'ned@stark.example.com',
+            id: 'id:001',
+            display: 'Eddard Stark'
+          })
 
-            repo.readByEmail('ned@stark.example.com').then((ned) => {
+          done()
+        })
+        .catch(done.fail)
+    })
 
-                expect(ned).toEqual({
-                    email: 'ned@stark.example.com',
-                    id: 'id:001',
-                    display: 'Eddard Stark'
-                });
+    it('should resolve to a different user with another id', (done) => {
+      repo
+        .read('id:002')
+        .then((cat) => {
+          expect(cat).toEqual({
+            email: 'cat@stark.example.com',
+            id: 'id:002',
+            display: 'Catelyn Stark'
+          })
 
-                done();
-            }).catch(done.fail);
-        });
+          done()
+        })
+        .catch(done.fail)
+    })
 
-        it('should resolve to a different user with another email', (done) => {
+    it('should resolve to null if no user exists', (done) => {
+      repo
+        .read('id:101')
+        .then((u) => {
+          expect(u).toBeNull()
+          done()
+        })
+        .catch(done.fail)
+    })
+  })
 
-            repo.readByEmail('cat@stark.example.com').then((cat) => {
+  describe('add', () => {
+    const nightking = {
+      id: 'id:101',
+      display: 'The Night King',
+      email: 'nightking@whitewalkers.example.com'
+    }
 
-                expect(cat).toEqual({
-                    email: 'cat@stark.example.com',
-                    id: 'id:002',
-                    display: 'Catelyn Stark'
-                });
+    it('should resolve to a new repo', (done) => {
+      repo
+        .add(nightking)
+        .then((newRepo) => {
+          expect(newRepo).not.toBe(repo)
+          expect(newRepo.readByEmail).toBeDefined()
+          expect(newRepo.add).toBeDefined()
 
-                done();
-            }).catch(done.fail);
-        });
+          done()
+        })
+        .catch(done.fail)
+    })
 
-        it('should resolve to null if no user exists', (done) => {
+    it('should contain the user in the new repo', (done) => {
+      repo
+        .add(nightking)
+        .then((newRepo) => newRepo.readByEmail(nightking.email))
+        .then((maybeFoundUser) => {
+          expect(maybeFoundUser).toEqual(nightking)
 
-            repo.readByEmail('nightking@whitewalkers.example.com').then((u) => {
+          done()
+        })
+        .catch(done.fail)
+    })
 
-                expect(u).toBeNull();
-                done();
-            }).catch(done.fail);
-        });
-    });
+    it('should not add the user to the old repo', (done) => {
+      repo
+        .add(nightking)
+        .then(() => repo.readByEmail(nightking.email))
+        .then((maybeFoundUser) => {
+          expect(maybeFoundUser).toBeNull()
 
-    describe('read', () => {
+          done()
+        })
+        .catch(done.fail)
+    })
 
-        it('should resolve to a user if it exists', (done) => {
+    it('should throw if the id conflicts', (done) => {
+      repo
+        .add({
+          id: 'id:001',
+          email: 'other.ned@stark.example.com',
+          display: 'Ned Stark'
+        })
+        .then(done.fail, done)
+    })
 
-            repo.read('id:001').then((ned) => {
+    it('should throw if the email conflicts', (done) => {
+      repo
+        .add({
+          id: 'id:101',
+          email: 'ned@stark.example.com',
+          display: 'Ned Stark'
+        })
+        .then(done.fail, done)
+    })
 
-                expect(ned).toEqual({
-                    email: 'ned@stark.example.com',
-                    id: 'id:001',
-                    display: 'Eddard Stark'
-                });
-
-                done();
-            }).catch(done.fail);
-        });
-
-        it('should resolve to a different user with another id', (done) => {
-
-            repo.read('id:002').then((cat) => {
-
-                expect(cat).toEqual({
-                    email: 'cat@stark.example.com',
-                    id: 'id:002',
-                    display: 'Catelyn Stark'
-                });
-
-                done();
-            }).catch(done.fail);
-        });
-
-        it('should resolve to null if no user exists', (done) => {
-
-            repo.read('id:101').then((u) => {
-
-                expect(u).toBeNull();
-                done();
-            }).catch(done.fail);
-        });
-    });
-
-
-    describe('add', () => {
-        const nightking = {
-            id: 'id:101',
-            display: 'The Night King',
-            email: 'nightking@whitewalkers.example.com'
-        };
-
-        it('should resolve to a new repo', (done) => {
-
-            repo.add(nightking).then((newRepo) => {
-
-                expect(newRepo).not.toBe(repo);
-                expect(newRepo.readByEmail).toBeDefined();
-                expect(newRepo.add).toBeDefined();
-
-                done();
-            }).catch(done.fail);
-        });
-
-        it('should contain the user in the new repo', (done) => {
-
-            repo.add(nightking).then(
-
-                (newRepo) => newRepo.readByEmail(nightking.email)
-            ).then((maybeFoundUser) => {
-
-                expect(maybeFoundUser).toEqual(nightking);
-
-                done();
-            }).catch(done.fail);
-        });
-
-        it('should not add the user to the old repo', (done) => {
-
-            repo.add(nightking).then(
-
-                () => repo.readByEmail(nightking.email)
-            ).then((maybeFoundUser) => {
-
-                expect(maybeFoundUser).toBeNull();
-
-                done();
-            }).catch(done.fail);
-        });
-
-        it('should throw if the id conflicts', (done) => {
-
-            repo.add({
-                id: 'id:001',
-                email: 'other.ned@stark.example.com',
-                display: 'Ned Stark'
-            }).then(done.fail, done);
-        });
-
-        it('should throw if the email conflicts', (done) => {
-
-            repo.add({
-                id: 'id:101',
-                email: 'ned@stark.example.com',
-                display: 'Ned Stark'
-            }).then(done.fail, done);
-        });
-
-        it('should succeed if the display name conflicts', (done) => {
-
-            repo.add({
-                id: 'id:101',
-                email: 'other.ned@stark.example.com',
-                display: 'Eddard Stark'
-            }).then(done).catch(done.fail);
-        });
-    });
-});
+    it('should succeed if the display name conflicts', (done) => {
+      repo
+        .add({
+          id: 'id:101',
+          email: 'other.ned@stark.example.com',
+          display: 'Eddard Stark'
+        })
+        .then(done)
+        .catch(done.fail)
+    })
+  })
+})

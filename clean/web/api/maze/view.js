@@ -1,5 +1,5 @@
 module.exports = {
-    render(maze) {
-        return JSON.stringify(maze);
-    }
-};
+  render(maze) {
+    return JSON.stringify(maze)
+  }
+}
