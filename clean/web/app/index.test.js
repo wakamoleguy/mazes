@@ -1,7 +1,7 @@
-const request = require('supertest');
-const authDriver = require('../../adapters/auth/trusting');
+const request = require('supertest')
+const authDriver = require('../../adapters/auth/trusting')
 // TODO - auth - require('../../adapters/auth/mock');
-const app = require('./index')(authDriver);
+const app = require('./index')(authDriver)
 
 /*
 
@@ -28,163 +28,162 @@ const app = require('./index')(authDriver);
 */
 
 describe('App', () => {
+  xdescribe('authentication', () => {
+    const nedemail = 'ned@stark.example.com'
+    const nedid = 'id:ned@stark.example.com'
 
-    xdescribe('authentication', () => {
+    beforeAll((done) => {
+      authDriver.store.clear(done)
+    })
 
-        const nedemail = 'ned@stark.example.com';
-        const nedid = 'id:ned@stark.example.com';
+    describe('when unauthenticated', () => {
+      it('should make login page accessible', (done) => {
+        request(app)
+          .get('/login/')
+          .expect(200)
+          .end(jasmine.finish(done))
+      })
 
-        beforeAll((done) => {
-            authDriver.store.clear(done);
-        });
+      it('should redirect app pages to login', (done) => {
+        request(app)
+          .get('/foo/')
+          .expect(302)
+          .expect('Location', '/login/?origin=%2Ffoo%2F')
+          .end(jasmine.finish(done))
+      })
 
-        describe('when unauthenticated', () => {
+      it('should redirect deeper app pages to login', (done) => {
+        request(app)
+          .get('/foo/bar/baz/')
+          .expect(302)
+          .expect('Location', '/login/?origin=%2Ffoo%2Fbar%2Fbaz%2F')
+          .end(jasmine.finish(done))
+      })
 
-            it('should make login page accessible', (done) => {
+      it('should request a new token on POST to request URL', (done) => {
+        expect(authDriver.store.length()).toBe(0)
 
-                request(app).
-                    get('/login/').
-                    expect(200).
-                    end(jasmine.finish(done));
-            });
+        request(app)
+          .post('/login/request/')
+          .send({ user: nedemail })
+          .set('Content-Type', 'application/json')
+          .expect(302)
+          .expect('Location', '/login/pending/')
+          .expect(() => {
+            expect(authDriver.store.length()).toBe(1)
+          })
+          .end(jasmine.finish(done))
+      })
 
-            it('should redirect app pages to login', (done) => {
+      it('should reject bad tokens at the accept URL', (done) => {
+        request(app)
+          .get('/login/accept/')
+          .expect(401)
+          .end(jasmine.finish(done))
+      })
 
-                request(app).
-                    get('/foo/').
-                    expect(302).
-                    expect('Location', '/login/?origin=%2Ffoo%2F').
-                    end(jasmine.finish(done));
-            });
+      it('should accept good tokens at the accept URL', (done) => {
+        const token = '123'
+        const msToLive = 60 * 1000
+        const originUrl = '/foo/bar/origin/'
 
-            it('should redirect deeper app pages to login', (done) => {
+        authDriver.store.storeOrUpdate(
+          token,
+          nedid,
+          msToLive,
+          originUrl,
+          () => {}
+        )
 
-                request(app).
-                    get('/foo/bar/baz/').
-                    expect(302).
-                    expect('Location', '/login/?origin=%2Ffoo%2Fbar%2Fbaz%2F').
-                    end(jasmine.finish(done));
-            });
+        request(app)
+          .get(
+            '/login/accept/' +
+              `?token=${token}&uid=${encodeURIComponent(nedid)}`
+          )
+          .expect(302)
+          .expect('Location', originUrl)
+          .end(jasmine.finish(done))
+      })
 
-            it('should request a new token on POST to request URL', (done) => {
+      it('should redirect to somewhere if no origin', (done) => {
+        const token = '123'
+        const msToLive = 60 * 1000
+        const originUrl = null
 
-                expect(authDriver.store.length()).toBe(0);
+        authDriver.store.storeOrUpdate(
+          token,
+          nedid,
+          msToLive,
+          originUrl,
+          () => {}
+        )
 
-                request(app).
-                    post('/login/request/').
-                    send({ user: nedemail }).
-                    set('Content-Type', 'application/json').
-                    expect(302).
-                    expect('Location', '/login/pending/').
-                    expect(() => {
+        request(app)
+          .get(
+            '/login/accept/' +
+              `?token=${token}&uid=${encodeURIComponent(nedid)}`
+          )
+          .expect(302)
+          .end(jasmine.finish(done))
+      })
+    })
 
-                        expect(authDriver.store.length()).toBe(1);
-                    }).
-                    end(jasmine.finish(done));
-            });
+    describe('when authenticated', () => {
+      const token = '123'
+      const msToLive = 60 * 1000
 
-            it('should reject bad tokens at the accept URL', (done) => {
+      let agent
 
-                request(app).
-                    get('/login/accept/').
-                    expect(401).
-                    end(jasmine.finish(done));
-            });
+      beforeEach((done) => {
+        authDriver.store.clear(() => {})
+        authDriver.store.storeOrUpdate(token, nedid, msToLive, null, () => {})
 
-            it('should accept good tokens at the accept URL', (done) => {
+        agent = request.agent(app)
 
-                const token = '123';
-                const msToLive = 60 * 1000;
-                const originUrl = '/foo/bar/origin/';
+        // Authenticate an agent
+        agent
+          .get(
+            '/login/accept/' +
+              `?token=${token}&uid=${encodeURIComponent(nedid)}`
+          )
+          .expect(302)
+          .end(jasmine.finish(done))
+      })
 
-                authDriver.store.storeOrUpdate(
-                    token, nedid, msToLive, originUrl, () => {});
+      it('should redirect login page to some app page', (done) => {
+        agent
+          .get('/login/')
+          .expect(302)
+          .end(jasmine.finish(done))
+      })
 
-                request(app).
-                    get('/login/accept/' +
-                    `?token=${token}&uid=${encodeURIComponent(nedid)}`).
-                    expect(302).
-                    expect('Location', originUrl).
-                    end(jasmine.finish(done));
-            });
+      it('should make app pages accessible', (done) => {
+        agent
+          .get('/foo/')
+          .expect(404)
+          .end(jasmine.finish(done))
+      })
 
-            it('should redirect to somewhere if no origin', (done) => {
+      it('should make deeper app pages accessible', (done) => {
+        agent
+          .get('/foo/bar/baz/')
+          .expect(404)
+          .end(jasmine.finish(done))
+      })
 
-                const token = '123';
-                const msToLive = 60 * 1000;
-                const originUrl = null;
+      it('should accept and redirect any token request', (done) => {
+        agent
+          .get('/login/accept/')
+          .expect(302)
+          .end(jasmine.finish(done))
+      })
+    })
 
-                authDriver.store.storeOrUpdate(
-                    token, nedid, msToLive, originUrl, () => {});
-
-                request(app).
-                    get('/login/accept/' +
-                    `?token=${token}&uid=${encodeURIComponent(nedid)}`).
-                    expect(302).
-                    end(jasmine.finish(done));
-            });
-
-        });
-
-        describe('when authenticated', () => {
-            const token = '123';
-            const msToLive = 60 * 1000;
-
-            let agent;
-
-            beforeEach((done) => {
-                authDriver.store.clear(() => {});
-                authDriver.store.storeOrUpdate(
-                    token, nedid, msToLive, null, () => {});
-
-                agent = request.agent(app);
-
-                // Authenticate an agent
-                agent.
-                    get('/login/accept/' +
-                    `?token=${token}&uid=${encodeURIComponent(nedid)}`).
-                    expect(302).
-                    end(jasmine.finish(done));
-            });
-
-            it('should redirect login page to some app page', (done) => {
-
-                agent.
-                    get('/login/').
-                    expect(302).
-                    end(jasmine.finish(done));
-            });
-
-            it('should make app pages accessible', (done) => {
-
-                agent.
-                    get('/foo/').
-                    expect(404).
-                    end(jasmine.finish(done));
-            });
-
-            it('should make deeper app pages accessible', (done) => {
-                agent.
-                    get('/foo/bar/baz/').
-                    expect(404).
-                    end(jasmine.finish(done));
-            });
-
-            it('should accept and redirect any token request', (done) => {
-
-                agent.
-                    get('/login/accept/').
-                    expect(302).
-                    end(jasmine.finish(done));
-            });
-        });
-
-        it('should deny GET requests to the token request URL', (done) => {
-
-            request(app).
-                get(`/login/request/?user=${encodeURIComponent(nedemail)}`).
-                expect(403).
-                end(jasmine.finish(done));
-        });
-    });
-});
+    it('should deny GET requests to the token request URL', (done) => {
+      request(app)
+        .get(`/login/request/?user=${encodeURIComponent(nedemail)}`)
+        .expect(403)
+        .end(jasmine.finish(done))
+    })
+  })
+})

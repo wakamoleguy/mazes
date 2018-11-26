@@ -1,92 +1,78 @@
-const INITIAL_DATA = require('./data');
+const INITIAL_DATA = require('./data')
 
 function createRepo(data) {
+  return {
+    browseByCreator(userId) {
+      return new Promise((resolve) => {
+        const mazes = Object.values(data.mazes)
 
-    return {
+        resolve(mazes.filter((maze) => maze.creator === userId))
+      })
+    },
 
-        browseByCreator(userId) {
+    read(mazeId) {
+      return new Promise((resolve) => {
+        const mazes = Object.values(data.mazes)
 
-            return new Promise((resolve) => {
+        resolve(mazes.find((maze) => maze.id === mazeId) || null)
+      })
+    },
 
-                const mazes = Object.values(data.mazes);
+    updateMap(mazeId, newMap) {
+      return new Promise((resolve, reject) => {
+        const mazes = Object.values(data.mazes)
 
-                resolve(mazes.filter((maze) => maze.creator === userId));
-            });
-        },
+        const mazeToUpdate = mazes.find((maze) => maze.id === mazeId)
 
-        read(mazeId) {
+        if (!mazeToUpdate) {
+          reject('No maze found to update')
+        } else if (
+          newMap.length !== mazeToUpdate.size ||
+          newMap.some((row) => row.length !== mazeToUpdate.size)
+        ) {
+          reject('New map is not the correct size')
+        } else {
+          const newMaze = { ...mazeToUpdate }
 
-            return new Promise((resolve) => {
+          newMaze.revisions = mazeToUpdate.revisions.slice()
 
-                const mazes = Object.values(data.mazes);
+          newMaze.revisions[newMaze.revisions.length - 1] = newMap
 
-                resolve(mazes.find((maze) => maze.id === mazeId) || null);
-            });
-        },
+          const newMazes = { ...data.mazes }
+          newMazes[mazeId] = newMaze
 
-        updateMap(mazeId, newMap) {
+          const newData = {
+            users: data.users,
+            mazes: newMazes,
+            challenges: data.challenges
+          }
 
-            return new Promise((resolve, reject) => {
-
-                const mazes = Object.values(data.mazes);
-
-                const mazeToUpdate = mazes.find((maze) => maze.id === mazeId);
-
-                if (!mazeToUpdate) {
-
-                    reject('No maze found to update');
-                } else if (
-                    newMap.length !== mazeToUpdate.size ||
-                    newMap.some((row) => row.length !== mazeToUpdate.size)
-                ) {
-
-                    reject('New map is not the correct size');
-                } else {
-
-                    const newMaze = { ...mazeToUpdate };
-
-                    newMaze.revisions = mazeToUpdate.revisions.slice();
-
-                    newMaze.revisions[newMaze.revisions.length - 1] = newMap;
-
-                    const newMazes = { ...data.mazes };
-                    newMazes[mazeId] = newMaze;
-
-                    const newData = {
-                        users: data.users,
-                        mazes: newMazes,
-                        challenges: data.challenges
-                    };
-
-                    resolve(createRepo(newData));
-                }
-            });
-        },
-
-        add(newMaze) {
-
-            return new Promise((resolve, reject) => {
-
-                const mazes = Object.values(data.mazes);
-
-                if (mazes.some((maze) => maze.id === newMaze.id)) {
-                    reject('Cannot add new maze, duplicate ID');
-                } else {
-
-                    const newMazes = { ...data.mazes };
-                    newMazes[newMaze.id] = newMaze;
-
-                    const newData = {
-                        users: data.users,
-                        mazes: newMazes,
-                        challenges: data.challenges
-                    };
-
-                    resolve(createRepo(newData));
-                }
-            });
+          resolve(createRepo(newData))
         }
-    };
+      })
+    },
+
+    add(newMaze) {
+      return new Promise((resolve, reject) => {
+        const mazes = Object.values(data.mazes)
+
+        if (mazes.some((maze) => maze.id === newMaze.id)) {
+          reject('Cannot add new maze, duplicate ID')
+        } else {
+          const newMazes = { ...data.mazes }
+          newMazes[newMaze.id] = newMaze
+
+          const newData = {
+            users: data.users,
+            mazes: newMazes,
+            challenges: data.challenges
+          }
+
+          resolve(createRepo(newData))
+        }
+      })
+    }
+  }
 }
 
-module.exports = createRepo(INITIAL_DATA);
+module.exports = createRepo(INITIAL_DATA)

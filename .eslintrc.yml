@@ -5,32 +5,26 @@ env:
   jasmine: true
   es6: true
 parserOptions:
-    ecmaVersion: 8
+    ecmaVersion: 10
     ecmaFeatures:
         impliedStrict: true
-        experimentalObjectRestSpread: true
+plugins:
+  - 'prettier'
 extends: 'eslint:recommended'
 rules:
+  prettier/prettier:
+    - error
+    - arrowParens: always
+      singleQuote: true
+      semi: false
   no-eval:
     - error
-  no-console:
-    - off
-  indent:
-    - error
-    - 4
-  linebreak-style:
-    - error
-    - unix
-  quotes:
-    - error
-    - single
-  semi:
-    - error
-    - always
   prefer-const:
     - error
     - destructuring: any
       ignoreReadBeforeAssign: false
+  no-console:
+    - off
   no-const-assign:
     - error
   no-var:
@@ -39,18 +33,9 @@ rules:
     - error
   object-shorthand:
     - error
-  max-len:
-    - error
-    - 80
   prefer-rest-params:
     - error
   no-new-func:
-    - error
-  space-before-function-paren:
-    - error
-    - anonymous: always
-      named: never
-  space-before-blocks:
     - error
   no-param-reassign:
     - error
@@ -59,13 +44,6 @@ rules:
     - error
   prefer-arrow-callback:
     - error
-  arrow-spacing:
-    - error
-  arrow-parens:
-    - error
-  arrow-body-style:
-    - error
-    - as-needed
   eqeqeq:
     - error
   no-nested-ternary:

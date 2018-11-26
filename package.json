@@ -4,6 +4,8 @@
     "description": "",
     "main": "index.js",
     "scripts": {
+        "start": "node clean/web/index.js",
+        "lint": "./node_modules/.bin/eslint -f codeframe clean/**",
         "test": "JASMINE_CONFIG_PATH=jasmine.json jasmine",
         "posttest": "./node_modules/.bin/eslint -f codeframe clean/**"
     },
@@ -28,7 +30,9 @@
     },
     "devDependencies": {
         "eslint": "^5.9.0",
+        "eslint-plugin-prettier": "^3.0.0",
         "jasmine": "^3.3.0",
+        "prettier": "^1.15.2",
         "supertest": "^3.3.0"
     }
 }

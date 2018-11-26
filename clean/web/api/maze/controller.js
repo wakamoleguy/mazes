@@ -1,36 +1,32 @@
-const view = require('./view');
+const view = require('./view')
 
-const mazeRepository = require('../../../adapters/db/mongodb/maze_repository');
-const mazeUsecases = require('../../../usecases/maze');
+const mazeRepository = require('../../../adapters/db/mongodb/maze_repository')
+const mazeUsecases = require('../../../usecases/maze')
 
 module.exports = {
+  read(req, res) {
+    const mazeId = req.params.id
 
-    read(req, res) {
-        const mazeId = req.params.id;
+    mazeUsecases.read(mazeId, mazeRepository).then((maze) => {
+      res.set('Content-Type', 'application/json')
+      res.send(view.render(maze))
+    })
+  },
 
-        mazeUsecases.read(mazeId, mazeRepository).
-            then((maze) => {
-                res.set('Content-Type', 'application/json');
-                res.send(view.render(maze));
-            });
-    },
+  edit(req, res) {
+    const mazeId = req.params.id
 
-    edit(req, res) {
+    const newMap = req.body.map
 
-        const mazeId = req.params.id;
+    console.log('Editing', mazeId, req.body)
 
-        const newMap = req.body.map;
-
-        console.log('Editing', mazeId, req.body);
-
-        if (newMap === undefined) {
-            res.sendStatus(200);
-            return;
-        }
-
-        mazeUsecases.updateMap(mazeId, newMap, mazeRepository).
-            then(() => {
-                res.sendStatus(200);
-            });
+    if (newMap === undefined) {
+      res.sendStatus(200)
+      return
     }
-};
+
+    mazeUsecases.updateMap(mazeId, newMap, mazeRepository).then(() => {
+      res.sendStatus(200)
+    })
+  }
+}
