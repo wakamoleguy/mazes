@@ -5,10 +5,9 @@ env:
   jasmine: true
   es6: true
 parserOptions:
-    ecmaVersion: 8
+    ecmaVersion: 10
     ecmaFeatures:
         impliedStrict: true
-        experimentalObjectRestSpread: true
 plugins:
   - 'prettier'
 extends: 'eslint:recommended'
@@ -24,6 +23,8 @@ rules:
     - error
     - destructuring: any
       ignoreReadBeforeAssign: false
+  no-console:
+    - off
   no-const-assign:
     - error
   no-var:

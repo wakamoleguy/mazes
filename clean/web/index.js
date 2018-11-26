@@ -22,4 +22,5 @@ combinedApp.use('/app', app)
 
 const server = http.createServer(combinedApp)
 server.listen(global.process.env.PORT || 3000)
+
 console.log('Server listening on port', global.process.env.PORT || 3000)
