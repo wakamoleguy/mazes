@@ -1,2 +1,2 @@
-clean/web/app/public
-clean/web/static/shared
+src/web/app/public
+src/web/static/shared
