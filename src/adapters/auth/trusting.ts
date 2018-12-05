@@ -1,6 +1,9 @@
-const session = require('express-session')
+import session from 'express-session'
 
-module.exports = {
+const foo = (x: number) => x * 2
+console.log(foo('hello'))
+
+export default {
   support() {
     return [
       session({
@@ -12,9 +15,9 @@ module.exports = {
     ]
   },
 
-  requestToken: () => (req, res, next) => next(),
-  acceptToken: () => (req, res, next) => next(),
-  restricted: () => (req, res, next) => {
+  requestToken: () => (_req, _res, next) => next(),
+  acceptToken: () => (_req, _res, next) => next(),
+  restricted: () => (req, _res, next) => {
     /* eslint-disable no-param-reassign */
     req.user = 'wakamoleguy@gmail.com'
     /* eslint-enable no-param-reassign */

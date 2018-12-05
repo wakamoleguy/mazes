@@ -1,6 +1,9 @@
 {
+    "compileOnSave": true,
     "compilerOptions": {
-	"allowJs": true
+	"allowJs": true,
+	"module": "commonjs",
+	"outDir": "build"
     },
     "include": [
 	"src/**/*"

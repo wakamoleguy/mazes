@@ -4,8 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "node src/web/index.js",
-        "lint": "./node_modules/.bin/eslint -f codeframe src/**",
+        "start": "node build/web/index.js",
         "test": "JASMINE_CONFIG_PATH=jasmine.json jasmine"
     },
     "repository": {
@@ -28,10 +27,7 @@
         "uuid": "^3.3.2"
     },
     "devDependencies": {
-        "eslint": "^5.9.0",
-        "eslint-plugin-prettier": "^3.0.0",
         "jasmine": "^3.3.0",
-        "prettier": "^1.15.2",
         "supertest": "^3.3.0"
     }
 }
