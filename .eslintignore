@@ -1,2 +1,4 @@
 src/web/app/public
 src/web/static/shared
+build/web/app/public
+build/web/static/shared
