@@ -1,18 +1,18 @@
-const maze = require('./maze/controller')
-const user = require('./user/controller')
+import * as maze from './maze/controller'
+import * as user from './user/controller'
 
-const express = require('express')
-const bodyParser = require('body-parser')
+import * as express from 'express'
+import * as bodyParser from 'body-parser'
 
-module.exports = (authDriver) => {
+module.exports = () => {
   const app = express()
 
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: false }))
 
   // Nothing in the API is public
-  app.use(authDriver.support())
-  app.use(authDriver.restricted({}))
+  //app.use(authDriver.support())
+  // app.use(authDriver.restricted({}))
 
   app.get('/user/', user.browse)
   // app.post('/user/', user.add);

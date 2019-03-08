@@ -18,6 +18,8 @@
     },
     "homepage": "https://github.com/wakamoleguy/mazes#readme",
     "dependencies": {
+        "@types/express": "^4.16.0",
+        "@types/node": "^10.12.12",
         "body-parser": "^1.18.3",
         "cors": "^2.8.5",
         "express": "^4.16.4",
